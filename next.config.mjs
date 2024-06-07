@@ -1,4 +1,13 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import { withContentlayer } from "next-contentlayer";
+// const { withContentlayer } = require("next-contentlayer");
 
-export default nextConfig;
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+	pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx", "glb", "gltf"],
+	experimental: {
+		mdxRs: true,
+	},
+};
+
+
+export default withContentlayer(nextConfig);
