@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { allProjects } from "contentlayer/generated";
+import { Project, allProjects } from "contentlayer/generated";
 import { Navigation } from "../components/nav";
 import { Card } from "../components/card";
 import { Article } from "./article";
@@ -10,32 +10,28 @@ import { Eye } from "lucide-react";
 const redis = Redis.fromEnv();
 
 export const revalidate = 60;
+
 export default async function ProjectsPage() {
   const views = (
     await redis.mget<number[]>(
-      ...allProjects.map((p: { slug: any; }) => ["pageviews", "projects", p.slug].join(":")),
+      ...allProjects.map((p: Project) => ["pageviews", "projects", p.slug].join(":")),
     )
   ).reduce((acc, v, i) => {
     acc[allProjects[i].slug] = v ?? 0;
     return acc;
   }, {} as Record<string, number>);
 
-  const featured = allProjects.find((project: { slug: string; }) => project.slug === "V-Anime")!;
-  const top2 = allProjects.find((project: { slug: string; }) => project.slug === "notesync")!;
-  const top3 = allProjects.find((project: { slug: string; }) => project.slug === "rsahani")!;
+  const featured = allProjects.find((project: Project) => project.slug === "V-Anime")!;
+  const top2 = allProjects.find((project: Project) => project.slug === "notesync")!;
+  const top3 = allProjects.find((project: Project) => project.slug === "rsahani")!;
   const sorted = allProjects
-    .filter((p: { published: any }) => p.published) // Update the type of 'p' to '{ published: any }'
+    .filter((p: Project) => p.published)
     .filter(
-      (project: { slug: any; }) =>
+      (project: Project) =>
         project.slug !== featured.slug &&
-        project.slug !== top2.slug &&
-        project.slug !== top3.slug,
+        project.slug !== top3.slug
     )
-    .sort(
-      (a: { date: any; }, b: { date: any; }) =>
-        new Date(b.date ?? Number.POSITIVE_INFINITY).getTime() -
-        new Date(a.date ?? Number.POSITIVE_INFINITY).getTime(),
-    );
+    .sort((a, b) => (b.date && a.date && a.date > b.date ? -1 : 1));
 
   return (
     <div className="relative pb-16">
@@ -94,7 +90,7 @@ export default async function ProjectsPage() {
           </Card>
 
           <div className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0 ">
-            {[top2, top3].map((project) => (
+            {[top2, top3].map((project: Project) => (
               <Card key={project.slug}>
                 <Article project={project} views={views[project.slug] ?? 0} />
               </Card>
@@ -107,7 +103,7 @@ export default async function ProjectsPage() {
           <div className="grid grid-cols-1 gap-4">
             {sorted
               .filter((_: any, i: number) => i % 3 === 0)
-              .map((project: { slug: React.Key | null | undefined; }) => (
+              .map((project: Project) => (
                 <Card key={project.slug}>
                   <Article project={project} views={views[project.slug] ?? 0} />
                 </Card>
@@ -116,7 +112,7 @@ export default async function ProjectsPage() {
           <div className="grid grid-cols-1 gap-4">
             {sorted
               .filter((_: any, i: number) => i % 3 === 1)
-              .map((project: { slug: React.Key | null | undefined; }) => (
+              .map((project: Project) => (
                 <Card key={project.slug}>
                   <Article project={project} views={views[project.slug] ?? 0} />
                 </Card>
@@ -125,7 +121,7 @@ export default async function ProjectsPage() {
           <div className="grid grid-cols-1 gap-4">
             {sorted
               .filter((_: any, i: number) => i % 3 === 2)
-              .map((project: { slug: React.Key | null | undefined; }) => (
+              .map((project: Project) => (
                 <Card key={project.slug}>
                   <Article project={project} views={views[project.slug] ?? 0} />
                 </Card>
