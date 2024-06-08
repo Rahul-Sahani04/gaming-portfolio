@@ -3,7 +3,7 @@
 import projects__userApiMongoMdx from './projects__UserApiMongo.mdx.json' assert { type: 'json' }
 import projects__vAnimeMdx from './projects__V-Anime.mdx.json' assert { type: 'json' }
 import projects__mikochanMdx from './projects__mikochan.mdx.json' assert { type: 'json' }
-import projects__rsahaniMdx from './projects__rsahani.mdx.json' assert { type: 'json' }
 import projects__notesyncMdx from './projects__notesync.mdx.json' assert { type: 'json' }
+import projects__rsahaniMdx from './projects__rsahani.mdx.json' assert { type: 'json' }
 
-export const allProjects = [projects__userApiMongoMdx, projects__vAnimeMdx, projects__mikochanMdx, projects__rsahaniMdx, projects__notesyncMdx]
+export const allProjects = [projects__userApiMongoMdx, projects__vAnimeMdx, projects__mikochanMdx, projects__notesyncMdx, projects__rsahaniMdx]
