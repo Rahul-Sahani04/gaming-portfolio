@@ -3,15 +3,14 @@ import { withContentlayer } from "next-contentlayer";
 
 const isProd = process.env.NODE_ENV === 'production';
 
-module.exports = {
-  assetPrefix: isProd ? '/gaming-portfolio/' : '',
-  basePath: isProd ? '/gaming-portfolio' : '',
-  trailingSlash: true,
-};
 
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	assetPrefix: isProd ? '/gaming-portfolio/' : '',
+	basePath: isProd ? '/gaming-portfolio' : '',
+	trailingSlash: true,
+	// reactStrictMode: true,
 	pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx", "glb", "gltf"],
 	experimental: {
 	  mdxRs: true,
