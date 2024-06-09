@@ -24,11 +24,11 @@ jobs:
       - name: Build project
         run: yarn build
 
-      - name: Export static site
-        run: yarn next export
+      # - name: Export static site
+      #   run: yarn next export
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./next  # Change to the directory where your exported site is located
+          publish_dir: ./out  # Change to the directory where your exported site is located
