@@ -1,0 +1,105 @@
+/* components/CustomCursor.module.css */
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+.cursorContainer{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  
+
+}
+
+
+.link:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  display: block;
+  margin-top: 0px;
+  left: 0%;
+  background: black;
+  transition: width .3s ease;
+}
+
+.link:hover:after{
+  width: 100%;
+  left: 0%;
+  background: black;
+}
+
+
+.cursor {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  /* border: 1px solid white; */
+  transition: all 200ms ease-out;
+  position: absolute;
+  pointer-events: none;
+  left: 0;
+  top: 0;
+  transform: translate(calc(-50% + 15px), -50%);
+
+  /* background-image: url('./custom_cursor.png'); */
+  /* background-blend-mode: overlay;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center; */
+}
+
+#cursorImg{
+  transform: rotate(45deg) scale(0.7);
+  /* transition: all 300ms ease-in-out; */
+  }
+  
+.cursorImg{
+  transform: rotate(45deg) scale(0.7);
+}
+
+
+.cursor2 {
+  z-index: 9999;
+
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: white;
+
+  opacity: .3;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: width .3s, height .3s, opacity .3s;
+}
+
+.crosshair{
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: white;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: width .3s, height .3s, opacity .3s;
+
+}
+.hover {
+  /* background-color: red; */
+  /* opacity: 0.5; */
+}
+
+.rotate {
+  /* background-color: red; */
+  transform: translate(-50%, -50%) rotate(90deg) scale(0.8);
+}
+
+.cursorinnerhover {
+  width: 20px;
+  height: 20px;
+  opacity: .5;
+}
