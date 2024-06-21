@@ -5,12 +5,13 @@ import styles from "./CustomCursor.module.css";
 import Image from "next/image";
 
 const CustomCursor = () => {
-
   useEffect(() => {
     const cursor = document.querySelector(`.${styles.cursor}`);
     const cursorinner = document.querySelector(`.${styles.cursor2}`);
     const crosshair = document.querySelector(`#cursorImg`);
     const links = document.querySelectorAll("a");
+
+    let interval: NodeJS.Timeout;
 
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
@@ -34,24 +35,36 @@ const CustomCursor = () => {
       if (cursor && cursorinner) {
         cursor.classList.remove(styles.click);
         cursorinner.classList.remove(styles.cursorinnerhover);
+
       }
     };
 
     const handleLinkMouseOver = (e: MouseEvent) => {
+      clearInterval(interval);
       if (cursor) {
-        (
-          crosshair as HTMLElement
-        ).style.transition = ` all 250ms ease-out`;
-        (
-          crosshair as HTMLElement
-        ).style.transform = ` rotate(0deg) scale(1)`;
+        (crosshair as HTMLElement).style.transition = ` all 250ms ease-out`;
+        (crosshair as HTMLElement).style.transform = ` rotate(0deg) scale(1)`;
+
+        // Keep Randomly Jiggle the cursor until the user is hovering over the link element 
+        interval = setInterval(() => {
+
+          // Generate Random Number between -5 and 10 
+          const x = Math.floor(Math.random() * 15) - 5;
+          
+          // Rotate the crosshair by the random number
+          (crosshair as HTMLElement).style.transform = `rotate(${x}deg)`;
+        }, 100);
       }
     };
 
     const handleLinkMouseLeave = (e: MouseEvent) => {
       if (cursor) {
         (crosshair as HTMLElement).style.transform = `rotate(45deg) scale(0.6)`;
+
+        
       }
+      // Clear the interval when the user is not hovering over the link element
+      clearInterval(interval);
     };
 
     document.addEventListener("mousemove", handleMouseMove);
