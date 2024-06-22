@@ -1,38 +1,53 @@
 "use client";
-import { Github, Mail, Twitter } from "lucide-react";
+// import { Github, Mail, Twitter } from "lucide-react";
+import { useState } from "react";
+
 import Link from "next/link";
 import { Navigation } from "../components/nav";
 import { Card } from "../components/card";
 
+import LottieAnimation from "../components/LottieAnimation";
+
+import animatedGithub from "../components/AnimatedIcons/icons8-github.json";
+import animatedTwitter from "../components/AnimatedIcons/icons8-twitter.json";
+import animatedMail from "../components/AnimatedIcons/icons8-gmail-logo.json";
+
+
 const socials = [
 	{
-		icon: <Twitter size={20} />,
+		// icon: <Twitter size={20} />,
+		icon: <LottieAnimation animationData={animatedTwitter} width="70%" height="70%" color="FFFFFF" />,
 		href: "https://x.com/PoetOfHerAlgos",
 		label: "Twitter",
 		handle: "@PoetOfHerAlgos",
 	},
 	{
-		icon: <Mail size={20} />,
+		icon: <LottieAnimation animationData={animatedMail} width="60%" height="60%" color="FFFFFF" />,
 		href: "mailto:me.rsahani@gmail.com",
 		label: "Email",
 		handle: "me.rsahani@gmail.com",
 	},
 	{
-		icon: <Github size={20} />,
+		// icon: <Github size={20} />,
+		icon: <LottieAnimation animationData={animatedGithub} width="100%" height="100%" color="FFFFFF" />,
 		href: "https://github.com/rahul-sahani04",
 		label: "Github",
 		handle: "Rahul-Sahani04",
 	},
 ];
 
-export default function Example() {
+export default function Contact() {
+	// Create a state to keep track of the hover state of the Cards and pass it to the LottieAnimation component as a prop 
+	const [isHovered, setIsHovered] = useState(false);
+
 	return (
 		<div className=" bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
 			<Navigation />
 			<div className="container flex items-center justify-center min-h-screen px-4 mx-auto">
-				<div className="grid w-full grid-cols-1 gap-8 mx-auto mt-32 sm:mt-0 sm:grid-cols-3 lg:gap-16">
+				<div className="grid w-full grid-rows-1  gap-8 mx-auto mt-32 sm:mt-0 sm:grid-cols-3 lg:gap-16">
 					{socials.map((s) => (
-						<Card>
+						<Card 
+						key={s.label}>
 							<Link
 								href={s.href}
 								target="_blank"

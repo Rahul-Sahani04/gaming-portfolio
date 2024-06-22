@@ -57,6 +57,7 @@
   
 .cursorImg{
   transform: rotate(45deg) scale(0.7);
+  
 }
 
 
@@ -81,6 +82,7 @@
   border-radius: 100%;
   background-color: white;
   position: fixed;
+
   transform: translate(-50%, -50%);
   pointer-events: none;
   transition: width .3s, height .3s, opacity .3s;
@@ -102,4 +104,3 @@
   opacity: .5;
 
 }
-
