@@ -15,6 +15,7 @@
     "@react-spring/three": "^9.7.3",
     "@react-three/drei": "^9.106.0",
     "@react-three/fiber": "^8.16.8",
+    "@react-three/postprocessing": "^2.16.2",
     "@types/react-lottie": "^1.2.10",
     "@types/three": "^0.165.0",
     "@upstash/redis": "^1.23.3",

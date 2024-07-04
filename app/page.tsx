@@ -12,14 +12,25 @@ import { OrbitControls } from "@react-three/drei";
 
 import { useGLTF, useAnimations } from "@react-three/drei";
 
-import { useSpring, a } from '@react-spring/three';
+import { useSpring, a } from "@react-spring/three";
 
 import { Suspense } from "react";
+import { EffectComposer, Glitch } from "@react-three/postprocessing";
+import { GlitchMode } from "postprocessing";
+
 import CustomCursor from "./components/CustomCursor";
 
 // import macintoshClassic from ;
 
-const ComputerModel = ({ opacity, scale, position }: { opacity: number, scale: any; position: any }) => {
+const BlackHoleModel = ({
+  opacity,
+  scale,
+  position,
+}: {
+  opacity: number;
+  scale: any;
+  position: any;
+}) => {
   const macintoshRef = React.useRef(null) as any;
   const { scene, animations } = useGLTF("/model/Black_hole.glb") as any;
   const { actions } = useAnimations(animations, macintoshRef);
@@ -43,12 +54,16 @@ const ComputerModel = ({ opacity, scale, position }: { opacity: number, scale: a
       rotation={[0, -25, 0]}
     >
       <primitive object={scene} />
-      <a.meshStandardMaterial attach="material" transparent opacity={props.opacity} />
+      <a.meshStandardMaterial
+        attach="material"
+        transparent
+        opacity={props.opacity}
+      />
     </a.mesh>
   );
 };
 
-const ComputerCanvas = () => {
+const BlackHoleCanvas = () => {
   const size = 1;
   const scalingSize = [size, size, size];
   return (
@@ -64,7 +79,21 @@ const ComputerCanvas = () => {
 
       <directionalLight position={[2, 1, 1]} />
       <Suspense fallback={null}>
-          <ComputerModel opacity={0} scale={scalingSize} position={[0, -15, -5]} />
+        <BlackHoleModel
+          opacity={0}
+          scale={scalingSize}
+          position={[0, -15, -5]}
+        />
+        <EffectComposer>
+          <Glitch
+            delay={[1.5, 3.5]} // min and max glitch delay
+            duration={[0.45, 0.7]} // min and max glitch duration
+            strength={[0.1, 0.25]} // min and max glitch strength
+            mode={GlitchMode.SPORADIC} // glitch mode
+            active // turn on/off the effect (switches between "mode" prop and GlitchMode.DISABLED)
+            ratio={0.25} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
+          />
+        </EffectComposer>
       </Suspense>
     </Canvas>
   );
@@ -92,7 +121,7 @@ export default function Home() {
           ))}
         </ul>
       </nav>
-      <ComputerCanvas />
+      <BlackHoleCanvas />
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
       <Particles
         className="absolute inset-0 -z-10 animate-fade-in"
