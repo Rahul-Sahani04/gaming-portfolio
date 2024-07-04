@@ -19,8 +19,10 @@ import { EffectComposer, Glitch } from "@react-three/postprocessing";
 import { GlitchMode } from "postprocessing";
 
 import CustomCursor from "./components/CustomCursor";
+import { Vector2 } from "three";
 
 // import macintoshClassic from ;
+
 
 const BlackHoleModel = ({
   opacity,
@@ -66,6 +68,10 @@ const BlackHoleModel = ({
 const BlackHoleCanvas = () => {
   const size = 1;
   const scalingSize = [size, size, size];
+
+  const delayTimeX = new Vector2(1.5);
+  const delayTimeY = new Vector2(3.5);
+
   return (
     <Canvas
       style={{ position: "absolute", height: "100vh", width: "100vw" }}
@@ -84,16 +90,16 @@ const BlackHoleCanvas = () => {
           scale={scalingSize}
           position={[0, -15, -5]}
         />
-        <EffectComposer>
+        {/* <EffectComposer>
           <Glitch
-            delay={[1.5, 3.5]} // min and max glitch delay
+            delay={[1, 2]} // min and max glitch delay
             duration={[0.45, 0.7]} // min and max glitch duration
             strength={[0.1, 0.25]} // min and max glitch strength
             mode={GlitchMode.SPORADIC} // glitch mode
             active // turn on/off the effect (switches between "mode" prop and GlitchMode.DISABLED)
             ratio={0.25} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
           />
-        </EffectComposer>
+        </EffectComposer> */}
       </Suspense>
     </Canvas>
   );
