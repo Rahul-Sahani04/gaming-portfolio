@@ -11,6 +11,7 @@ import LottieAnimation from "../components/LottieAnimation";
 import animatedGithub from "../components/AnimatedIcons/icons8-github.json";
 import animatedTwitter from "../components/AnimatedIcons/icons8-twitter.json";
 import animatedMail from "../components/AnimatedIcons/icons8-gmail-logo.json";
+import NextTopLoader from "nextjs-toploader";
 
 
 const socials = [
@@ -43,6 +44,7 @@ export default function Contact() {
 	return (
 		<div className=" bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
 			<Navigation />
+			<NextTopLoader />
 			<div className="container flex items-center justify-center min-h-screen px-4 mx-auto">
 				<div className="grid w-full grid-rows-1  gap-8 mx-auto mt-32 sm:mt-0 sm:grid-cols-3 lg:gap-16">
 					{socials.map((s) => (

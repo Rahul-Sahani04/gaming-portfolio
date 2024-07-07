@@ -21,8 +21,7 @@ import { GlitchMode } from "postprocessing";
 import CustomCursor from "./components/CustomCursor";
 import { Vector2 } from "three";
 
-// import macintoshClassic from ;
-
+import NextTopLoader from 'nextjs-toploader';
 
 const BlackHoleModel = ({
   opacity,
@@ -110,10 +109,21 @@ const navigation = [
   { name: "Contact", href: "/contact" },
 ];
 
+
 export default function Home() {
+  useEffect(() => {
+    // On mouse click anywhere on the page, play sound effect
+    document.addEventListener("click", () => {
+      const audio = new Audio("/plasmablaster-37114.mp3");
+      audio.volume = 0.1;
+      audio.playbackRate = 0.9;
+      audio.play();
+    });
+  }, []);
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
       <CustomCursor />
+      <NextTopLoader />
       <nav className="my-16 animate-fade-in">
         <ul className="flex items-center justify-center gap-4">
           {navigation.map((item) => (
