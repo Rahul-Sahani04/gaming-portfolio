@@ -115,7 +115,7 @@ export default function Home() {
     // On mouse click anywhere on the page, play sound effect
     document.addEventListener("click", () => {
       const audio = new Audio("/plasmablaster-37114.mp3");
-      audio.volume = 0.1;
+      audio.volume = 0.2;
       audio.playbackRate = 0.9;
       audio.play();
     });
