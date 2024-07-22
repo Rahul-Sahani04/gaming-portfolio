@@ -7,5 +7,6 @@ import projects__notesyncMdx from './projects__notesync.mdx.json' assert { type:
 import projects__rsahaniMdx from './projects__rsahani.mdx.json' assert { type: 'json' }
 import projects__sihVstarsMdx from './projects__sih-vstars.mdx.json' assert { type: 'json' }
 import projects__starRainstormMdx from './projects__star-rainstorm.mdx.json' assert { type: 'json' }
+import projects__porsce_911Mdx from './projects__Porsce-911.mdx.json' assert { type: 'json' }
 
-export const allProjects = [projects__userApiMongoMdx, projects__vAnimeMdx, projects__mikochanMdx, projects__notesyncMdx, projects__rsahaniMdx, projects__sihVstarsMdx, projects__starRainstormMdx]
+export const allProjects = [projects__userApiMongoMdx, projects__vAnimeMdx, projects__mikochanMdx, projects__notesyncMdx, projects__rsahaniMdx, projects__sihVstarsMdx, projects__starRainstormMdx, projects__porsce_911Mdx]
