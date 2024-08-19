@@ -15,13 +15,63 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { useSpring, a } from "@react-spring/three";
 
 import { Suspense } from "react";
-import { EffectComposer, Glitch } from "@react-three/postprocessing";
-import { GlitchMode } from "postprocessing";
+import { EffectComposer, Outline, Bloom } from "@react-three/postprocessing";
+// import { GlitchMode } from "postprocessing";
 
 import CustomCursor from "./components/CustomCursor";
 import { Vector2 } from "three";
 
 import NextTopLoader from 'nextjs-toploader';
+
+
+const SpaceShipModel = ({
+  scale,
+  position,
+}: {
+  scale: any;
+  position: any;
+}) => {
+  const spaceShipRef = React.useRef(null) as any;
+  const { scene, animations } = useGLTF("/model/SpaceShipV2.glb") as any;
+  const { actions } = useAnimations(animations, spaceShipRef);
+
+  // Move the spaceship up, down and left, right using mouse move
+  useEffect(() => {
+    document.addEventListener("mousemove", (e) => {
+      const { clientX, clientY } = e;
+      const x = (clientX / window.innerWidth) * 2 - 1;
+      const y = -(clientY / window.innerHeight) * 2 + 1;
+      spaceShipRef.current.position.x = x;
+      spaceShipRef.current.position.y = y;
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("Ship actions", actions, animations);
+    actions["Animation"]?.play();
+  }, [actions]);
+
+
+
+  return (
+    <a.mesh
+      ref={spaceShipRef}
+      position={position}
+      scale={scale}
+      rotation={[0, 60, 0]}
+    >
+      <EffectComposer>
+      <primitive object={scene} />
+          <Outline
+          edgeStrength={2.5}
+          resolutionScale={0.5}
+          visibleEdgeColor={0xffffff}
+          
+          />
+        </EffectComposer>
+    </a.mesh>
+  );
+}
 
 const BlackHoleModel = ({
   opacity,
@@ -35,14 +85,15 @@ const BlackHoleModel = ({
   const macintoshRef = React.useRef(null) as any;
   const { scene, animations } = useGLTF("/model/Black_hole.glb") as any;
   const { actions } = useAnimations(animations, macintoshRef);
-
+  
   useFrame((state, delta) => {
-    macintoshRef.current.rotation.y -= delta * 0.25;
+    macintoshRef.current.rotation.z -= delta * 0.25;
   });
+  
 
   useEffect(() => {
-    // actions["idle"].play();
     console.log("actions", actions, animations);
+    actions["Take 001"]?.play();
   }, [actions]);
 
   const props = useSpring({ opacity });
@@ -52,7 +103,7 @@ const BlackHoleModel = ({
       ref={macintoshRef}
       position={position}
       scale={scale}
-      rotation={[0, -25, 0]}
+      rotation={[0, 0, 0]}
     >
       <primitive object={scene} />
       <a.meshStandardMaterial
@@ -84,21 +135,28 @@ const BlackHoleCanvas = () => {
 
       <directionalLight position={[2, 1, 1]} />
       <Suspense fallback={null}>
+      <SpaceShipModel
+          scale={0.3}
+          position={[0, 0, 0]}
+        />
+
+      </Suspense>
+      <Suspense fallback={null}>
+        
         <BlackHoleModel
           opacity={0}
           scale={scalingSize}
-          position={[0, -15, -5]}
+          position={[0, 0, 0]}
         />
-        {/* <EffectComposer>
-          <Glitch
-            delay={[1, 2]} // min and max glitch delay
-            duration={[0.45, 0.7]} // min and max glitch duration
-            strength={[0.1, 0.25]} // min and max glitch strength
-            mode={GlitchMode.SPORADIC} // glitch mode
-            active // turn on/off the effect (switches between "mode" prop and GlitchMode.DISABLED)
-            ratio={0.25} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
+        <EffectComposer>
+
+          <Bloom
+            intensity={1.5}
+            luminanceThreshold={0.2}
+            luminanceSmoothing={1.5}
+            height={300}
           />
-        </EffectComposer> */}
+        </EffectComposer>
       </Suspense>
     </Canvas>
   );
