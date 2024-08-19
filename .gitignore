@@ -1,5 +1,13 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Temp 3d models
+Astronaut.glb 
+Black_hole_old.glb 
+scene.gltf 
+space_boi.glb 
+space_ship.glb 
+Macintosh_Classic.glb
+
 # dependencies
 /node_modules
 /.pnp
