@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Particles from "./components/particles";
 
 import "./page.css";
@@ -47,7 +47,7 @@ const SpaceShipModel = ({
   }, []);
 
   useEffect(() => {
-    console.log("Ship actions", actions, animations);
+    // console.log("Ship actions", actions, animations);
     actions["Animation"]?.play();
   }, [actions]);
 
@@ -92,7 +92,7 @@ const BlackHoleModel = ({
   
 
   useEffect(() => {
-    console.log("actions", actions, animations);
+    // console.log("actions", actions, animations);
     actions["Take 001"]?.play();
   }, [actions]);
 
@@ -115,7 +115,9 @@ const BlackHoleModel = ({
   );
 };
 
-const BlackHoleCanvas = () => {
+const BlackHoleCanvas = (
+  { loading }: { loading: boolean }
+) => {
   const size = 1;
   const scalingSize = [size, size, size];
 
@@ -134,29 +136,27 @@ const BlackHoleCanvas = () => {
       <ambientLight intensity={1.5} />
 
       <directionalLight position={[2, 1, 1]} />
-      <Suspense fallback={null}>
-      <SpaceShipModel
-          scale={0.3}
-          position={[0, 0, 0]}
-        />
+      <Suspense fallback={
+        <div>
+          <h1>Loading...</h1>
+        </div>
+      }>
+        {
+          !loading && (
 
-      </Suspense>
-      <Suspense fallback={null}>
+            <SpaceShipModel
+            scale={0.3}
+            position={[0, 0, 0]}
+            />
+          )}
+
         
         <BlackHoleModel
           opacity={0}
           scale={scalingSize}
           position={[0, 0, 0]}
         />
-        <EffectComposer>
 
-          <Bloom
-            intensity={1.5}
-            luminanceThreshold={0.2}
-            luminanceSmoothing={1.5}
-            height={300}
-          />
-        </EffectComposer>
       </Suspense>
     </Canvas>
   );
@@ -169,7 +169,25 @@ const navigation = [
 
 
 export default function Home() {
+
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    // Load assets
+    console.log("Loading assets");
+    const loadAssets = async () => {
+      await Promise.all([
+        useGLTF.preload("/model/Black_hole.glb"),
+        useGLTF.preload("/model/SpaceShipV2.glb"),
+      ]);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1600);
+      console.log("Assets loaded");
+    };
+
+    loadAssets();
+
     // On mouse click anywhere on the page, play sound effect
     document.addEventListener("click", () => {
       const audio = new Audio("/plasmablaster-37114.mp3");
@@ -178,6 +196,25 @@ export default function Home() {
       audio.play();
     });
   }, []);
+
+  // useEffect(() => {
+  //   // On mouse click anywhere on the page, play sound effect
+  //   document.addEventListener("click", () => {
+  //     const audio = new Audio("/plasmablaster-37114.mp3");
+  //     audio.volume = 0.2;
+  //     audio.playbackRate = 0.9;
+  //     audio.play();
+  //   });
+  // }, []);
+
+  // if (loading) {
+  //   return (
+  //     <div className="flex items-center justify-center w-screen h-screen bg-black">
+  //       <div className="loader">Loading...</div>
+  //     </div>
+  //   );
+  // } 
+
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
       <CustomCursor />
@@ -195,7 +232,7 @@ export default function Home() {
           ))}
         </ul>
       </nav>
-      <BlackHoleCanvas />
+        <BlackHoleCanvas loading={loading} />
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
       <Particles
         className="absolute inset-0 -z-10 animate-fade-in"
@@ -223,3 +260,4 @@ export default function Home() {
     </div>
   );
 }
+
