@@ -36,19 +36,30 @@ const SpaceShipModel = ({
   const { actions } = useAnimations(animations, spaceShipRef);
 
   // Move the spaceship up, down and left, right using mouse move
+
+  let lastMove = 0;
+const handleMouseMove = (e : any) => {
+  const now = Date.now();
+  if (now - lastMove > 16) {  // Roughly 60 FPS
+    lastMove = now;
+    const { clientX, clientY } = e;
+    const x = (clientX / window.innerWidth) * 2 - 1;
+    const y = -(clientY / window.innerHeight) * 2 + 1;
+    spaceShipRef.current.position.x = x;
+    spaceShipRef.current.position.y = y;
+  }
+};
+
+
   useEffect(() => {
-    document.addEventListener("mousemove", (e) => {
-      const { clientX, clientY } = e;
-      const x = (clientX / window.innerWidth) * 2 - 1;
-      const y = -(clientY / window.innerHeight) * 2 + 1;
-      spaceShipRef.current.position.x = x;
-      spaceShipRef.current.position.y = y;
-    });
+    document.addEventListener("mousemove", (e) => handleMouseMove(e));
   }, []);
 
   useEffect(() => {
     // console.log("Ship actions", actions, animations);
     actions["Animation"]?.play();
+    // actions["Animation"]?.setDuration(50);
+    // slow down the animation speed by 0.5 times every 10 seconds (10000 ms) and then reset it
   }, [actions]);
 
 
@@ -137,18 +148,18 @@ const BlackHoleCanvas = (
 
       <directionalLight position={[2, 1, 1]} />
       <Suspense fallback={
-        <div>
-          <h1>Loading...</h1>
-        </div>
+        <mesh>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshBasicMaterial color="hotpink" />
+        </mesh>
       }>
-        {
-          !loading && (
+
 
             <SpaceShipModel
             scale={0.3}
             position={[0, 0, 0]}
             />
-          )}
+
 
         
         <BlackHoleModel
