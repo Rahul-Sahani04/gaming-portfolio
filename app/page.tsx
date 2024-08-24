@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Particles from "./components/particles";
 
 import "./page.css";
@@ -23,6 +23,8 @@ import { Vector2 } from "three";
 
 import NextTopLoader from 'nextjs-toploader';
 
+import { BoxHelper, CylinderGeometry, MeshBasicMaterial, Mesh } from "three";
+
 
 const SpaceShipModel = ({
   scale,
@@ -35,6 +37,50 @@ const SpaceShipModel = ({
   const { scene, animations } = useGLTF("/model/SpaceShipV2.glb") as any;
   const { actions } = useAnimations(animations, spaceShipRef);
 
+  // On mouse click, shoot a laser beam
+  const shootLaser = () => {
+    console.log("Shooting laser");
+    const geometry = new CylinderGeometry(1, 1, 1, 32);
+    const material = new MeshBasicMaterial({ color: 0x00ff00 });
+    const laser = new Mesh(geometry, material);
+    laser.scale.set(0.1, 0.1, 2);
+    laser.position.z = -2;
+    laser.rotation.x = Math.PI / 6;
+    // laser.updateMatrix();
+    // laser.updateMatrixWorld();
+
+    
+    scene.add(laser);
+
+    const startTime = Date.now();
+
+    const animateLaser = () => {
+      const elapsedTime = Date.now() - startTime;
+      if (elapsedTime < 1000) {
+        laser.position.z += 0.75; // Adjust the speed as needed
+        requestAnimationFrame(animateLaser);
+      }
+    };
+  
+    animateLaser();
+
+    
+    // Remove the laser beam after 1 second
+    setTimeout(() => {
+      scene.remove(laser);
+    }, 1000);
+  };
+
+
+
+  useEffect(() => {
+    document.addEventListener("click", shootLaser);
+    return () => {
+      document.removeEventListener("click", shootLaser);
+    };
+  }, []);
+
+
   // Move the spaceship up, down and left, right using mouse move
 
   let lastMove = 0;
@@ -45,8 +91,10 @@ const handleMouseMove = (e : any) => {
     const { clientX, clientY } = e;
     const x = (clientX / window.innerWidth) * 2 - 1;
     const y = -(clientY / window.innerHeight) * 2 + 1;
+    if(spaceShipRef.current) {
     spaceShipRef.current.position.x = x;
     spaceShipRef.current.position.y = y;
+    }
   }
 };
 
@@ -71,15 +119,15 @@ const handleMouseMove = (e : any) => {
       scale={scale}
       rotation={[0, 60, 0]}
     >
-      <EffectComposer>
       <primitive object={scene} />
+      {/* <EffectComposer>
           <Outline
           edgeStrength={2.5}
           resolutionScale={0.5}
           visibleEdgeColor={0xffffff}
           
           />
-        </EffectComposer>
+        </EffectComposer> */}
     </a.mesh>
   );
 }
@@ -208,29 +256,11 @@ export default function Home() {
     });
   }, []);
 
-  // useEffect(() => {
-  //   // On mouse click anywhere on the page, play sound effect
-  //   document.addEventListener("click", () => {
-  //     const audio = new Audio("/plasmablaster-37114.mp3");
-  //     audio.volume = 0.2;
-  //     audio.playbackRate = 0.9;
-  //     audio.play();
-  //   });
-  // }, []);
-
-  // if (loading) {
-  //   return (
-  //     <div className="flex items-center justify-center w-screen h-screen bg-black">
-  //       <div className="loader">Loading...</div>
-  //     </div>
-  //   );
-  // } 
-
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
       <CustomCursor />
       <NextTopLoader />
-      <nav className="my-16 animate-fade-in">
+      {/* <nav className="my-16 animate-fade-in">
         <ul className="flex items-center justify-center gap-4">
           {navigation.map((item) => (
             <Link
@@ -242,7 +272,7 @@ export default function Home() {
             </Link>
           ))}
         </ul>
-      </nav>
+      </nav> */}
         <BlackHoleCanvas loading={loading} />
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
       <Particles
