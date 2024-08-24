@@ -9,10 +9,11 @@ interface LottieAnimationProps {
   color?: string;
   isHovered?: boolean;
   setIsHovered?: React.Dispatch<React.SetStateAction<boolean>>;
+  initialFrame?: number | 0;
 }
 
-const LottieAnimation: React.FC<LottieAnimationProps> = ({ animationData, height, width, color }) => {
-  const [isHovered, setIsHovered] = useState(false);
+const LottieAnimation: React.FC<LottieAnimationProps> = ({ animationData, height, width, color, isHovered, setIsHovered, initialFrame }) => {
+  
 
   const defaultOptions = {
     loop: false,
@@ -22,6 +23,7 @@ const LottieAnimation: React.FC<LottieAnimationProps> = ({ animationData, height
       preserveAspectRatio: "xMidYMid slice",
     },
     color: color || "#FFFFFF",
+    initialSegment: [initialFrame || 0, animationData.op],
   };
 
   return (
