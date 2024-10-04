@@ -20,7 +20,7 @@
     "@types/three": "^0.165.0",
     "@upstash/redis": "^1.23.3",
     "contentlayer": "^0.3.4",
-    "framer-motion": "^11.2.10",
+    "framer-motion": "^11.11.1",
     "framer-motion-3d": "^11.2.10",
     "lottie-react": "^2.4.0",
     "lottie-web": "^5.12.2",

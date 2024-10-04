@@ -15,7 +15,7 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { useSpring, a } from "@react-spring/three";
 
 import { Suspense } from "react";
-import { EffectComposer, Outline, Bloom } from "@react-three/postprocessing";
+// import { EffectComposer, Outline, Bloom } from "@react-three/postprocessing";
 // import { GlitchMode } from "postprocessing";
 
 import CustomCursor from "./components/CustomCursor";
@@ -24,6 +24,10 @@ import { Vector2 } from "three";
 import NextTopLoader from 'nextjs-toploader';
 
 import { BoxHelper, CylinderGeometry, MeshBasicMaterial, Mesh } from "three";
+
+import { motion, AnimatePresence } from 'framer-motion';
+
+
 
 
 const SpaceShipModel = ({
@@ -256,23 +260,82 @@ export default function Home() {
     });
   }, []);
 
+
+  function LoadingScreen() {
+    const [progress, setProgress] = useState(0)
+  
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setProgress((oldProgress) => {
+          if (oldProgress === 100) {
+            clearInterval(timer)
+            setTimeout(() => setLoading(false), 500) // Delay to show 100% briefly
+            return 100
+          }
+          const diff = Math.random() * 10
+          return Math.min(oldProgress + diff, 100)
+        })
+      }, 200)
+  
+      return () => clearInterval(timer)
+    }, [])
+  
+    return (
+      <AnimatePresence>
+        {loading && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black flex flex-col items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="text-white text-4xl font-bold mb-8"
+            >
+              Rahul Sahani
+            </motion.div>
+            <div className="w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-white"
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+              />
+            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-4 text-gray-500 text-sm font-mono"
+            >
+              {progress.toFixed(0)}%
+            </motion.div>
+            <motion.div
+              animate={{ opacity: [1, 0] }}
+              transition={{ repeat: Infinity, duration: 1, repeatType: "reverse" }}
+              className="mt-8 text-white text-xl font-mono"
+            >
+              Entering Warp Drive...
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    )
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen bg-black">
+        <LoadingScreen />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
       <CustomCursor />
       <NextTopLoader />
-      {/* <nav className="my-16 animate-fade-in">
-        <ul className="flex items-center justify-center gap-4">
-          {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm duration-500 text-zinc-500 hover:text-zinc-300"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </ul>
-      </nav> */}
         <BlackHoleCanvas loading={loading} />
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
       <Particles
