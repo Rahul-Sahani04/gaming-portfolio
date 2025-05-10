@@ -1,3 +1,5 @@
+"use client";
+
 import { notFound } from "next/navigation";
 import { allProjects } from "contentlayer/generated";
 import { Mdx } from "@/app/components/mdx";
@@ -6,8 +8,8 @@ import "./mdx.css";
 import { ReportView } from "./view";
 import { Redis } from "@upstash/redis";
 import NextTopLoader from "nextjs-toploader";
-
-export const revalidate = 60;
+import LoadingScreen from "@/app/components/LoadingScreen";
+import { useState, useEffect } from "react";
 
 type Props = {
   params: {
@@ -25,16 +27,38 @@ export async function generateStaticParams(): Promise<Props["params"][]> {
     }));
 }
 
-export default async function PostPage({ params }: Props) {
-  const slug = params?.slug;
-  const project = allProjects.find((project) => project.slug === slug);
+export default function PostPage({ params }: Props) {
+  const [loading, setLoading] = useState(true);
+  const [project, setProject] = useState<any>(null);
+  const [views, setViews] = useState<number>(0);
 
-  if (!project) {
-    notFound();
+  useEffect(() => {
+    const fetchData = async () => {
+      const slug = params?.slug;
+      const foundProject = allProjects.find((project) => project.slug === slug);
+
+      if (!foundProject) {
+        notFound();
+        return;
+      }
+
+      const viewCount =
+        (await redis.get<number>(["pageviews", "projects", slug].join(":"))) ?? 0;
+
+      setProject(foundProject);
+      setViews(viewCount);
+    };
+
+    fetchData().catch(console.error);
+  }, [params?.slug]);
+
+  if (loading) {
+    return <LoadingScreen loading={loading} setLoading={setLoading} />;
   }
 
-  const views =
-    (await redis.get<number>(["pageviews", "projects", slug].join(":"))) ?? 0;
+  if (!project) {
+    return null;
+  }
 
   return (
     <div className="bg-zinc-50 min-h-screen">
