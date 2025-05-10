@@ -11,8 +11,21 @@ import CustomCursor from "../components/CustomCursor";
 import NextTopLoader from "nextjs-toploader";
 import ParticleFooter from "./components/ParticleFooter";
 import "./page.css";
+import {
+  DraggableCardBody,
+  DraggableCardContainer,
+} from "../components/aceternity-ui/draggable-card";
 
 export default function AboutPage() {
+  const AnimatedLine = ({ className }: { className?: string }) => {
+    return (
+      <div className={"relative mt-2 " + className}>
+        <div className="absolute w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 mt-16" />
+        <div className="absolute w-screen h-px animate-glow md:block animate-fade-in bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 mt-16" />
+      </div>
+    );
+  };
+  
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -123,9 +136,9 @@ export default function AboutPage() {
           name: "Marvels Spiderman",
           description: "Action-adventure game",
           icon: "/icons/games/spiderman.png",
-        }
-      ]
-    }
+        },
+      ],
+    },
   ];
 
   const projects = [
@@ -164,6 +177,44 @@ export default function AboutPage() {
     },
   ];
 
+  const photos = [
+    {
+      title: "Snow, sky, and quiet hills",
+      image: "/photos/photo1.jpeg",
+      className: "absolute top-10 left-[20%] rotate-[-5deg]",
+    },
+    {
+      title: "Green woods under blue sky",
+      image: "/photos/photo2.jpeg",
+      className: "absolute top-40 left-[10%] rotate-[-7deg]",
+    },
+    {
+      title: "Birds flying in blue light",
+      image: "/photos/photo3.jpeg",
+      className: "absolute top-5 left-[5%] rotate-[8deg]",
+    },
+    {
+      title: "Sunset over calm mountains",
+      image: "/photos/photo4.jpeg",
+      className: "absolute top-32 left-[70%] rotate-[10deg]",
+    },
+    {
+      title: "Pink clouds in soft sky",
+      image: "/photos/photo5.jpeg",
+      className: "absolute top-20 right-[35%] rotate-[2deg]",
+    },
+    {
+      title: "Leaves under orange sky",
+      image: "/photos/photo6.jpeg",
+      className: "absolute top-24 left-[65%] rotate-[-7deg]",
+    },
+    {
+      title: "Tree in golden sunset",
+      image: "/photos/photo7.jpeg",
+      className: "absolute top-48 left-[35%] rotate-[4deg]",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-black text-white">
       <Navigation />
@@ -171,7 +222,7 @@ export default function AboutPage() {
       <NextTopLoader />
 
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
+      <section className="relative py-24 md:py-32 overflow-hidden min-h-[50vh]">
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/20 to-black" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px]" />
@@ -198,10 +249,7 @@ export default function AboutPage() {
           </p>
         </motion.div>
 
-        <div className="relative mt-2">
-          <div className="absolute w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 mt-16" />
-          <div className="absolute w-screen h-px animate-glow md:block animate-fade-in bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 mt-16" />
-        </div>
+        <AnimatedLine />
       </section>
 
       {/* Technologies Section */}
@@ -217,8 +265,8 @@ export default function AboutPage() {
               Current Technologies
             </h2>
             <p className="text-zinc-400 max-w-3xl mx-auto">
-              I&apos;m proficient in a range of modern technologies that empower me
-              to build highly functional solutions. These are some of my main
+              I&apos;m proficient in a range of modern technologies that empower
+              me to build highly functional solutions. These are some of my main
               technologies.
             </p>
           </motion.div>
@@ -243,6 +291,48 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
+
+        <AnimatedLine />
+      </section>
+
+      {/* Photography Hobby Section */}
+      <section className="py-20 relative">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mb-16 text-center"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Photography Hobby
+            </h2>
+            <p className="text-zinc-400 max-w-3xl mx-auto">
+              I love capturing moments through my lens. Here are some of my
+              favorite shots.
+            </p>
+          </motion.div>
+
+          <DraggableCardContainer className="relative flex min-h-screen w-full items-center justify-center overflow-clip">
+            <p className="absolute top-1/2 mx-auto max-w-sm -translate-y-3/4 text-center text-2xl font-black text-neutral-400 md:text-4xl dark:text-neutral-800">
+              "Photography is the story I fail to put into words."
+            </p>
+            {photos.map((pic) => (
+              <DraggableCardBody className={pic.className}>
+                <img
+                  src={pic.image}
+                  alt={pic.title}
+                  className="pointer-events-none relative z-10 h-80 w-80 object-cover"
+                />
+                <h3 className="mt-6 text-center text-xl font-bold text-neutral-700 dark:text-neutral-300 font-display">
+                  {pic.title}
+                </h3>
+              </DraggableCardBody>
+            ))}
+          </DraggableCardContainer>
+        </div>
+
+        <AnimatedLine />
       </section>
 
       {/* Featured Projects */}
@@ -285,6 +375,7 @@ export default function AboutPage() {
             </Link>
           </div>
         </div>
+        <AnimatedLine />
       </section>
 
       {/* Footer */}
