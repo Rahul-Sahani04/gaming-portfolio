@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import { Github, Linkedin, Mail, Twitter } from "lucide-react"
 import { Meteors } from "@/app/components/magicui/meteors"
+import { Particles } from "@/app/components/magicui/star_particles"
 
 export default function ParticleFooter() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -16,6 +17,7 @@ export default function ParticleFooter() {
   return (
     <footer className="relative py-20 overflow-hidden">
       <div className="absolute inset-0 w-full z-10">
+        <Particles />
         <Meteors
           number={50}
           minDuration={8}

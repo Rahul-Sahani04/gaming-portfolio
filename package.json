@@ -28,6 +28,7 @@
     "lottie-web": "^5.12.2",
     "lucide-react": "^0.509.0",
     "markdown-wasm": "^1.2.0",
+    "motion": "^12.10.5",
     "next-contentlayer": "^0.3.4",
     "nextjs-toploader": "^1.6.12",
     "pnpm": "^9.5.0",
