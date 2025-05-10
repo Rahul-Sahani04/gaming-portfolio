@@ -1,6 +1,6 @@
 "use client";
 // import { Github, Mail, Twitter } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Link from "next/link";
 import { Navigation } from "../components/nav";
@@ -12,15 +12,16 @@ import animatedGithub from "../components/AnimatedIcons/icons8-github.json";
 import animatedTwitter from "../components/AnimatedIcons/icons8-twitter.json";
 import animatedMail from "../components/AnimatedIcons/icons8-gmail-logo.json";
 import NextTopLoader from "nextjs-toploader";
+import LoadingScreen from "../components/LoadingScreen";
 
 export default function Contact() {
+  const [loading, setLoading] = useState(true);
   // Create a state to keep track of the hover state of the Cards and pass it to the LottieAnimation component as a prop
   const [isHovered, setIsHovered] = useState({
     linkedin: false,
     email: false,
     github: false,
   });
-
 
   const socials = [
     {
@@ -82,8 +83,11 @@ export default function Contact() {
     },
   ];
 
-  return (
-    <div className=" bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
+    if (loading) {
+      return <LoadingScreen loading={loading} setLoading={setLoading} />;
+    } else {
+      return (
+        <div className=" bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
       <Navigation />
       <NextTopLoader />
       <div className="container flex items-center justify-center min-h-screen px-4 mx-auto">
@@ -122,6 +126,7 @@ export default function Contact() {
           ))}
         </div>
       </div>
-    </div>
-  );
+        </div>
+      );
+    }
 }

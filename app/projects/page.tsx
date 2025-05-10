@@ -8,6 +8,7 @@ import { Redis } from "@upstash/redis";
 import { Eye } from "lucide-react";
 import CustomCursor from "../components/CustomCursor";
 import NextTopLoader from "nextjs-toploader";
+import LoadingScreen from "../components/LoadingScreen";
 
 const redis = Redis.fromEnv();
 
@@ -35,6 +36,8 @@ export default async function ProjectsPage() {
     )
     .sort((a, b) => (b.date && a.date && a.date > b.date ? -1 : 1));
 
+  
+    
   return (
     <div className="relative pb-16">
       <Navigation />
