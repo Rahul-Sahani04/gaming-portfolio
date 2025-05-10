@@ -354,7 +354,7 @@ export default function Home() {
       <div className="my-16 text-center animate-fade-in ">
         <h2 className="text-sm text-zinc-500 ">
           <Link
-            href="/projects"
+            href="/about"
             className=" duration-500 hover:text-zinc-300 no-underline press-start sm:text-xl md:text-3xl z-20"
           >
             Press Start
