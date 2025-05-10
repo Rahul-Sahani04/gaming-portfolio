@@ -1,0 +1,21 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1465 1502" width="1465" height="1502">
+	<title>supabase-logo-wordmark--light-svg</title>
+	<defs>
+		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(539.819,226.399,-338.743,807.688,724.964,734.759)">
+			<stop offset="0" stop-color="#249361"/>
+			<stop offset="1" stop-color="#3ecf8e"/>
+		</linearGradient>
+		<linearGradient id="g2" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(245.712,462.539,-527.578,280.262,485.873,407.926)">
+			<stop offset="0" stop-color="#000000" stop-opacity="1"/>
+			<stop offset="1" stop-color="#000000" stop-opacity="0"/>
+		</linearGradient>
+	</defs>
+	<style>
+		.s0 { fill: url(#g1) } 
+		.s1 { opacity: .2;fill: url(#g2) } 
+		.s2 { fill: #3ecf8e } 
+	</style>
+	<path id="Layer" class="s0" d="m855.7 1476.5c-38.4 48.2-116.3 21.8-117.2-39.9l-13.5-901.5h607.3c110.1 0 171.4 126.8 103 212.8z"/>
+	<path id="Layer" class="s1" d="m855.7 1476.5c-38.4 48.2-116.3 21.8-117.2-39.9l-13.5-901.5h607.3c110.1 0 171.4 126.8 103 212.8z"/>
+	<path id="Layer" class="s2" d="m608.7 25.8c38.4-48.3 116.3-21.9 117.2 39.8l5.9 901.5h-599.8c-110 0-171.3-126.8-102.9-212.8z"/>
+</svg>
