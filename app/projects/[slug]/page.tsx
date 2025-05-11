@@ -11,6 +11,7 @@ import NextTopLoader from "nextjs-toploader";
 import LoadingScreen from "@/app/components/LoadingScreen";
 import { useState, useEffect } from "react";
 
+
 type Props = {
   params: {
     slug: string;
@@ -19,13 +20,6 @@ type Props = {
 
 const redis = Redis.fromEnv();
 
-export async function generateStaticParams(): Promise<Props["params"][]> {
-  return allProjects
-    .filter((p) => p.published)
-    .map((p) => ({
-      slug: p.slug,
-    }));
-}
 
 export default function PostPage({ params }: Props) {
   const [loading, setLoading] = useState(true);
