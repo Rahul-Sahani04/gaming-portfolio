@@ -240,21 +240,21 @@ function PlayGame() {
 export default function Home() {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Load assets
-    console.log("Loading assets");
-    const loadAssets = async () => {
-      await Promise.all([
-        useGLTF.preload("/model/Black_hole.glb"),
-        useGLTF.preload("/model/SpaceShipV2.glb"),
-      ]);
-      setTimeout(() => {
-        setLoading(false);
-      }, 1600);
-      console.log("Assets loaded");
-    };
+    useEffect(() => {
+      // Load assets
+      console.log("Loading assets");
+      const loadAssets = async () => {
+        await Promise.all([
+          useGLTF.preload("/model/Black_hole.glb"),
+          useGLTF.preload("/model/SpaceShipV2.glb"),
+        ]);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1600);
+        console.log("Assets loaded");
+      };
 
-    loadAssets();
+      loadAssets();
 
     // On mouse click anywhere on the page, play sound effect
     document.addEventListener("click", () => {
@@ -265,13 +265,13 @@ export default function Home() {
     });
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center w-screen h-screen bg-black">
-        <LoadingScreen loading={loading} setLoading={setLoading} />
-      </div>
-    );
-  }
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center w-screen h-screen bg-black">
+          <LoadingScreen loading={loading} setLoading={setLoading} />
+        </div>
+      );
+    }
 
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
