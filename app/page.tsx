@@ -233,31 +233,11 @@ const navigation = [
 ];
 
 
-  function IframeGameComponent() {
-    return (
-      <div
-        key="IFrame Container"
-        className="absolute !z-[99] top-1/2 left-1/2 backdrop-blur-lg rounded-3xl shadow-lg w-[90vw] h-[90vh] -translate-x-1/2 -translate-y-1/2 overflow-hidden"
-        id="iframe-container"
-      >
-        <iframe
-          src="/mini-space-shooter/"
-          className="w-full h-full border border-white/15 rounded-tl-3xl rounded-tr-3xl rounded-br-3xl rounded-bl-3xl shadow-lg"
-          title="Mini Space Shooter"
-          id="game-iframe"
-          allow="accelerometer; autoplay; picture-in-picture;"
-          loading="eager"
-          allowFullScreen
-        ></iframe>
-      </div>
-    );
-  }
   
   export default function Home() {
     
     const [loading, setLoading] = useState(true);
-    
-    const [isPlayingGame, setIsPlayingGame] = useState(false);
+  
     
     
     function PlayGame() {
@@ -372,19 +352,6 @@ const navigation = [
         />
       </div>
 
-      {/* Game Iframe (Shown When Playing) */}
-      {isPlayingGame && <IframeGameComponent />}
     </div>
   );
 }
-
-
-{/* Adding a button to let the user play the game */}
-<div className="game-container">
-  <button
-    className="play-game-button"
-    onClick={() => window.location.href = '/mini-space-shooter/'}
-  >
-    Play Mini Space Shooter
-  </button>
-</div>
