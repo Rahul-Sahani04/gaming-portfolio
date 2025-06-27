@@ -234,7 +234,7 @@ const navigation = [
 
 function PlayGame() {
   const iframeContainer = document.getElementById("iframe-container");
-  const gameIframe = document.getElementById("game-iframe");
+  const gameIframe = document.getElementById("game-iframe") as HTMLIFrameElement;
 
   if (iframeContainer && gameIframe) {
     // Toggle visibility of the iframe container
