@@ -233,32 +233,11 @@ const navigation = [
 ];
 
 function PlayGame() {
-  const iframeContainer = document.getElementById("iframe-container");
-  const gameIframe = document.getElementById("game-iframe") as HTMLIFrameElement;
-
-  if (iframeContainer && gameIframe) {
-    // Toggle visibility of the iframe container
-    if (iframeContainer.style.visibility === "hidden") {
-      iframeContainer.style.visibility = "visible";
-      gameIframe.src = "https://mini-space-shooter.vercel.app/";
-    } else {
-      iframeContainer.style.visibility = "hidden";
-      gameIframe.src = "";
-    }
-  }
-
-  // Remove The Models From webpage
-  const blackHoleCanvas = document.getElementById("black-hole-canvas");
-
-  // Delete the black hole canvas
-  if (blackHoleCanvas) {
-    blackHoleCanvas.remove();
-  }
+  window.open("https://mini-space-shooter.vercel.app/", "_blank");
 }
 
 
 export default function Home() {
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -285,7 +264,6 @@ export default function Home() {
       audio.play();
     });
   }, []);
-
 
   if (loading) {
     return (
@@ -325,23 +303,6 @@ export default function Home() {
         </h2>
       </div>
 
-      <div
-        key="IFrame Container"
-        className="absolute !z-[99] top-1/2 left-1/2 backdrop-blur-lg rounded-3xl shadow-lg w-[90vw] h-[90vh] -translate-x-1/2 -translate-y-1/2 overflow-hidden"
-        style={{
-          visibility: "hidden",
-        }}
-        id="iframe-container"
-      >
-        <iframe
-          // src="https://mini-space-shooter.vercel.app/"
-          className="w-full h-full border-0 rounded-tl-3xl rounded-tr-3xl rounded-br-3xl rounded-bl-3xl shadow-lg"
-          title="Mini Space Shooter"
-          id="game-iframe"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-      </div>
       <div
         className="absolute -bottom-8 -right-2"
         onClick={PlayGame}
