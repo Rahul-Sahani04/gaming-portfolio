@@ -13,9 +13,7 @@ import { useState, useEffect } from "react";
 
 
 type Props = {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 };
 
 const redis = Redis.fromEnv();
@@ -28,7 +26,8 @@ export default function PostPage({ params }: Props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const slug = params?.slug;
+      const resolvedParams = await params;
+      const slug = resolvedParams?.slug;
       const foundProject = allProjects.find((project) => project.slug === slug);
 
       if (!foundProject) {
@@ -44,7 +43,7 @@ export default function PostPage({ params }: Props) {
     };
 
     fetchData().catch(console.error);
-  }, [params?.slug]);
+  }, []);
 
   if (loading) {
     return <LoadingScreen loading={loading} setLoading={setLoading} />;
