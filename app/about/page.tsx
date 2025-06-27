@@ -378,7 +378,7 @@ export default function AboutPage() {
                 "Photography is the story I fail to put into words."
               </p>
               {photos.map((pic) => (
-                <DraggableCardBody className={pic.className}>
+                <DraggableCardBody key={pic.title} className={pic.className}>
                   <img
                     src={pic.image}
                     alt={pic.title}
