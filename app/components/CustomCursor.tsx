@@ -67,6 +67,8 @@ const CustomCursor = () => {
       clearInterval(interval);
     };
 
+
+
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mousedown", handleMouseDown);
     document.addEventListener("mouseup", handleMouseUp);

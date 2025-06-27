@@ -260,7 +260,9 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.png" />
       </head>
       <body
-        className={`bg-black ${
+        className={`bg-black
+          overflow-hidden
+          ${
           process.env.NODE_ENV === "development" ? "debug-screens" : undefined
         }`}
       >
