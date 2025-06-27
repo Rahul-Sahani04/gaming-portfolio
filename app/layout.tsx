@@ -261,7 +261,7 @@ export default function RootLayout({
       </head>
       <body
         className={`bg-black
-          overflow-hidden
+          overflow-x-hidden
           ${
           process.env.NODE_ENV === "development" ? "debug-screens" : undefined
         }`}

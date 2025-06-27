@@ -274,7 +274,7 @@ export default function Home() {
     }
 
   return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
+    <div className="!overflow-hidden flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
       <CustomCursor />
       <NextTopLoader />
       <BlackHoleCanvas loading={loading} />
@@ -304,14 +304,14 @@ export default function Home() {
       </div>
 
       <div
-        className="absolute -bottom-8 -right-2"
+        className="absolute -bottom-0 -right-2"
         onClick={PlayGame}
         style={{ cursor: "pointer" }}
         id="cat-peeking-container"
       >
         {/* Message Bubble */}
-        <p className="absolute -top-14 right-2 w-16 !text-[16px] text-zinc-500 sm:text-base md:text-lg animate-fade-in ">
-          Want to Play A Game?
+        <p className="absolute -top-10 right-2 w-24 !text-[16px] text-zinc-500 sm:text-base md:text-lg animate-fade-in ">
+          Wanna play a game? 🐾
         </p>
         <img
           id="cat-peeking-image"
