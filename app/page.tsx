@@ -232,23 +232,13 @@ const navigation = [
   { name: "Contact", href: "/contact" },
 ];
 
+function PlayGame() {
+  window.open("https://mini-space-shooter.vercel.app/", "_blank");
+}
 
-  
-  export default function Home() {
-    const [loading, setLoading] = useState(true);
 
-    function PlayGame() {
-      // Remove the home container
-      // const homeContainer = document.getElementById("home-container");
-      // if (homeContainer) {
-      //   homeContainer.remove();
-      // }
-
-      // setIsPlayingGame(true);
-
-      // Open the game in a new tab
-      window.open("https://mini-space-shooter.vercel.app/", "_blank");
-    }
+export default function Home() {
+  const [loading, setLoading] = useState(true);
 
     useEffect(() => {
       // Load assets
@@ -266,14 +256,14 @@ const navigation = [
 
       loadAssets();
 
-      // On mouse click anywhere on the page, play sound effect
-      document.addEventListener("click", () => {
-        const audio = new Audio("/plasmablaster-37114.mp3");
-        audio.volume = 0.2;
-        audio.playbackRate = 0.9;
-        audio.play();
-      });
-    }, []);
+    // On mouse click anywhere on the page, play sound effect
+    document.addEventListener("click", () => {
+      const audio = new Audio("/plasmablaster-37114.mp3");
+      audio.volume = 0.2;
+      audio.playbackRate = 0.9;
+      audio.play();
+    });
+  }, []);
 
     if (loading) {
       return (
@@ -283,68 +273,54 @@ const navigation = [
       );
     }
 
-    return (
-      <div>
-        {/* Main Home Container */}
-        <div
-          className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black"
-          id="home-container"
-        >
-          {/* Custom Cursor Component */}
-          <CustomCursor />
-          {/* Top Loader Progress Bar */}
-          <NextTopLoader />
-          {/* 3D Black Hole and Spaceship Canvas */}
-          <BlackHoleCanvas loading={loading} />
-          {/* Top Glow Line */}
-          <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
-          {/* Animated Particle Background */}
-          <Particles
-            className="absolute inset-0 -z-10 animate-fade-in"
-            quantity={100}
-          />
-          {/* Welcome Message */}
-          <h3 className="z-10 text-sm text-center text-zinc-500 sm:text-base md:text-lg animate-fade-in">
-            Hey, Ready to be impressed? Explore my portfolio. 🚀
-          </h3>
-          {/* Main Title */}
-          <h1 className="z-10 text-6xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
-            Rahul Sahani
-          </h1>
-          {/* Bottom Glow Line */}
-          <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
-          {/* "Press Start" Link */}
-          <div className="my-16 text-center animate-fade-in ">
-            <h2 className="text-sm text-zinc-500 ">
-              <Link
-                href="/about"
-                className=" duration-500 hover:text-zinc-300 no-underline press-start sm:text-xl md:text-3xl z-20"
-              >
-                Press Start
-              </Link>
-            </h2>
-          </div>
-        </div>
+  return (
+    <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
+      <CustomCursor />
+      <NextTopLoader />
+      <BlackHoleCanvas loading={loading} />
+      <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
+      <Particles
+        className="absolute inset-0 -z-10 animate-fade-in"
+        quantity={100}
+      />
+      <h3 className="z-10 text-sm text-center text-zinc-500 sm:text-base md:text-lg animate-fade-in">
+        Hey, Ready to be impressed? Explore my portfolio. 🚀
+      </h3>
+      <h1 className="z-10 text-6xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
+        Rahul Sahani
+      </h1>
 
-        {/* Cat Peeking Game Prompt */}
-        <div
-          className="absolute -bottom-8 -right-2"
-          onClick={PlayGame}
-          style={{ cursor: "pointer" }}
-          id="cat-peeking-container"
-        >
-          {/* Message Bubble */}
-          <p className="absolute -top-14 right-2 w-16 !text-[16px] text-zinc-500 sm:text-base md:text-lg animate-fade-in ">
-            Want to Play A Game?
-          </p>
-          {/* Cat Peeking Image */}
-          <img
-            id="cat-peeking-image"
-            alt="Cat Peeking From Corner"
-            src="/CatPeeking.png"
-            className=" w-16 hover:!opacity-70 !opacity-50 invisible Animate-FadeInRight backdrop:blur-sm rounded-full shadow-lg transition-transform duration-300 cursor-pointer z-20 "
-          />
-        </div>
+      <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
+
+      <div className="my-16 text-center animate-fade-in ">
+        <h2 className="text-sm text-zinc-500 ">
+          <Link
+            href="/about"
+            className=" duration-500 hover:text-zinc-300 no-underline press-start sm:text-xl md:text-3xl z-20"
+          >
+            Press Start
+          </Link>
+        </h2>
       </div>
-    );
-  }
+
+      <div
+        className="absolute -bottom-8 -right-2"
+        onClick={PlayGame}
+        style={{ cursor: "pointer" }}
+        id="cat-peeking-container"
+      >
+        {/* Message Bubble */}
+        <p className="absolute -top-14 right-2 w-16 !text-[16px] text-zinc-500 sm:text-base md:text-lg animate-fade-in ">
+          Want to Play A Game?
+        </p>
+        <img
+          id="cat-peeking-image"
+          alt="Cat Peeking From Corner"
+          src="/CatPeeking.png"
+          className=" w-16 hover:!opacity-70 !opacity-50 invisible Animate-FadeInRight backdrop:blur-sm rounded-full shadow-lg transition-transform duration-300 cursor-pointer z-20 "
+        />
+      </div>
+    </div>
+  );
+}
+
