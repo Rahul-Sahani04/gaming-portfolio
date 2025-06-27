@@ -22,6 +22,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "contentlayer": "^0.3.4",
+    "eslint-config-next": "^15.3.4",
     "framer-motion": "^12.19.1",
     "framer-motion-3d": "^11.2.10",
     "lottie-react": "^2.4.0",
