@@ -232,35 +232,49 @@ const navigation = [
   { name: "Contact", href: "/contact" },
 ];
 
-function PlayGame() {
-  const iframeContainer = document.getElementById("iframe-container");
-  const gameIframe = document.getElementById("game-iframe") as HTMLIFrameElement;
 
-  if (iframeContainer && gameIframe) {
-    // Toggle visibility of the iframe container
-    if (iframeContainer.style.visibility === "hidden") {
-      iframeContainer.style.visibility = "visible";
-      gameIframe.src = "https://mini-space-shooter.vercel.app/";
-    } else {
-      iframeContainer.style.visibility = "hidden";
-      gameIframe.src = "";
+  function IframeGameComponent() {
+    return (
+      <div
+        key="IFrame Container"
+        className="absolute !z-[99] top-1/2 left-1/2 backdrop-blur-lg rounded-3xl shadow-lg w-[90vw] h-[90vh] -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+        id="iframe-container"
+      >
+        <iframe
+          src="/mini-space-shooter/"
+          className="w-full h-full border border-white/15 rounded-tl-3xl rounded-tr-3xl rounded-br-3xl rounded-bl-3xl shadow-lg"
+          title="Mini Space Shooter"
+          id="game-iframe"
+          allow="accelerometer; autoplay; picture-in-picture;"
+          loading="eager"
+          allowFullScreen
+        ></iframe>
+      </div>
+    );
+  }
+  
+  export default function Home() {
+    
+    const [loading, setLoading] = useState(true);
+    
+    const [isPlayingGame, setIsPlayingGame] = useState(false);
+    
+    
+    function PlayGame() {
+      // Remove the home container
+      // const homeContainer = document.getElementById("home-container");
+      // if (homeContainer) {
+      //   homeContainer.remove();
+      // }
+      
+      
+      // setIsPlayingGame(true);
+
+      // Open the game in a new tab
+      window.open("https://mini-space-shooter.vercel.app/", "_blank");
+
     }
-  }
-
-  // Remove The Models From webpage
-  const blackHoleCanvas = document.getElementById("black-hole-canvas");
-
-  // Delete the black hole canvas
-  if (blackHoleCanvas) {
-    blackHoleCanvas.remove();
-  }
-}
-
-
-export default function Home() {
-
-  const [loading, setLoading] = useState(true);
-
+    
   useEffect(() => {
     // Load assets
     console.log("Loading assets");
@@ -296,52 +310,49 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
-      <CustomCursor />
-      <NextTopLoader />
-      <BlackHoleCanvas loading={loading} />
-      <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
-      <Particles
-        className="absolute inset-0 -z-10 animate-fade-in"
-        quantity={100}
-      />
-      <h3 className="z-10 text-sm text-center text-zinc-500 sm:text-base md:text-lg animate-fade-in">
-        Hey, Ready to be impressed? Explore my portfolio. 🚀
-      </h3>
-      <h1 className="z-10 text-6xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
-        Rahul Sahani
-      </h1>
-
-      <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
-
-      <div className="my-16 text-center animate-fade-in ">
-        <h2 className="text-sm text-zinc-500 ">
-          <Link
-            href="/about"
-            className=" duration-500 hover:text-zinc-300 no-underline press-start sm:text-xl md:text-3xl z-20"
-          >
-            Press Start
-          </Link>
-        </h2>
-      </div>
-
+    <div>
+      {/* Main Home Container */}
       <div
-        key="IFrame Container"
-        className="absolute !z-[99] top-1/2 left-1/2 backdrop-blur-lg rounded-3xl shadow-lg w-[90vw] h-[90vh] -translate-x-1/2 -translate-y-1/2 overflow-hidden"
-        style={{
-          visibility: "hidden",
-        }}
-        id="iframe-container"
+        className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black"
+        id="home-container"
       >
-        <iframe
-          // src="https://mini-space-shooter.vercel.app/"
-          className="w-full h-full border-0 rounded-tl-3xl rounded-tr-3xl rounded-br-3xl rounded-bl-3xl shadow-lg"
-          title="Mini Space Shooter"
-          id="game-iframe"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
+        {/* Custom Cursor Component */}
+        <CustomCursor />
+        {/* Top Loader Progress Bar */}
+        <NextTopLoader />
+        {/* 3D Black Hole and Spaceship Canvas */}
+        <BlackHoleCanvas loading={loading} />
+        {/* Top Glow Line */}
+        <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
+        {/* Animated Particle Background */}
+        <Particles
+          className="absolute inset-0 -z-10 animate-fade-in"
+          quantity={100}
+        />
+        {/* Welcome Message */}
+        <h3 className="z-10 text-sm text-center text-zinc-500 sm:text-base md:text-lg animate-fade-in">
+          Hey, Ready to be impressed? Explore my portfolio. 🚀
+        </h3>
+        {/* Main Title */}
+        <h1 className="z-10 text-6xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
+          Rahul Sahani
+        </h1>
+        {/* Bottom Glow Line */}
+        <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
+        {/* "Press Start" Link */}
+        <div className="my-16 text-center animate-fade-in ">
+          <h2 className="text-sm text-zinc-500 ">
+            <Link
+              href="/about"
+              className=" duration-500 hover:text-zinc-300 no-underline press-start sm:text-xl md:text-3xl z-20"
+            >
+              Press Start
+            </Link>
+          </h2>
+        </div>
       </div>
+
+      {/* Cat Peeking Game Prompt */}
       <div
         className="absolute -bottom-8 -right-2"
         onClick={PlayGame}
@@ -352,6 +363,7 @@ export default function Home() {
         <p className="absolute -top-14 right-2 w-16 !text-[16px] text-zinc-500 sm:text-base md:text-lg animate-fade-in ">
           Want to Play A Game?
         </p>
+        {/* Cat Peeking Image */}
         <img
           id="cat-peeking-image"
           alt="Cat Peeking From Corner"
@@ -359,7 +371,20 @@ export default function Home() {
           className=" w-16 hover:!opacity-70 !opacity-50 invisible Animate-FadeInRight backdrop:blur-sm rounded-full shadow-lg transition-transform duration-300 cursor-pointer z-20 "
         />
       </div>
+
+      {/* Game Iframe (Shown When Playing) */}
+      {isPlayingGame && <IframeGameComponent />}
     </div>
   );
 }
 
+
+{/* Adding a button to let the user play the game */}
+<div className="game-container">
+  <button
+    className="play-game-button"
+    onClick={() => window.location.href = '/mini-space-shooter/'}
+  >
+    Play Mini Space Shooter
+  </button>
+</div>

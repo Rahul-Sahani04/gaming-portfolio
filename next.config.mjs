@@ -10,4 +10,26 @@ const nextConfig = {
 };
 
 
-export default withContentlayer(nextConfig);
+export default withContentlayer({
+  ...nextConfig,
+  async rewrites() {
+    return [
+      {
+        source: '/mini-space-shooter/:path*',
+        destination: '/public/MiniSpaceShooter/:path*',
+      },
+    ];
+  },
+});
+
+// Adding a custom route for the MiniSpaceShooter build folder
+const customRewrites = {
+  async rewrites() {
+    return [
+      {
+        source: '/mini-space-shooter/:path*',
+        destination: '/public/MiniSpaceShooter/:path*',
+      },
+    ];
+  },
+};
