@@ -9,3 +9,23 @@
   font-weight: 700;
   font-style: normal;
 }
+
+.Animate-FadeInRight {
+  animation: fadeInRight 0.5s ease-in-out forwards;
+  animation-delay: 2.5s;
+}
+
+/* Animate Fade In Right */
+@keyframes fadeInRight {
+  from {
+    visibility: visible;
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
