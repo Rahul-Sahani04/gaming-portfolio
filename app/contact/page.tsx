@@ -6,7 +6,8 @@ import Link from "next/link";
 import { Navigation } from "../components/nav";
 import { Card } from "../components/card";
 
-import LottieAnimation from "../components/LottieAnimation";
+import dynamic from "next/dynamic";
+const LottieAnimation = dynamic(() => import("../components/LottieAnimation"), { ssr: false });
 
 import animatedGithub from "../components/AnimatedIcons/icons8-github.json";
 import animatedTwitter from "../components/AnimatedIcons/icons8-twitter.json";
@@ -36,7 +37,7 @@ export default function Contact() {
         //   setIsHovered={(hovered) =>
         //     setIsHovered({ ...isHovered, twitter: hovered })
         //   }
-		  initialFrame={isHovered.linkedin ? 0 : 75}
+      initialFrame={isHovered.linkedin ? 0 : 75}
         />
       ),
     //   href: "https://x.com/PoetOfHerAlgos",
