@@ -302,10 +302,10 @@ export default function AboutPage() {
               curiosity with code to build smooth, responsive experiences that
               feel right. Whether I’m in a boss fight or a bug hunt, I move
               fast, think sharp, and never stop leveling up. <br />{" "}
-              <p className="mt-4 text-nowrap italic text-zinc-500 text-base md:text-lg">
+                <p className="mt-4 italic text-zinc-500 text-base md:text-lg whitespace-normal sm:whitespace-nowrap">
                 Falling twice or getting stuck? Nah, I just respawn and keep
                 going.
-              </p>
+                </p>
             </p>
           </motion.div>
 
@@ -331,7 +331,7 @@ export default function AboutPage() {
               </p>
             </motion.div>
 
-            <div className="space-y-12">
+            <div className="space-y-12 mb-12">
               {technologies.map((category, index) => (
                 <motion.div
                   key={category.category}
@@ -342,10 +342,21 @@ export default function AboutPage() {
                   <h3 className="text-2xl font-semibold mb-6 text-zinc-200">
                     {category.category}
                   </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  <div className="relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {category.items.map((tech) => (
                       <TechCard key={tech.name} tech={tech} />
                     ))}
+
+                    {category.category === "Favorite Games" && (
+                      <div className="mt-6 text-center w-screen absolute -bottom-16 left-1/2 -translate-x-1/2">
+                        <Link
+                          href="/gaming"
+                          className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                        >
+                          Visit Gaming <ArrowUpRight size={16} />
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -440,7 +451,7 @@ export default function AboutPage() {
 
         {/* Footer */}
         <ParticleFooter />
-        </div>
-      );
+      </div>
+    );
     }
   }
