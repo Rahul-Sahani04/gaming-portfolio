@@ -1,7 +1,8 @@
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useRef } from "react";
 import { motion, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import GameIcon from "../utils/GameIcons";
+import "../page.css"; // Import global styles
 
 // Cloudinary settings
 const CLOUDINARY_CLOUD_NAME = "dezgrhc2p";
@@ -26,19 +27,61 @@ const getCloudinaryUrl = (publicId: string) =>
   `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/q_auto,f_auto/${publicId}.mp4`;
 
 const GameCard = memo(({ game, index }: GameCardProps) => {
-  const { ref, inView } = useInView({ triggerOnce: true, rootMargin: "-100px" });
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    rootMargin: "-100px",
+  });
   const [hovered, setHovered] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
 
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const videoSrc = game.bgVideoId
+    ? getCloudinaryUrl(game.bgVideoId)
+    : undefined;
+
   useEffect(() => {
-    if (!hovered) { setShowVideo(false); return; }
+    if (!hovered) {
+      setShowVideo(false);
+      return;
+    }
     const timer = setTimeout(() => setShowVideo(true), 3500); // Shorten to 1.5s for better UX
     return () => clearTimeout(timer);
   }, [hovered]);
 
-  const videoSrc = game.bgVideoId ? getCloudinaryUrl(game.bgVideoId) : undefined;
+   // once showVideo flips on, wire up draw-loop
+  useEffect(() => {
+    if (!showVideo) return;
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
 
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
+    // low-res buffer
+    canvas.width = 120;
+    canvas.height = 60;
+
+    let frameId: number;
+
+    function render() {
+      if (!video || video.paused || video.ended || !ctx || !canvas) return;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      frameId = requestAnimationFrame(render);
+    }
+
+    // start rendering when video starts playing
+    video.addEventListener("play", render);
+    // if it’s already autoplaying, kick it off immediately
+    if (!video.paused) render();
+
+    return () => {
+      video.removeEventListener("play", render);
+      cancelAnimationFrame(frameId);
+    };
+  }, [showVideo]);
 
   return (
     <motion.div
@@ -57,10 +100,18 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
+      {/* --- Ambient Glow Canvas --- */}
+
       {showVideo && videoSrc && (
         <>
+          <canvas
+            ref={canvasRef}
+            className="ambience-canvas z-[9]"
+            aria-hidden="true"
+          />
           <video
             src={videoSrc}
+            ref={videoRef}
             autoPlay
             controls={false}
             loop
