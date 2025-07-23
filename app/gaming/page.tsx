@@ -22,12 +22,12 @@ const metadata: Metadata = {
     "Exploring the key skills, insights, and personal growth inspired by some of my all-time favorite games.",
 }
 
-
-
 // Glassmorphic Final Section
 const WhyItMattersSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(sectionRef, { once: true })
+
+
 
   const points = [
     {
@@ -52,28 +52,6 @@ const WhyItMattersSection = () => {
       transition={{ duration: 0.8 }}
       className="max-w-4xl mx-auto relative"
     >
-      {/* Animated background particles */}
-      <div className="absolute inset-0 overflow-hidden rounded-3xl">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-blue-400/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              opacity: [0.2, 0.8, 0.2],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
 
       {/* Main glassmorphic container */}
       <div className="relative backdrop-blur-2xl bg-white/[0.02] border border-white/10 rounded-3xl p-8 shadow-2xl">
@@ -103,7 +81,9 @@ const WhyItMattersSection = () => {
                 <point.icon className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors" />
               </div>
               <div>
-                <h3 className="font-bold text-white mb-2 group-hover:text-blue-100 transition-colors">{point.title}</h3>
+                <h3 className="font-bold text-white mb-2 group-hover:text-blue-100 transition-colors">
+                  {point.title}
+                </h3>
                 <p className="text-zinc-400 group-hover:text-zinc-300 transition-colors leading-relaxed">
                   {point.description}
                 </p>
@@ -119,13 +99,14 @@ const WhyItMattersSection = () => {
           className="mt-8 pt-6 border-t border-white/10 text-center"
         >
           <p className="text-zinc-400 italic">
-            This page celebrates the games that have shaped my approach to challenges, creativity, and collaboration—
-            lessons that continue to influence my work and personal growth.
+            This page celebrates the games that have shaped my approach to
+            challenges, creativity, and collaboration— lessons that continue to
+            influence my work and personal growth.
           </p>
         </motion.div>
       </div>
     </motion.div>
-  )
+  );
 }
 
 const AnimatedLine = ({ className }: { className?: string }) => {

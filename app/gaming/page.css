@@ -1,0 +1,11 @@
+.ambience-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(24px) opacity(0.75) saturate(180%);
+  z-index: 10;
+  pointer-events: none;
+  border-radius: 1rem; /* match the video for rounded edges */
+  transform: scale(1.13); /* slightly expands the blur glow beyond the video */
+}
