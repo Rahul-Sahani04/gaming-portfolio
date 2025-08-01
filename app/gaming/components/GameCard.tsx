@@ -41,6 +41,21 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
     ? getCloudinaryUrl(game.bgVideoId)
     : undefined;
 
+
+    const [isMobile, setIsMobile] = useState(false)
+
+      // Detect mobile device
+      useEffect(() => {
+        const checkMobile = () => {
+          setIsMobile(window.innerWidth < 768);
+        };
+
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+      }, []);
+
+
   useEffect(() => {
     if (!hovered) {
       setShowVideo(false);
@@ -102,7 +117,7 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
     >
       {/* --- Ambient Glow Canvas --- */}
 
-      {showVideo && videoSrc && (
+      {!isMobile && showVideo && videoSrc && (
         <>
           <canvas
             ref={canvasRef}

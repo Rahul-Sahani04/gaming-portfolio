@@ -1,49 +1,30 @@
-import { motion } from "framer-motion";
-const SubtleAnimatedDivider = () => (
-  <div className="relative w-full h-px my-20 overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-    <motion.div
-      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-      animate={{ x: ["-100%", "100%"] }}
-      transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
-    />
-  </div>
-);
+"use client"
 
-export default SubtleAnimatedDivider;
+import { motion, useReducedMotion } from "framer-motion"
 
+const SubtleAnimatedDivider = () => {
+  const shouldReduceMotion = useReducedMotion()
 
+  return (
+    <div className="relative flex items-center justify-center py-8 sm:py-12 lg:py-16">
+      <motion.div
+        initial={shouldReduceMotion ? {} : { scaleX: 0, opacity: 0 }}
+        whileInView={{ scaleX: 1, opacity: 1 }}
+        transition={{ duration: 1, ease: "easeInOut" }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="w-full max-w-xs sm:max-w-sm lg:max-w-md h-px bg-gradient-to-r from-transparent via-neutral-600 to-transparent"
+      />
 
+      {/* Center dot */}
+      <motion.div
+        initial={shouldReduceMotion ? {} : { scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+        viewport={{ once: true }}
+        className="absolute w-2 h-2 bg-neutral-500 rounded-full"
+      />
+    </div>
+  )
+}
 
-
-// Animated Divider Component
-// const AnimatedDivider = () => (
-//   <div className="relative w-full h-px my-20 overflow-hidden">
-//     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-//     <motion.div
-//       className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"
-//       animate={{
-//         x: ["-100%", "100%"],
-//       }}
-//       transition={{
-//         duration: 4,
-//         repeat: Number.POSITIVE_INFINITY,
-//         ease: "linear",
-//       }}
-//     />
-//     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-//       <motion.div
-//         className="w-2 h-2 bg-blue-400 rounded-full"
-//         animate={{
-//           scale: [1, 1.5, 1],
-//           opacity: [0.5, 1, 0.5],
-//         }}
-//         transition={{
-//           duration: 2,
-//           repeat: Number.POSITIVE_INFINITY,
-//         }}
-//       />
-//     </div>
-//   </div>
-// )
-
+export default SubtleAnimatedDivider

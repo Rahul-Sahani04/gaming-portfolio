@@ -5,7 +5,16 @@ import styles from "./CustomCursor.module.css";
 import Image from "next/image";
 
 const CustomCursor = () => {
+  // Check if device supports hover (non-touch devices)
+  const isNonTouchDevice = () => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(hover: hover)').matches;
+  };
+
   useEffect(() => {
+    // Don't initialize cursor on touch devices
+    if (!isNonTouchDevice()) return;
+
     const cursor = document.querySelector(`.${styles.cursor}`);
     const cursorinner = document.querySelector(`.${styles.cursor2}`);
     const crosshair = document.querySelector(`#cursorImg`);
@@ -35,7 +44,6 @@ const CustomCursor = () => {
       if (cursor && cursorinner) {
         cursor.classList.remove(styles.click);
         cursorinner.classList.remove(styles.cursorinnerhover);
-
       }
     };
 
@@ -45,12 +53,11 @@ const CustomCursor = () => {
         (crosshair as HTMLElement).style.transition = ` all 250ms ease-out`;
         (crosshair as HTMLElement).style.transform = ` rotate(0deg) scale(1)`;
 
-        // Keep Randomly Jiggle the cursor until the user is hovering over the link element 
+        // Keep Randomly Jiggle the cursor until the user is hovering over the link element
         interval = setInterval(() => {
-
-          // Generate Random Number between -5 and 10 
+          // Generate Random Number between -5 and 10
           const x = Math.floor(Math.random() * 15) - 5;
-          
+
           // Rotate the crosshair by the random number
           (crosshair as HTMLElement).style.transform = `rotate(${x}deg)`;
         }, 100);
@@ -60,14 +67,10 @@ const CustomCursor = () => {
     const handleLinkMouseLeave = (e: MouseEvent) => {
       if (cursor) {
         (crosshair as HTMLElement).style.transform = `rotate(45deg) scale(0.6)`;
-
-        
       }
       // Clear the interval when the user is not hovering over the link element
       clearInterval(interval);
     };
-
-
 
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mousedown", handleMouseDown);
@@ -89,6 +92,9 @@ const CustomCursor = () => {
       });
     };
   }, []);
+
+  // Don't render custom cursor on touch devices
+  if (!isNonTouchDevice()) return null;
 
   return (
     <div className={styles.cursorContainer}>
