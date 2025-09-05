@@ -31,10 +31,21 @@ export default function LoadingScreen({ loading, setLoading }: { loading: boolea
           exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black flex flex-col items-center justify-center"
         >
+          <img
+            className="absolute w-[15%] top-[90%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-zinc-500 text-sm font-mono"
+            alt="Loading Background"
+            src="https://i.pinimg.com/1200x/13/a4/31/13a431ed022b6a7f37180153f8e1db44.jpg"
+            style={{
+              zIndex: -1,
+            }}
+          ></img>
           <motion.div
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
+            style={{
+              backdropFilter: "blur(10px)",
+            }}
             className="text-white text-4xl font-bold mb-8"
           >
             Rahul Sahani

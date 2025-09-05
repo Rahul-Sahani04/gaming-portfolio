@@ -163,6 +163,66 @@ export default function AboutPage() {
       ],
     },
     {
+      category: "Backend & APIs",
+      items: [
+        {
+          name: "Express.js",
+          description: "Backend framework",
+          icon: "/icons/tech/express.svg",
+        },
+        {
+          name: "GraphQL",
+          description: "Query language for APIs",
+          icon: "/icons/tech/graphql.png",
+        },
+        {
+          name: "REST APIs",
+          description: "API architecture",
+          icon: "/icons/tech/RestApi.png",
+        },
+      ],
+    },
+    {
+      category: "DevOps & Cloud",
+      items: [
+        {
+          name: "Vercel",
+          description: "Deployment platform",
+          icon: "/icons/tech/vercel.svg",
+        },
+        {
+          name: "AWS",
+          description: "Cloud services",
+          icon: "/icons/tech/aws.svg",
+        },
+        // {
+        //   name: "Docker",
+        //   description: "Containerization",
+        //   icon: "/icons/tech/docker.svg",
+        // },
+      ],
+    },
+    {
+      category: "AI & Automation",
+      items: [
+        {
+          name: "Python",
+          description: "Scripting & AI",
+          icon: "/icons/tech/Python.svg",
+        },
+        {
+          name: "OpenAI / Gemini",
+          description: "LLM APIs",
+          icon: "/icons/tech/Gemini.svg",
+        },
+        {
+          name: "Automation",
+          description: "Bots & scripts",
+          icon: "/icons/tech/n8n.png",
+        },
+      ],
+    },
+    {
       category: "Development",
       items: [
         {
@@ -304,14 +364,17 @@ export default function AboutPage() {
               About Me
             </h1>
             <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto text-justify">
-              I’m Rahul Sahani — a dev by day, gamer by instinct. I blend
-              curiosity with code to build smooth, responsive experiences that
-              feel right. Whether I’m in a boss fight or a bug hunt, I move
-              fast, think sharp, and never stop leveling up. <br />{" "}
-                <p className="mt-4 italic text-zinc-500 text-base md:text-lg whitespace-normal sm:whitespace-nowrap">
+              I'm Rahul Sahani. By day, I write code and build things that work
+              like they should. By Heart, I'm a gamer. I chase what sparks my
+              curiosity, both on the screen and off. When I'm facing off against
+              a tough bug or a tough boss, I work fast and think on my feet.
+              There's always something new to learn, and I'm always pushing for
+              the next level.
+              <br />{" "}
+              <span className="mt-4 italic text-zinc-500 text-base md:text-lg whitespace-normal sm:whitespace-nowrap">
                 Falling twice or getting stuck? Nah, I just respawn and keep
                 going.
-                </p>
+              </span>
             </p>
           </motion.div>
 

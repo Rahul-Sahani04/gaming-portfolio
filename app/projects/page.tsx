@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import ProjectsClient from "./projects-client";
 import { Project, allProjects } from "contentlayer/generated";
 import { Navigation } from "../components/nav";
 import { Card } from "../components/card";
@@ -40,7 +41,8 @@ export default async function ProjectsPage() {
     console.log(sorted);
 
   return (
-    <div className="relative pb-16">
+    <ProjectsClient>
+      <div className="relative pb-16">
       <Navigation />
       <CustomCursor />
       <NextTopLoader />
@@ -137,6 +139,7 @@ export default async function ProjectsPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </ProjectsClient>
   );
 }
