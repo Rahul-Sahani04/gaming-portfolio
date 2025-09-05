@@ -2,11 +2,12 @@
 
 import type { Metadata } from "next"
 import { Navigation } from "../components/nav"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Particles } from "../components/magicui/star_particles"
 import { motion, useInView, useReducedMotion } from "framer-motion"
 import CustomCursor from "../components/CustomCursor"
 import NextTopLoader from "nextjs-toploader"
+import LoadingScreen from "../components/LoadingScreen"
 import { ArrowUpRight, Sparkles } from "lucide-react"
 import SkillTree from "./components/SkillTree"
 import GameCard from "./components/GameCard"
@@ -190,8 +191,13 @@ export default function GamingPage() {
     },
   ]
 
+  const [loading, setLoading] = useState(true);
+
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <>
+      <LoadingScreen loading={loading} setLoading={setLoading} />
+      {!loading && (
+        <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <Navigation />
       <CustomCursor />
       <NextTopLoader />
@@ -269,6 +275,8 @@ export default function GamingPage() {
           <WhyItMattersSection />
         </div>
       </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
