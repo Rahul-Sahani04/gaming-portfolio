@@ -46,6 +46,7 @@ export default function AboutPage() {
         const imagesToLoad = [
           // Tech icons
           "/icons/tech/figma.svg",
+          "/icons/tech/javascript.svg",
           "/icons/tech/typescript.svg",
           "/icons/tech/react.svg",
           "/icons/tech/tailwind.svg",
@@ -104,6 +105,11 @@ export default function AboutPage() {
     {
       category: "Frontend",
       items: [
+        {
+          name: "JavaScript",
+          description: "Programming Language",
+          icon: "/icons/tech/javascript.svg",
+        },
         {
           name: "TypeScript",
           description: "JavaScript but better",
@@ -342,7 +348,7 @@ export default function AboutPage() {
                   <h3 className="text-2xl font-semibold mb-6 text-zinc-200">
                     {category.category}
                   </h3>
-                  <div className="relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  <div className="relative grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                     {category.items.map((tech) => (
                       <TechCard key={tech.name} tech={tech} />
                     ))}
