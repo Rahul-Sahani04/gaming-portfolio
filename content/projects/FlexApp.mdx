@@ -1,0 +1,275 @@
+---
+title: FlexApp - Dynamic Content Management System
+description: A comprehensive, AI-powered content management system that allows users to dynamically create, manage, and organize content types with flexible schema definitions.
+date: "2025-09-09"
+repository: Rahul-Sahani04/FlexApp
+published: true
+---
+
+# FlexApp - Dynamic Content Management System
+
+A comprehensive, AI-powered content management system that allows users to dynamically create, manage, and organize content types with flexible schema definitions. Built with modern web technologies and designed for scalability and ease of use.
+
+## 🚀 Features
+
+### Core Functionality
+- **Dynamic Schema Creation** - Create custom content types with flexible field definitions
+- **AI-Powered Schema Generation** - Use AI to automatically generate schemas from natural language descriptions
+- **Content Management** - Full CRUD operations for managing content entries
+- **User Authentication** - Secure JWT-based authentication system
+- **Role-Based Access Control** - Granular permissions for different user roles
+- **Real-time Form Validation** - Client-side validation with comprehensive error handling
+- **Responsive Design** - Mobile-first approach with modern UI components
+
+### Advanced Features
+- **Dynamic API Endpoints** - RESTful APIs that adapt to your custom schemas
+- **Data Export/Import** - Support for JSON data operations
+- **Audit Trail** - Track changes and user activities
+- **Performance Optimized** - Efficient database queries and caching strategies
+- **Extensible Architecture** - Plugin-ready system for future enhancements
+
+## 🛠️ Technology Stack
+
+### Frontend
+- **Framework** - Next.js 15.3.3 with React 19
+- **Language** - TypeScript
+- **Styling** - Tailwind CSS with Radix UI components
+- **State Management** - React hooks and context
+- **Build Tool** - Next.js built-in bundler
+- **Package Manager** - npm/bun
+
+### Backend
+- **Framework** - Spring Boot 3.5.0
+- **Language** - Java 17
+- **Database** - PostgreSQL with JPA/Hibernate
+- **Security** - Spring Security with JWT
+- **Build Tool** - Maven
+- **API Documentation** - OpenAPI/Swagger
+
+### External Services
+- **AI Integration** - GitHub Models API for schema generation
+- **Database** - PostgreSQL for data persistence
+
+## 📁 Project Structure
+
+```
+FlexApp/
+├── flexapi/                    # Frontend Application (Next.js)
+│   ├── src/
+│   │   ├── app/               # Next.js App Router
+│   │   ├── components/        # Reusable UI Components
+│   │   └── lib/              # Utility Functions
+│   ├── public/               # Static Assets
+│   └── package.json
+├── flexApi-backend/           # Backend Application (Spring Boot)
+│   ├── src/main/java/flexAPI/flexApi/
+│   │   ├── Controller/       # REST Controllers
+│   │   ├── Service/          # Business Logic
+│   │   ├── Entity/           # JPA Entities
+│   │   ├── DTO/              # Data Transfer Objects
+│   │   ├── Security/         # Security Configuration
+│   │   └── Exceptions/       # Custom Exceptions
+│   ├── src/main/resources/
+│   │   └── application.properties
+│   └── pom.xml
+├── FRONTEND_DOCUMENTATION.md  # Detailed Frontend Docs
+├── BACKEND_DOCUMENTATION.md   # Detailed Backend Docs
+└── README.md                 # This file
+```
+
+## 📋 Prerequisites
+
+Before running this application, make sure you have the following installed:
+
+### System Requirements
+- **Node.js** - v18.0.0 or higher
+- **Java** - JDK 17 or higher
+- **PostgreSQL** - v12 or higher
+- **Maven** - v3.6.0 or higher
+- **Git** - Latest version
+
+### Environment Setup
+- PostgreSQL database server running
+- GitHub Models API access (for AI features)
+- Modern web browser with JavaScript enabled
+
+## 🚀 Installation & Setup
+
+### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd FlexApp
+```
+
+### 2. Backend Setup
+
+#### Database Configuration
+```sql
+-- Create PostgreSQL database
+CREATE DATABASE flexapp_db;
+-- Create user (optional)
+CREATE USER flexapp_user WITH PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE flexapp_db TO flexapp_user;
+```
+
+#### Environment Variables
+Create `flexApi-backend/src/main/resources/application.properties`:
+```properties
+# Database Configuration
+spring.datasource.url=jdbc:postgresql://localhost:5432/flexapp_db
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+
+# JWT Configuration
+jwt.secret=your_jwt_secret_key_here
+jwt.expiration=86400000
+
+# AI Service Configuration
+ai.api.key=your_github_models_api_key
+ai.api.url=https://api.github.com/models
+
+# Server Configuration
+server.port=8080
+```
+
+#### Install Dependencies & Run
+```bash
+cd flexApi-backend
+mvn clean install
+mvn spring-boot:run
+```
+
+### 3. Frontend Setup
+
+#### Environment Variables
+Create `flexapi/.env.local`:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8080/api
+NEXT_PUBLIC_APP_NAME=FlexApp
+```
+
+#### Install Dependencies & Run
+```bash
+cd flexapi
+npm install
+npm run dev
+```
+
+## 📖 Usage
+
+### Accessing the Application
+1. **Frontend**: Open http://localhost:3000 in your browser
+2. **Backend API**: Available at http://localhost:8080/api
+
+### Getting Started
+1. **Sign Up**: Create a new account or login with existing credentials
+2. **Dashboard**: Access your personalized dashboard
+3. **Content Types**: Create custom content types using the schema builder
+4. **AI Schema Generator**: Use AI to generate schemas from descriptions
+5. **Content Management**: Add, edit, and manage your content entries
+
+### API Usage Examples
+
+#### Authentication
+```bash
+# Login
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password"
+}
+```
+
+#### Schema Management
+```bash
+# Create Schema
+POST /api/schemas
+Authorization: Bearer <jwt-token>
+Content-Type: application/json
+
+{
+  "name": "Article",
+  "fields": [
+    {
+      "name": "title",
+      "type": "string",
+      "required": true
+    }
+  ]
+}
+```
+
+## 📚 Documentation
+
+For detailed documentation, please refer to:
+
+- **[Frontend Documentation](FRONTEND_DOCUMENTATION.md)**: Comprehensive guide for the Next.js frontend
+- **[Backend Documentation](BACKEND_DOCUMENTATION.md)**: Detailed backend API and architecture documentation
+
+## 🔧 Development
+
+### Available Scripts
+
+#### Frontend
+```bash
+cd flexapi
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+```
+
+#### Backend
+```bash
+cd flexApi-backend
+mvn clean install    # Clean and install dependencies
+mvn spring-boot:run  # Start Spring Boot application
+mvn test            # Run tests
+```
+
+### Code Quality
+- **Frontend** - ESLint for code linting, TypeScript for type checking
+- **Backend** - Spring Boot best practices, JPA/Hibernate standards
+- **Testing** - Unit tests with JUnit, integration tests with Spring Test
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+- Follow existing code style and conventions
+- Write comprehensive tests for new features
+- Update documentation for any API changes
+- Ensure all tests pass before submitting PR
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+If you encounter any issues or have questions:
+
+1. Check the [Frontend Documentation](FRONTEND_DOCUMENTATION.md) and [Backend Documentation](BACKEND_DOCUMENTATION.md)
+2. Search existing GitHub issues
+3. Create a new issue with detailed information
+
+## 🙏 Acknowledgments
+
+- **Next.js** - for the excellent React framework
+- **Spring Boot** - for the robust backend framework
+- **Radix UI** - for accessible UI components
+- **Tailwind CSS** - for utility-first styling
+- **PostgreSQL** - for reliable data persistence
+
+---
+
+**Built with ❤️ using modern web technologies**
