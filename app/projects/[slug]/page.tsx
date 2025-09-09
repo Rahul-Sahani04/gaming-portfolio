@@ -16,10 +16,6 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-// Print env
-console.log(process.env.UPSTASH_REDIS_REST_URL);
-console.log(process.env.UPSTASH_REDIS_REST_TOKEN);
-
 const redis = Redis.fromEnv();
 
 
