@@ -248,6 +248,10 @@ const calSans = LocalFont({
   variable: "--font-calsans",
 });
 
+import { CommandMenu } from "./components/CommandMenu";
+import { Toaster } from "sonner";
+import { CmdKToast } from "./components/CmdKToast";
+
 export default function RootLayout({
   children,
 }: {
@@ -262,12 +266,16 @@ export default function RootLayout({
       <body
         className={`bg-black
           overflow-x-hidden
-          ${
-          process.env.NODE_ENV === "development" ? "debug-screens" : undefined
-        }`}
+          ${process.env.NODE_ENV === "development" ? "debug-screens" : undefined
+          }`}
       >
         <meta name="google-site-verification" content="q-ccq6IeqoIYHzCtShRUeYUkVN3aIehlMun5oGsKQjY" />
+        <CommandMenu />
+        <CmdKToast />
+        <Toaster theme="dark" />
         {children}
+
+
       </body>
     </html>
   );

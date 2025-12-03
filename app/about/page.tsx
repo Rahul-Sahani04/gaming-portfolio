@@ -16,6 +16,7 @@ import {
   DraggableCardBody,
   DraggableCardContainer,
 } from "../components/aceternity-ui/draggable-card";
+// import Spotify from "../components/Spotify";
 
 export default function AboutPage() {
   const AnimatedLine = ({ className }: { className?: string }) => {
@@ -26,7 +27,7 @@ export default function AboutPage() {
       </div>
     );
   };
-  
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -78,7 +79,7 @@ export default function AboutPage() {
 
         // Preload all images concurrently
         await Promise.all(imagesToLoad.map(preloadImage));
-        
+
         setIsLoaded(true);
       } catch (error) {
         console.error("Error preloading images:", error);
@@ -518,9 +519,13 @@ export default function AboutPage() {
           <AnimatedLine />
         </section>
 
+        {/* <div className="fixed bottom-4 right-4">
+          <Spotify />
+        </div> */}
+
         {/* Footer */}
         <ParticleFooter />
       </div>
     );
-    }
   }
+}

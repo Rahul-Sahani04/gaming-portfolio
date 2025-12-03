@@ -23,6 +23,7 @@ export const Navigation: React.FC = () => {
     { href: "/about", label: "About" },
     { href: "/projects", label: "Projects" },
     { href: "/gaming", label: "Gaming" },
+    { href: "/guestbook", label: "Guestbook" },
     { href: "/contact", label: "Contact" },
     {
       href: "https://raw.githubusercontent.com/Rahul-Sahani04/Rahul-Sahani04/main/Rahul_Resume.pdf",
@@ -34,11 +35,10 @@ export const Navigation: React.FC = () => {
   return (
     <header ref={ref}>
       <div
-        className={`fixed inset-x-0 top-0 z-50 backdrop-blur duration-200 border-b ${
-          isIntersecting
+        className={`fixed inset-x-0 top-0 z-50 backdrop-blur duration-200 border-b ${isIntersecting
             ? "bg-zinc-900/0 border-transparent"
             : "bg-zinc-900/500 border-zinc-800"
-        }`}
+          }`}
       >
         <div className="container flex items-center justify-between p-4 mx-auto">
           {/* Left: Back arrow */}
@@ -72,6 +72,10 @@ export const Navigation: React.FC = () => {
                 </Link>
               ),
             )}
+
+            <div className="hidden lg:flex items-center gap-2 px-2 py-1 rounded-md bg-zinc-900/50 border border-zinc-800 text-xs text-zinc-500 font-medium">
+              <span className="text-xs">⌘</span>K
+            </div>
 
             <img
               src="https://i.pinimg.com/1200x/5e/9d/ef/5e9def915cdb97c0453505d6ac756bbd.jpg"
