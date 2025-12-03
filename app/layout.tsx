@@ -266,6 +266,7 @@ export default function RootLayout({
           process.env.NODE_ENV === "development" ? "debug-screens" : undefined
         }`}
       >
+        <meta name="google-site-verification" content="q-ccq6IeqoIYHzCtShRUeYUkVN3aIehlMun5oGsKQjY" />
         {children}
       </body>
     </html>
