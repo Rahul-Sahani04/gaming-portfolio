@@ -130,7 +130,7 @@ export default function Contact() {
           </div>
 
           {/* Arrow Down Icon Aniamted */}
-          <div className="mt-16 w-full flex items-center justify-center">
+          <div className="mt-16 w-full flex items-center justify-center" aria-hidden="true">
             <ArrowDown className="w-12 h-12 text-zinc-200 group-hover:text-white group-hover:bg-zinc-900 border-zinc-500 bg-zinc-900 group-hover:border-zinc-200 drop-shadow-orange animate-bounce" />
           </div>
         </div>

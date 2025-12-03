@@ -70,7 +70,7 @@ export async function sendContactEmail(formData: FormData) {
 
     await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>', // Default Resend testing domain
-      to: 'me.rsahani@gmail.com', // User's email from contact page
+      to: 'devilken43@gmail.com', // User's email from contact page
       subject: `[Portfolio] ${result.data.subject}`,
       replyTo: result.data.email,
       text: `Name: ${result.data.email}\nMessage: ${result.data.message}`,

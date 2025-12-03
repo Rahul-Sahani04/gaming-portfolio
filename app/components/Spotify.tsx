@@ -2,6 +2,7 @@
 
 import { Music } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Spotify() {
@@ -45,13 +46,15 @@ export default function Spotify() {
             href={data.songUrl}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`Listen to ${data.title} by ${data.artist} on Spotify`}
             className="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:bg-zinc-900 transition-colors group max-w-sm"
         >
             <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
-                <img
+                <Image
                     src={data.albumImageUrl}
                     alt={data.album}
-                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20">
                     <div className="flex items-end gap-0.5 h-4">
