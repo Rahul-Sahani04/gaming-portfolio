@@ -38,6 +38,7 @@ export default function LoadingScreen({ loading, setLoading }: { loading: boolea
             style={{
               zIndex: -1,
             }}
+            draggable={false}
           ></img>
           <motion.div
             initial={{ scale: 0.5, opacity: 0 }}
