@@ -1,6 +1,7 @@
 "use client";
 import { ArrowLeft, Menu, X } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -36,8 +37,8 @@ export const Navigation: React.FC = () => {
     <header ref={ref}>
       <div
         className={`fixed inset-x-0 top-0 z-50 backdrop-blur duration-200 border-b ${isIntersecting
-            ? "bg-zinc-900/0 border-transparent"
-            : "bg-zinc-900/500 border-zinc-800"
+          ? "bg-zinc-900/0 border-transparent"
+          : "bg-zinc-900/500 border-zinc-800"
           }`}
       >
         <div className="container flex items-center justify-between p-4 mx-auto">
@@ -77,9 +78,11 @@ export const Navigation: React.FC = () => {
               <span className="text-xs">⌘</span>K
             </div>
 
-            <img
+            <Image
               src="https://i.pinimg.com/1200x/5e/9d/ef/5e9def915cdb97c0453505d6ac756bbd.jpg"
-              alt="Logo"
+              alt="Rahul Sahani Logo"
+              width={40}
+              height={40}
               className="w-10 h-10 object-cover rounded-full"
             />
           </nav>
@@ -88,6 +91,7 @@ export const Navigation: React.FC = () => {
           <button
             className="md:hidden text-zinc-300 hover:text-zinc-100"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
           </button>
