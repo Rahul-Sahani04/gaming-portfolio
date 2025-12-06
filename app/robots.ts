@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://rsahani.tech/sitemap.xml",
+    sitemap: "https://rsahani.vercel.app/sitemap.xml",
   };
 }
