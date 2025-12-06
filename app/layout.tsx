@@ -5,12 +5,12 @@ import { Metadata } from "next";
 import { Analytics } from "./components/analytics";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rsahani.vercel.app"),
   title: {
     default: "R Sahani",
     template: "%s | R Sahani",
   },
-  description:
-    "Hey, Im Rahul Sahani. I'm a full-stack developer and a designer.",
+  description: "Hey, I'm Rahul Sahani, a full-stack developer and designer building interactive web experiences with Next.js, React, TypeScript, and Three.js.",
 
   authors: [
     {
@@ -18,6 +18,9 @@ export const metadata: Metadata = {
       url: "https://rsahani.vercel.app",
     },
   ],
+  alternates: {
+    canonical: "https://rsahani.vercel.app",
+  },
   keywords: [
     "Rahul Sahani",
     "Rahul Sahani developer",
@@ -38,25 +41,32 @@ export const metadata: Metadata = {
     "3D web experience",
     "interactive portfolio",
     "WebGL developer",
-    "India web developer"
+    "India web developer",
+    "Next.js portfolio",
+    "React portfolio",
   ],
   publisher: "Rahul Sahani",
   openGraph: {
     title: "R Sahani",
     description:
-      "Hey, Im Rahul Sahani. I'm a full-stack developer and a designer.",
-    url: "https://github.com/rahul-sahani04",
+      "Hey, I'm Rahul Sahani, a full-stack developer and designer building interactive web experiences with Next.js, React, TypeScript, and Three.js.",
+    url: "https://rsahani.vercel.app",
     siteName: "R Sahani",
     images: [
       {
-        url: "https://rsahani.vercel.app/og.png",
+        url: "/og.png",
         width: 1920,
         height: 1080,
+        alt: "Portfolio of Rahul Sahani - Full-Stack Developer",
       },
     ],
     locale: "en-US",
     type: "website",
   },
+  verification: {
+    google: "q-ccq6IeqoIYHzCtShRUeYUkVN3aIehlMun5oGsKQjY",
+  },
+
   robots: {
     index: true,
     follow: true,
@@ -68,10 +78,19 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  // twitter: {
+  //   title: "R Sahani",
+  //   card: "summary_large_image",
+  // },
   twitter: {
-    title: "R Sahani",
     card: "summary_large_image",
+    title: "R Sahani",
+    description:
+      "Full-stack developer and designer building interactive web experiences with Next.js, React, TypeScript, and Three.js.",
+    images: ["/og.png"],
+    creator: "@me_rsahani",
   },
+
   icons: {
     shortcut: "/favicon.png",
     apple: "/favicon.png",
@@ -98,24 +117,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={[inter.variable, calSans.variable].join(" ")}>
-      <head>
-        <Analytics />
-        <link rel="icon" href="/favicon.png" />
-      </head>
+    <html
+      lang="en"
+      className={[inter.variable, calSans.variable].join(" ")}
+    >
       <body
-        className={`bg-black
-          overflow-x-hidden
-          ${process.env.NODE_ENV === "development" ? "debug-screens" : undefined
+        className={`bg-black overflow-x-hidden ${process.env.NODE_ENV === "development" ? "debug-screens" : ""
           }`}
       >
-        <meta name="google-site-verification" content="q-ccq6IeqoIYHzCtShRUeYUkVN3aIehlMun5oGsKQjY" />
+        <Analytics />
         <CommandMenu />
         <CmdKToast />
         <Toaster theme="dark" />
         {children}
-
-
       </body>
     </html>
   );
