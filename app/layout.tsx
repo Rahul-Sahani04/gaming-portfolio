@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { Analytics } from "./components/analytics";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rsahani.vercel.app"),
+  metadataBase: new URL("https://www.rsahani.space"),
   title: {
     default: "R Sahani",
     template: "%s | R Sahani",
@@ -15,17 +15,17 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Rahul Sahani",
-      url: "https://rsahani.vercel.app",
+      url: "https://www.rsahani.space",
     },
   ],
   alternates: {
-    canonical: "https://rsahani.vercel.app",
+    canonical: "https://www.rsahani.space",
   },
   keywords: [
     "Rahul Sahani",
     "Rahul Sahani developer",
     "rsahani.tech",
-    "rsahani.vercel.app",
+    "www.rsahani.space",
     "full stack developer",
     "Next.js developer",
     "React developer",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "R Sahani",
     description:
       "Hey, I'm Rahul Sahani, a full-stack developer and designer building interactive web experiences with Next.js, React, TypeScript, and Three.js.",
-    url: "https://rsahani.vercel.app",
+    url: "https://www.rsahani.space",
     siteName: "R Sahani",
     images: [
       {

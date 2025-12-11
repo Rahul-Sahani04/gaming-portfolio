@@ -20,7 +20,7 @@ async function main() {
   const client_secret = await question("Enter Client Secret: ");
 
   const scopes = "user-read-currently-playing user-read-recently-played";
-  const redirect_uri = "https://rsahani.vercel.app/callback";
+  const redirect_uri = "https://www.rsahani.space/callback";
 
   const url =
     "https://accounts.spotify.com/authorize" +

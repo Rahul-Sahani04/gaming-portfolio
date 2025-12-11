@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { allProjects } from "contentlayer/generated";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://rsahani.vercel.app";
+  const baseUrl = "https://www.rsahani.space";
 
   const projects = allProjects.map((project) => ({
     url: `${baseUrl}/projects/${project.slug}`,
