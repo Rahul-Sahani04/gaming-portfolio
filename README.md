@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://rsahani.vercel.app"><h1 align="center">Rahul Sahani</h1></a>
+    <a href="https://www.rsahani.space"><h1 align="center">Rahul Sahani</h1></a>
 
 My personal website, built with [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/), [Upstash](https://upstash.com?ref=chronark.com), [Contentlayer](https://www.contentlayer.dev/), [Three JS](https://threejs.org) and deployed to [Vercel](https://vercel.com/).
 

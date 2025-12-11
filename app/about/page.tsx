@@ -297,7 +297,7 @@ export default function AboutPage() {
       description: "Personal portfolio website showcasing projects and skills.",
       image: "/screenshots/portfolio.png",
       technologies: ["NextJS", "Tailwind", "Framer Motion", "ThreeJS"],
-      liveUrl: "https://rsahani.vercel.app",
+      liveUrl: "https://www.rsahani.space",
       sourceUrl: "https://github.com/rahul-sahani04/gaming-portfolio",
     },
   ];
