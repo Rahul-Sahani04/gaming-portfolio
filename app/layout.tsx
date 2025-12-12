@@ -7,8 +7,8 @@ import { Analytics } from "./components/analytics";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.rsahani.space"),
   title: {
-    default: "R Sahani",
-    template: "%s | R Sahani",
+    default: "Rahul Sahani",
+    template: "%s | Rahul Sahani",
   },
   description: "Hey, I'm Rahul Sahani, a full-stack developer and designer building interactive web experiences with Next.js, React, TypeScript, and Three.js.",
 
@@ -47,11 +47,11 @@ export const metadata: Metadata = {
   ],
   publisher: "Rahul Sahani",
   openGraph: {
-    title: "R Sahani",
+    title: "Rahul Sahani",
     description:
       "Hey, I'm Rahul Sahani, a full-stack developer and designer building interactive web experiences with Next.js, React, TypeScript, and Three.js.",
     url: "https://www.rsahani.space",
-    siteName: "R Sahani",
+    siteName: "Rahul Sahani",
     images: [
       {
         url: "/og.png",
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
   // },
   twitter: {
     card: "summary_large_image",
-    title: "R Sahani",
+    title: "Rahul Sahani",
     description:
       "Full-stack developer and designer building interactive web experiences with Next.js, React, TypeScript, and Three.js.",
     images: ["/og.png"],
