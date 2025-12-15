@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { X } from "lucide-react";
 
 type Photo = {
@@ -18,7 +18,7 @@ const spring = {
     mass: 0.8,
 };
 
-const gridItemVariants = {
+const gridItemVariants: Variants = {
     hidden: {
         opacity: 0,
         y: 20,
