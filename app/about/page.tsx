@@ -12,10 +12,7 @@ import NextTopLoader from "nextjs-toploader";
 import ParticleFooter from "./components/ParticleFooter";
 import LoadingScreen from "../components/LoadingScreen";
 import "./page.css";
-import {
-  DraggableCardBody,
-  DraggableCardContainer,
-} from "../components/aceternity-ui/draggable-card";
+import PhotographyGrid from "./components/PhotographyGrid";
 // import Spotify from "../components/Spotify";
 
 export default function AboutPage() {
@@ -304,39 +301,47 @@ export default function AboutPage() {
 
   const photos = [
     {
+      id: 1,
       title: "Snow, sky, and quiet hills",
       image: "/photos/photo1.jpeg",
-      className: "absolute top-10 left-[20%] rotate-[-5deg]",
+      className: "col-span-1 md:col-span-1 md:row-span-2",
     },
     {
+      id: 2,
       title: "Green woods under blue sky",
       image: "/photos/photo2.jpeg",
-      className: "absolute top-40 left-[10%] rotate-[-7deg]",
+      className: "col-span-1 md:col-span-2 md:row-span-1",
     },
     {
+      id: 3,
       title: "Birds flying in blue light",
       image: "/photos/photo3.jpeg",
-      className: "absolute top-5 left-[5%] rotate-[8deg]",
+      className: "col-span-1 md:col-span-1 md:row-span-1",
     },
     {
+      id: 4,
       title: "Sunset over calm mountains",
       image: "/photos/photo4.jpeg",
-      className: "absolute top-32 left-[70%] rotate-[10deg]",
+      className: "col-span-1 md:col-span-1 md:row-span-2",
     },
     {
+      id: 5,
       title: "Pink clouds in soft sky",
       image: "/photos/photo5.jpeg",
-      className: "absolute top-20 right-[35%] rotate-[2deg]",
+      className: "col-span-1 md:col-span-2 md:row-span-1",
     },
     {
+      id: 6,
       title: "Leaves under orange sky",
       image: "/photos/photo6.jpeg",
-      className: "absolute top-24 left-[65%] rotate-[-7deg]",
+      className: "col-span-1 md:col-span-1 md:row-span-2",
+
     },
     {
+      id: 7,
       title: "Tree in golden sunset",
       image: "/photos/photo7.jpeg",
-      className: "absolute top-48 left-[35%] rotate-[4deg]",
+      className: "col-span-1 md:col-span-1 md:row-span-2",
     },
   ];
   if (loading)
@@ -454,23 +459,7 @@ export default function AboutPage() {
               </p>
             </motion.div>
 
-            <DraggableCardContainer className="relative flex min-h-screen w-full items-center justify-center overflow-clip">
-              <p className="absolute top-1/2 mx-auto max-w-sm -translate-y-3/4 text-center text-2xl font-black text-neutral-400 md:text-4xl dark:text-neutral-800">
-                &quot;Photography is the story I fail to put into words.&quot;
-              </p>
-              {photos.map((pic) => (
-                <DraggableCardBody key={pic.title} className={pic.className}>
-                  <img
-                    src={pic.image}
-                    alt={pic.title}
-                    className="pointer-events-none relative z-10 h-80 w-80 object-cover"
-                  />
-                  <h3 className="mt-6 text-center text-xl font-bold text-neutral-700 dark:text-neutral-300 font-display">
-                    {pic.title}
-                  </h3>
-                </DraggableCardBody>
-              ))}
-            </DraggableCardContainer>
+            <PhotographyGrid photos={photos} />
           </div>
 
           <AnimatedLine />
