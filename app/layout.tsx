@@ -7,10 +7,10 @@ import { Analytics } from "./components/analytics";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.rsahani.space"),
   title: {
-    default: "Rahul Sahani",
+    default: "Rahul Sahani | Full-Stack Developer",
     template: "%s | Rahul Sahani",
   },
-  description: "Hey, I'm Rahul Sahani, a full-stack developer and designer building interactive web experiences with Next.js, React, TypeScript, and Three.js.",
+  description: "Full-stack developer and designer crafting interactive web experiences with Next.js, React, TypeScript, Three.js, and Tailwind CSS. Explore projects and experiments.",
 
   authors: [
     {
@@ -24,8 +24,6 @@ export const metadata: Metadata = {
   keywords: [
     "Rahul Sahani",
     "Rahul Sahani developer",
-    "rsahani.tech",
-    "www.rsahani.space",
     "full stack developer",
     "Next.js developer",
     "React developer",
@@ -34,16 +32,14 @@ export const metadata: Metadata = {
     "frontend engineer",
     "fullstack engineer",
     "web developer portfolio",
-    "UI UX engineer",
+    "Game Developer",
     "JavaScript expert",
     "Tailwind CSS developer",
     "Three.js portfolio",
     "3D web experience",
     "interactive portfolio",
-    "WebGL developer",
     "India web developer",
     "Next.js portfolio",
-    "React portfolio",
   ],
   publisher: "Rahul Sahani",
   openGraph: {

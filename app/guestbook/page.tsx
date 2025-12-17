@@ -1,5 +1,11 @@
 import { Redis } from "@upstash/redis";
 import GuestbookForm from "./form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Guestbook | Rahul Sahani",
+  description: "Leave a message for me and future visitors.",
+};
 import { Navigation } from "../components/nav";
 import { Card } from "../components/card";
 import { formatDistanceToNow } from "date-fns";
@@ -27,7 +33,7 @@ export default async function GuestbookPage() {
       <Navigation />
       <CustomCursor />
       <NextTopLoader />
-      
+
       <div className="container flex flex-col items-center justify-center min-h-screen px-4 mx-auto pt-24 md:pt-32 pb-16">
         <div className="max-w-2xl w-full mx-auto space-y-8">
           <div className="text-center space-y-4">
