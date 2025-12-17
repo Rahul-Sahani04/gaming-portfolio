@@ -82,3 +82,13 @@ export async function sendContactEmail(formData: FormData) {
     return { error: "Failed to send email" };
   }
 }
+
+export async function getProjectViews(slug: string): Promise<number> {
+  try {
+    const viewCount = await redis.get<number>(["pageviews", "projects", slug].join(":"));
+    return viewCount ?? 0;
+  } catch (error) {
+    console.error("Failed to fetch project views:", error);
+    return 0;
+  }
+}
