@@ -8,6 +8,8 @@ space_boi.glb
 space_ship.glb 
 Macintosh_Classic.glb
 
+.contentlayer
+
 # dependencies
 /node_modules
 /.pnp
