@@ -6,13 +6,14 @@ import { Metadata } from "next";
 import { Suspense } from 'react';
 
 const redis = Redis.fromEnv();
+
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const params2 = await params;
-  const project = await allProjects.find((p) => p.slug === params2.slug);
+  const { slug } = await params;
+  const project = allProjects.find((p) => p.slug === slug);
 
   if (!project) {
     return {};
@@ -24,20 +25,20 @@ export async function generateMetadata({
   };
 }
 
-
 export default async function PostPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const project = await allProjects.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const project = allProjects.find((p) => p.slug === slug);
 
   if (!project) {
     notFound();
   }
 
   const views =
-    (await redis.get<number>(`pageviews:projects:${params.slug}`)) ?? 0;
+    (await redis.get<number>(`pageviews:projects:${slug}`)) ?? 0;
 
   return (
     <Suspense fallback={<div></div>}>
