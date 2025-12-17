@@ -3,6 +3,7 @@ import { allProjects } from "contentlayer/generated";
 import { Redis } from "@upstash/redis";
 import ClientPost from "./ClientPost";
 import { Metadata } from "next";
+import { Suspense } from 'react';
 
 const redis = Redis.fromEnv();
 export async function generateMetadata({
@@ -10,7 +11,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const project = allProjects.find((p) => p.slug === params.slug);
+  const params2 = await params;
+  const project = await allProjects.find((p) => p.slug === params2.slug);
 
   if (!project) {
     return {};
@@ -28,7 +30,7 @@ export default async function PostPage({
 }: {
   params: { slug: string };
 }) {
-  const project = allProjects.find((p) => p.slug === params.slug);
+  const project = await allProjects.find((p) => p.slug === params.slug);
 
   if (!project) {
     notFound();
@@ -37,5 +39,9 @@ export default async function PostPage({
   const views =
     (await redis.get<number>(`pageviews:projects:${params.slug}`)) ?? 0;
 
-  return <ClientPost project={project} views={views} />;
+  return (
+    <Suspense fallback={<div></div>}>
+      <ClientPost project={project} views={views} />
+    </Suspense>
+  );
 }

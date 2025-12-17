@@ -1,6 +1,7 @@
-"use client";
+'use client';
+
 import Link from "next/link";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Particles from "./components/particles";
 
 import "./page.css";
@@ -54,7 +55,7 @@ const SpaceShipModel = ({
     // laser.updateMatrix();
     // laser.updateMatrixWorld();
 
-    
+
     scene.add(laser);
 
     const startTime = Date.now();
@@ -66,10 +67,10 @@ const SpaceShipModel = ({
         requestAnimationFrame(animateLaser);
       }
     };
-  
+
     animateLaser();
 
-    
+
     // Remove the laser beam after 1 second
     setTimeout(() => {
       scene.remove(laser);
@@ -89,19 +90,19 @@ const SpaceShipModel = ({
   // Move the spaceship up, down and left, right using mouse move
 
   let lastMove = 0;
-const handleMouseMove = (e : any) => {
-  const now = Date.now();
-  if (now - lastMove > 16) {  // Roughly 60 FPS
-    lastMove = now;
-    const { clientX, clientY } = e;
-    const x = (clientX / window.innerWidth) * 2 - 1;
-    const y = -(clientY / window.innerHeight) * 2 + 1;
-    if(spaceShipRef.current) {
-    spaceShipRef.current.position.x = x;
-    spaceShipRef.current.position.y = y;
+  const handleMouseMove = (e: any) => {
+    const now = Date.now();
+    if (now - lastMove > 16) {  // Roughly 60 FPS
+      lastMove = now;
+      const { clientX, clientY } = e;
+      const x = (clientX / window.innerWidth) * 2 - 1;
+      const y = -(clientY / window.innerHeight) * 2 + 1;
+      if (spaceShipRef.current) {
+        spaceShipRef.current.position.x = x;
+        spaceShipRef.current.position.y = y;
+      }
     }
-  }
-};
+  };
 
 
   useEffect(() => {
@@ -149,11 +150,11 @@ const BlackHoleModel = ({
   const macintoshRef = React.useRef(null) as any;
   const { scene, animations } = useGLTF("/model/Black_hole.glb") as any;
   const { actions } = useAnimations(animations, macintoshRef);
-  
+
   useFrame((state, delta) => {
     macintoshRef.current.rotation.z -= delta * 0.25;
   });
-  
+
 
   useEffect(() => {
     // console.log("actions", actions, animations);
@@ -209,13 +210,13 @@ const BlackHoleCanvas = (
       }>
 
 
-            <SpaceShipModel
-            scale={0.3}
-            position={[0, 0, 0]}
-            />
+        <SpaceShipModel
+          scale={0.3}
+          position={[0, 0, 0]}
+        />
 
 
-        
+
         <BlackHoleModel
           opacity={0}
           scale={scalingSize}
@@ -240,21 +241,21 @@ function PlayGame() {
 export default function Home() {
   const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-      // Load assets
-      console.log("Loading assets");
-      const loadAssets = async () => {
-        await Promise.all([
-          useGLTF.preload("/model/Black_hole.glb"),
-          useGLTF.preload("/model/SpaceShipV2.glb"),
-        ]);
-        setTimeout(() => {
-          setLoading(false);
-        }, 1600);
-        console.log("Assets loaded");
-      };
+  useEffect(() => {
+    // Load assets
+    console.log("Loading assets");
+    const loadAssets = async () => {
+      await Promise.all([
+        useGLTF.preload("/model/Black_hole.glb"),
+        useGLTF.preload("/model/SpaceShipV2.glb"),
+      ]);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1600);
+      console.log("Assets loaded");
+    };
 
-      loadAssets();
+    loadAssets();
 
     // On mouse click anywhere on the page, play sound effect
     document.addEventListener("click", () => {
@@ -265,13 +266,13 @@ export default function Home() {
     });
   }, []);
 
-    if (loading) {
-      return (
-        <div className="flex items-center justify-center w-screen h-screen bg-black">
-          <LoadingScreen loading={loading} setLoading={setLoading} />
-        </div>
-      );
-    }
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen bg-black">
+        <LoadingScreen loading={loading} setLoading={setLoading} />
+      </div>
+    );
+  }
 
   return (
     <div className="!overflow-hidden flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
