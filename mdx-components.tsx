@@ -1,3 +1,4 @@
+"use client";
 import { PropsWithChildren } from "react";
 
 // This file is required to use MDX in `app` directory.
