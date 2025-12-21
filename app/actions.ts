@@ -92,3 +92,23 @@ export async function getProjectViews(slug: string): Promise<number> {
     return 0;
   }
 }
+
+import { headers } from "next/headers";
+
+export async function recordEasterEggDiscovery() {
+  try {
+    const headersList = await headers();
+    const ip = headersList.get("x-forwarded-for") || "unknown";
+    
+    // Add to set of discoverers (prevents duplicates from same IP)
+    await redis.sadd("easter_egg:discoverers", ip);
+    
+    // Increment total count
+    const count = await redis.scard("easter_egg:discoverers");
+    
+    return { success: true, count };
+  } catch (error) {
+    console.error("Failed to record easter egg discovery:", error);
+    return { error: "Failed to record discovery" };
+  }
+}
