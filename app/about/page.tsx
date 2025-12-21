@@ -70,8 +70,8 @@ export default function AboutPage() {
           "/photos/photo7.jpeg",
           // Project screenshots
           "/screenshots/v-anime.png",
-          "/screenshots/notesync.png",
-          "/screenshots/portfolio.png",
+          "/screenshots/StellarConflict1.png",
+          "/screenshots/FlexAPp.png",
         ];
 
         // Preload all images concurrently
@@ -281,21 +281,21 @@ export default function AboutPage() {
       sourceUrl: "https://github.com/Rahul-Sahani04/V-Anime-App",
     },
     {
-      title: "NoteSync",
+      title: "Stellar Conflict",
       description:
-        "Real-time collaborative note-taking application with markdown support.",
-      image: "/screenshots/notesync.png",
-      technologies: ["TypeScript", "React", "MongoDB", "NodeJS", "Gemini AI"],
-      liveUrl: "https://note-sync-rs.vercel.app/about",
-      sourceUrl: "https://github.com/Rahul-Sahani04/NoteSync-AI",
+        "A modern space shooter game built with JavaScript and HTML5 Canvas. Features optimized performance and modular architecture.",
+      image: "/screenshots/StellarConflict1.png",
+      technologies: ["JavaScript", "HTML5 Canvas", "Vite", "TailwindCSS"],
+      liveUrl: "https://stellar-conlict.vercel.app/",
+      sourceUrl: "https://github.com/Rahul-Sahani04/Mini-Space-Shooter",
     },
     {
-      title: "Portfolio",
-      description: "Personal portfolio website showcasing projects and skills.",
-      image: "/screenshots/portfolio.png",
-      technologies: ["NextJS", "Tailwind", "Framer Motion", "ThreeJS"],
-      liveUrl: "https://www.rsahani.space",
-      sourceUrl: "https://github.com/rahul-sahani04/gaming-portfolio",
+      title: "FlexApp",
+      description: "A comprehensive, AI-powered content management system with flexible schema definitions.",
+      image: "/screenshots/FlexAPp.png",
+      technologies: ["NextJS", "TypeScript", "Spring Boot", "PostgreSQL", "Tailwind"],
+      liveUrl: "https://github.com/Rahul-Sahani04/FlexApp",
+      sourceUrl: "https://github.com/Rahul-Sahani04/FlexApp",
     },
   ];
 

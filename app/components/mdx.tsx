@@ -1,8 +1,10 @@
-"use client";
+// "use client";
 // @ts-nocheck
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+// import { useMDXComponent } from "next-contentlayer/hooks";
+// import { MDXRemote } from 'next-mdx-remote/rsc';
 import { useMDXComponent } from "next-contentlayer/hooks";
 
 function clsx(...args: any) {
@@ -156,7 +158,7 @@ const components = {
 	code: ({ className, ...props }: React.ComponentProps<"code">) => (
 		<code
 			className={clsx(
-				"relative rounded border bg-zinc-300 bg-opacity-25 py-[0.2rem] px-[0.3rem] font-mono text-sm text-zinc-600",
+				"relative rounded bg-opacity-25 py-[0.2rem] px-[0.3rem] font-mono text-sm text-zinc-400",
 				className,
 			)}
 			{...props}
@@ -178,3 +180,7 @@ export function Mdx({ code }: MdxProps) {
 		</div>
 	);
 }
+
+// export function Mdx({ code }: MdxProps) {
+// 	return <MDXRemote source={code} components={components} />;
+// }

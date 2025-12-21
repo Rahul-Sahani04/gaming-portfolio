@@ -4,9 +4,9 @@
     "rules": {
       "recommended": true
     },
-    "ignore": ["node_modules", ".next", "dist"]
+    "ignore": ["node_modules", ".next", "dist", "react/jsx-runtime", "react/jsx-dev-runtime"]
   },
   "formatter": {
-    "ignore": ["node_modules", ".next", "dist"]
+    "ignore": ["node_modules", ".next", "dist", "react/jsx-runtime", "react/jsx-dev-runtime"]
   }
 }

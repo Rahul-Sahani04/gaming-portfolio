@@ -1,5 +1,16 @@
 import { withContentlayer } from "next-contentlayer";
 // const { withContentlayer } = require("next-contentlayer");
+import withMDX from "@next/mdx";
+import remarkGfm from "remark-gfm";
+
+const withMDXConfig = withMDX({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [],
+  },
+});
+
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -24,4 +35,4 @@ const nextConfig = {
   },
 };
 
-export default withContentlayer(nextConfig);
+export default withContentlayer(withMDXConfig(nextConfig));
