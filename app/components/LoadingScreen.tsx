@@ -2,37 +2,65 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useProgress } from "@react-three/drei";
 
 export default function LoadingScreen({
   loading,
-  setLoading,
+  setLoading = () => { },
+  progress: externalProgress,
 }: {
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  progress?: number;
 }) {
   const [mounted, setMounted] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const { active, progress: threeProgress } = useProgress();
+  const [internalProgress, setInternalProgress] = useState(0);
+
+  // Use external progress if provided, otherwise use Three.js progress if active, otherwise use internal simulated progress
+  const displayProgress = externalProgress !== undefined
+    ? externalProgress
+    : active || threeProgress > 0 // If 3D stuff is happening/happened
+      ? threeProgress
+      : internalProgress;
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Completion effect
   useEffect(() => {
     if (!mounted) return;
 
+    if (displayProgress >= 100) {
+      // Small delay to ensure the 100% is seen briefly
+      const timeout = setTimeout(() => {
+        setLoading(false);
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [displayProgress, mounted, setLoading]);
+
+  // Fast fallback loader for pages without 3D or external progress
+  useEffect(() => {
+    if (!mounted) return;
+    if (externalProgress !== undefined) return; // Don't run if external progress is used
+    if (active) return; // Don't run if 3D loader is active
+    if (displayProgress >= 100) return; // Don't run if already done
+
     const timer = setInterval(() => {
-      setProgress((old) => {
+      setInternalProgress((old) => {
         if (old >= 100) {
           clearInterval(timer);
-          setTimeout(() => setLoading(false), 500);
           return 100;
         }
-        return Math.min(old + Math.random() * 10, 100);
+        // Very fast loading simulation
+        return Math.min(old + 5, 100);
       });
-    }, 200);
+    }, 20); // 5% every 20ms = 100% in 400ms
 
     return () => clearInterval(timer);
-  }, [mounted, setLoading]);
+  }, [mounted, active, externalProgress, displayProgress]);
 
   if (!mounted) return null;
 
@@ -42,7 +70,7 @@ export default function LoadingScreen({
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black flex flex-col items-center justify-center"
+          className="fixed inset-0 bg-black flex flex-col items-center justify-center z-[9999]"
         >
           <img
             src="https://i.pinimg.com/1200x/13/a4/31/13a431ed022b6a7f37180153f8e1db44.jpg"
@@ -64,12 +92,14 @@ export default function LoadingScreen({
           <div className="w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-white"
-              animate={{ width: `${progress}%` }}
+              initial={{ width: 0 }}
+              animate={{ width: `${displayProgress}%` }}
+              transition={{ ease: "linear" }}
             />
           </div>
 
           <div className="mt-4 text-gray-500 text-sm font-mono">
-            {Math.round(progress)}%
+            {Math.round(displayProgress)}%
           </div>
 
           <motion.div

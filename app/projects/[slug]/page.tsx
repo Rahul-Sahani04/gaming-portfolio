@@ -40,8 +40,14 @@ export default async function PostPage({
   const views =
     (await redis.get<number>(`pageviews:projects:${slug}`)) ?? 0;
 
+  const loading = true;
+
   return (
-    <Suspense fallback={<div></div>}>
+    <Suspense fallback={
+      <div className="flex items-center justify-center w-screen h-screen bg-black">
+
+      </div>
+    }>
       <ClientPost project={project} views={views} />
     </Suspense>
   );

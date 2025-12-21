@@ -132,89 +132,93 @@ export default function GamingPage() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <>
-      <LoadingScreen loading={loading} setLoading={setLoading} />
-      {!loading && (
-        <div className="min-h-screen bg-black text-white overflow-x-hidden">
-          <Navigation />
-          <CustomCursor />
-          <NextTopLoader />
 
-          <div className="relative pb-8 sm:pb-16 mt-6">
-            {/* Enhanced Background with Geometric Shapes */}
-            <Particles
-              className="absolute inset-0 z-[99] animate-fade-in"
-              quantity={400}
-            />
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+      <Navigation />
+      <CustomCursor />
+      <NextTopLoader />
 
-            <div className="px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 xl:pt-32 mx-auto space-y-6 sm:space-y-8 lg:space-y-16 max-w-7xl relative z-10">
-              {/* Hero Section - Enhanced for mobile */}
-              <div className="max-w-4xl mx-auto lg:mx-0 relative">
-                <motion.h1
-                  initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="z-10 h-full pb-4 text-4xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl 2xl:text-9xl text-transparent duration-1000 bg-white cursor-default animate-title font-display bg-clip-text relative leading-tight"
-                  style={{
-                    WebkitTextStroke: "1px #FAF9F6",
-                  }}
-                >
-                  Lessons Learned from <br className="hidden sm:block" />
-                  <span className="block sm:inline">My Favorite Games</span>
-                </motion.h1>
-
-                <motion.p
-                  initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="mt-4 sm:mt-6 text-zinc-400 relative z-10 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl"
-                >
-                  This page explores the key skills, insights, and personal growth
-                  inspired by some of my all-time favorite games. Each title has
-                  challenged me in unique ways, teaching me lessons that resonate
-                  beyond the screen.
-                </motion.p>
-              </div>
-
-              <AnimatedLine />
-
-              {/* Gaming Skills Tree */}
-              <SkillTree />
-
-              <SubtleAnimatedDivider />
-
-              {/* Enhanced Game Cards */}
-              <motion.div
-                initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-center text-zinc-500 italic mb-4 sm:mb-6 text-sm sm:text-base"
-              >
-                Hover over the cards to see gameplay videos
-                <span className="block sm:hidden mt-1 text-xs">
-                  (Tap on mobile)
-                </span>
-              </motion.div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mx-auto max-w-6xl">
-                {games.map((game, index) => (
-                  <GameCard key={game.title} game={game} index={index} />
-                ))}
-              </div>
-
-              <SubtleAnimatedDivider />
-
-              {/* Skills Gallery */}
-              <SkillsGallery />
-
-              <SubtleAnimatedDivider />
-
-              {/* Why It Matters Section */}
-              <WhyItMatters />
-            </div>
+      {
+        loading && (
+          <div className="flex items-center justify-center w-screen h-screen bg-black">
+            <LoadingScreen loading={loading} setLoading={setLoading} />
           </div>
+        )
+      }
+
+      <div className="relative pb-8 sm:pb-16 mt-6">
+        {/* Enhanced Background with Geometric Shapes */}
+        <Particles
+          className="absolute inset-0 z-[99] animate-fade-in"
+          quantity={400}
+        />
+
+        <div className="px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 xl:pt-32 mx-auto space-y-6 sm:space-y-8 lg:space-y-16 max-w-7xl relative z-10">
+          {/* Hero Section - Enhanced for mobile */}
+          <div className="max-w-4xl mx-auto lg:mx-0 relative">
+            <motion.h1
+              initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="z-10 h-full pb-4 text-4xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl 2xl:text-9xl text-transparent duration-1000 bg-white cursor-default animate-title font-display bg-clip-text relative leading-tight"
+              style={{
+                WebkitTextStroke: "1px #FAF9F6",
+              }}
+            >
+              Lessons Learned from <br className="hidden sm:block" />
+              <span className="block sm:inline">My Favorite Games</span>
+            </motion.h1>
+
+            <motion.p
+              initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mt-4 sm:mt-6 text-zinc-400 relative z-10 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl"
+            >
+              This page explores the key skills, insights, and personal growth
+              inspired by some of my all-time favorite games. Each title has
+              challenged me in unique ways, teaching me lessons that resonate
+              beyond the screen.
+            </motion.p>
+          </div>
+
+          <AnimatedLine />
+
+          {/* Gaming Skills Tree */}
+          <SkillTree />
+
+          <SubtleAnimatedDivider />
+
+          {/* Enhanced Game Cards */}
+          <motion.div
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-center text-zinc-500 italic mb-4 sm:mb-6 text-sm sm:text-base"
+          >
+            Hover over the cards to see gameplay videos
+            <span className="block sm:hidden mt-1 text-xs">
+              (Tap on mobile)
+            </span>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mx-auto max-w-6xl">
+            {games.map((game, index) => (
+              <GameCard key={game.title} game={game} index={index} />
+            ))}
+          </div>
+
+          <SubtleAnimatedDivider />
+
+          {/* Skills Gallery */}
+          <SkillsGallery />
+
+          <SubtleAnimatedDivider />
+
+          {/* Why It Matters Section */}
+          <WhyItMatters />
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 }
