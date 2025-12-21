@@ -10,6 +10,7 @@ import projects__notesyncMdx from './projects__notesync.mdx.json' assert { type:
 import projects__rsahaniMdx from './projects__rsahani.mdx.json' assert { type: 'json' }
 import projects__sihVstarsMdx from './projects__sih-vstars.mdx.json' assert { type: 'json' }
 import projects__starRainstormMdx from './projects__star-rainstorm.mdx.json' assert { type: 'json' }
+import projects__stellarConflictMdx from './projects__stellar-conflict.mdx.json' assert { type: 'json' }
 import projects__studyBridgeMdx from './projects__study-bridge.mdx.json' assert { type: 'json' }
 
-export const allProjects = [projects__api_quickTestPanelMdx, projects__flexAppMdx, projects__porsche_911Mdx, projects__userApiMongoMdx, projects__vAnimeMdx, projects__mikochanMdx, projects__notesyncMdx, projects__rsahaniMdx, projects__sihVstarsMdx, projects__starRainstormMdx, projects__studyBridgeMdx]
+export const allProjects = [projects__api_quickTestPanelMdx, projects__flexAppMdx, projects__porsche_911Mdx, projects__userApiMongoMdx, projects__vAnimeMdx, projects__mikochanMdx, projects__notesyncMdx, projects__rsahaniMdx, projects__sihVstarsMdx, projects__starRainstormMdx, projects__stellarConflictMdx, projects__studyBridgeMdx]

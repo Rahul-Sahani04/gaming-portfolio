@@ -42,7 +42,6 @@
     "**/*.glb"
   ],
   "exclude": [
-    "node_modules",
-    "react/jsx-runtime"
+    "node_modules"
   ]
 }
