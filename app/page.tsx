@@ -54,9 +54,9 @@ export default function Home() {
       //   useGLTF.preload("/model/Black_hole.glb"),
       //   useGLTF.preload("/model/SpaceShipV2.glb"),
       // ]);
-      setTimeout(() => {
-        setLoading(false);
-      }, 1600);
+      // setTimeout(() => {
+      //   setLoading(false);
+      // }, 1600);
       console.log("Assets loaded");
     };
 
@@ -71,18 +71,26 @@ export default function Home() {
     });
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center w-screen h-screen bg-black">
-        <LoadingScreen loading={loading} setLoading={setLoading} />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex items-center justify-center w-screen h-screen bg-black">
+  //       <LoadingScreen loading={loading} setLoading={setLoading} />
+  //     </div>
+  //   );
+  // }
 
   return (
+
     <div className="!overflow-hidden flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
       <CustomCursor />
       <NextTopLoader />
+      {
+        loading && (
+          <div className="flex items-center justify-center w-screen h-screen bg-black">
+            <LoadingScreen loading={loading} setLoading={setLoading} />
+          </div>
+        )
+      }
       <ThreeScene loading={loading} />
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
       <Particles

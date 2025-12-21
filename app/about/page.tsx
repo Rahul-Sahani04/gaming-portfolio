@@ -27,6 +27,7 @@ export default function AboutPage() {
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [imageProgress, setImageProgress] = useState(0);
 
   // Function to preload images
   const preloadImage = (src: string) => {
@@ -40,49 +41,55 @@ export default function AboutPage() {
 
   useEffect(() => {
     const loadImages = async () => {
+      const imagesToLoad = [
+        // Tech icons
+        "/icons/tech/figma.svg",
+        "/icons/tech/javascript.svg",
+        "/icons/tech/typescript.svg",
+        "/icons/tech/react.svg",
+        "/icons/tech/tailwind.svg",
+        "/icons/tech/nextjs.svg",
+        "/icons/tech/nodejs.svg",
+        "/icons/tech/supabase.svg",
+        "/icons/tech/mongodb.svg",
+        "/icons/tech/postgresql.svg",
+        "/icons/tech/prisma.svg",
+        "/icons/tech/git.svg",
+        // Game images
+        "/icons/games/dmc.png",
+        "/icons/games/sekiro.png",
+        "/icons/games/rdr2.png",
+        "/icons/games/spiderman.png",
+        // Photo gallery images
+        "/photos/photo1.jpeg",
+        "/photos/photo2.jpeg",
+        "/photos/photo3.jpeg",
+        "/photos/photo4.jpeg",
+        "/photos/photo5.jpeg",
+        "/photos/photo6.jpeg",
+        "/photos/photo7.jpeg",
+        // Project screenshots
+        "/screenshots/v-anime.png",
+        "/screenshots/StellarConflict1.png",
+        "/screenshots/FlexAPp.png",
+      ];
+
+      let loadedCount = 0;
+      const updateProgress = () => {
+        loadedCount++;
+        setImageProgress((loadedCount / imagesToLoad.length) * 100);
+      };
+
       try {
-        const imagesToLoad = [
-          // Tech icons
-          "/icons/tech/figma.svg",
-          "/icons/tech/javascript.svg",
-          "/icons/tech/typescript.svg",
-          "/icons/tech/react.svg",
-          "/icons/tech/tailwind.svg",
-          "/icons/tech/nextjs.svg",
-          "/icons/tech/nodejs.svg",
-          "/icons/tech/supabase.svg",
-          "/icons/tech/mongodb.svg",
-          "/icons/tech/postgresql.svg",
-          "/icons/tech/prisma.svg",
-          "/icons/tech/git.svg",
-          // Game images
-          "/icons/games/dmc.png",
-          "/icons/games/sekiro.png",
-          "/icons/games/rdr2.png",
-          "/icons/games/spiderman.png",
-          // Photo gallery images
-          "/photos/photo1.jpeg",
-          "/photos/photo2.jpeg",
-          "/photos/photo3.jpeg",
-          "/photos/photo4.jpeg",
-          "/photos/photo5.jpeg",
-          "/photos/photo6.jpeg",
-          "/photos/photo7.jpeg",
-          // Project screenshots
-          "/screenshots/v-anime.png",
-          "/screenshots/StellarConflict1.png",
-          "/screenshots/FlexAPp.png",
-        ];
-
-        // Preload all images concurrently
-        await Promise.all(imagesToLoad.map(preloadImage));
-
+        await Promise.all(
+          imagesToLoad.map((src) =>
+            preloadImage(src).then(updateProgress).catch(updateProgress)
+          )
+        );
         setIsLoaded(true);
       } catch (error) {
         console.error("Error preloading images:", error);
-        // Still set loading to false even if some images fail to load
         setIsLoaded(true);
-        setLoading(false);
       }
     };
 
@@ -344,177 +351,182 @@ export default function AboutPage() {
       className: "col-span-1 md:col-span-1 md:row-span-2",
     },
   ];
-  if (loading)
-    return <LoadingScreen loading={loading} setLoading={setLoading} />;
-  else {
-    return (
-      <div className="min-h-screen max-w-screen overflow-x-clip bg-black text-white">
-        <Navigation />
-        <CustomCursor />
-        <NextTopLoader />
 
-        {/* Hero Section */}
-        <section className="relative py-24 md:py-32 overflow-hidden min-h-[50vh]">
-          <div className="absolute inset-0 -z-10">
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/20 to-black" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px]" />
+  return (
+    <div className="min-h-screen max-w-screen overflow-x-clip bg-black text-white">
+      <Navigation />
+      <CustomCursor />
+      <NextTopLoader />
+
+      {
+        loading && (
+          <div className="flex items-center justify-center w-screen h-screen bg-black">
+            <LoadingScreen loading={loading} setLoading={setLoading} />
           </div>
+        )
+      }
 
+      {/* Hero Section */}
+      <section className="relative py-24 md:py-32 overflow-hidden min-h-[50vh]">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/20 to-black" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px]" />
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="container mx-auto px-4 text-center"
+        >
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+            About Me
+          </h1>
+          <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto text-justify">
+            I'm Rahul Sahani. By day, I write code and build things that work
+            like they should. By Heart, I'm a gamer. I chase what sparks my
+            curiosity, both on the screen and off. When I'm facing off against
+            a tough bug or a tough boss, I work fast and think on my feet.
+            There's always something new to learn, and I'm always pushing for
+            the next level.
+            <br />{" "}
+            <span className="mt-4 italic text-zinc-500 text-base md:text-lg whitespace-normal sm:whitespace-nowrap">
+              Falling twice or getting stuck? Nah, I just respawn and keep
+              going.
+            </span>
+          </p>
+        </motion.div>
+
+        <AnimatedLine />
+      </section>
+
+      {/* Technologies Section */}
+      <section className="py-20 relative">
+        <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="container mx-auto px-4 text-center"
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mb-16 text-center"
           >
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-              About Me
-            </h1>
-            <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto text-justify">
-              I'm Rahul Sahani. By day, I write code and build things that work
-              like they should. By Heart, I'm a gamer. I chase what sparks my
-              curiosity, both on the screen and off. When I'm facing off against
-              a tough bug or a tough boss, I work fast and think on my feet.
-              There's always something new to learn, and I'm always pushing for
-              the next level.
-              <br />{" "}
-              <span className="mt-4 italic text-zinc-500 text-base md:text-lg whitespace-normal sm:whitespace-nowrap">
-                Falling twice or getting stuck? Nah, I just respawn and keep
-                going.
-              </span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Current Technologies
+            </h2>
+            <p className="text-zinc-400 max-w-3xl mx-auto">
+              I&apos;m proficient in a range of modern technologies that
+              empower me to build highly functional solutions. These are some
+              of my main technologies.
             </p>
           </motion.div>
 
-          <AnimatedLine />
-        </section>
-
-        {/* Technologies Section */}
-        <section className="py-20 relative">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mb-16 text-center"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Current Technologies
-              </h2>
-              <p className="text-zinc-400 max-w-3xl mx-auto">
-                I&apos;m proficient in a range of modern technologies that
-                empower me to build highly functional solutions. These are some
-                of my main technologies.
-              </p>
-            </motion.div>
-
-            <div className="space-y-12 mb-12">
-              {technologies.map((category, index) => (
-                <motion.div
-                  key={category.category}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-                  transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
-                >
-                  <h3 className="text-2xl font-semibold mb-6 text-zinc-200">
-                    {category.category}
-                  </h3>
-                  <div className="relative grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                    {category.items.map((tech) => (
-                      <TechCard key={tech.name} tech={tech} />
-                    ))}
-
-                    {category.category === "Favorite Games" && (
-                      <div className="mt-6 text-center w-screen absolute -bottom-16 left-1/2 -translate-x-1/2">
-                        <Link
-                          href="/gaming"
-                          className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
-                        >
-                          Visit Gaming <ArrowUpRight size={16} />
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <AnimatedLine />
-        </section>
-
-        {/* Photography Hobby Section */}
-        <section className="py-20 relative">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="mb-16 text-center"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Photography Hobby
-              </h2>
-              <p className="text-zinc-400 max-w-3xl mx-auto">
-                I love capturing moments through my lens. Here are some of my
-                favorite shots.
-              </p>
-            </motion.div>
-
-            <PhotographyGrid photos={photos} />
-          </div>
-
-          <AnimatedLine />
-        </section>
-
-        {/* Featured Projects */}
-        <section className="py-20 relative">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="mb-16 text-center"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Featured Projects
-              </h2>
-              <p className="text-zinc-400 max-w-3xl mx-auto">
-                A selection of my recent work. Each project represents a unique
-                challenge and solution.
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project, index) => (
-                <motion.div
-                  key={project.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-                  transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
-                >
-                  <ProjectCard project={project} />
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="mt-12 text-center">
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+          <div className="space-y-12 mb-12">
+            {technologies.map((category, index) => (
+              <motion.div
+                key={category.category}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+                transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
               >
-                View all projects <ArrowUpRight size={16} />
-              </Link>
-            </div>
-          </div>
-          <AnimatedLine />
-        </section>
+                <h3 className="text-2xl font-semibold mb-6 text-zinc-200">
+                  {category.category}
+                </h3>
+                <div className="relative grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                  {category.items.map((tech) => (
+                    <TechCard key={tech.name} tech={tech} />
+                  ))}
 
-        {/* <div className="fixed bottom-4 right-4">
+                  {category.category === "Favorite Games" && (
+                    <div className="mt-6 text-center w-screen absolute -bottom-16 left-1/2 -translate-x-1/2">
+                      <Link
+                        href="/gaming"
+                        className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                      >
+                        Visit Gaming <ArrowUpRight size={16} />
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <AnimatedLine />
+      </section>
+
+      {/* Photography Hobby Section */}
+      <section className="py-20 relative">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mb-16 text-center"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Photography Hobby
+            </h2>
+            <p className="text-zinc-400 max-w-3xl mx-auto">
+              I love capturing moments through my lens. Here are some of my
+              favorite shots.
+            </p>
+          </motion.div>
+
+          <PhotographyGrid photos={photos} />
+        </div>
+
+        <AnimatedLine />
+      </section>
+
+      {/* Featured Projects */}
+      <section className="py-20 relative">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mb-16 text-center"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Featured Projects
+            </h2>
+            <p className="text-zinc-400 max-w-3xl mx-auto">
+              A selection of my recent work. Each project represents a unique
+              challenge and solution.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+                transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
+              >
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              View all projects <ArrowUpRight size={16} />
+            </Link>
+          </div>
+        </div>
+        <AnimatedLine />
+      </section>
+
+      {/* <div className="fixed bottom-4 right-4">
           <Spotify />
         </div> */}
 
-        {/* Footer */}
-        <ParticleFooter />
-      </div>
-    );
-  }
+      {/* Footer */}
+      <ParticleFooter />
+    </div>
+  );
 }
