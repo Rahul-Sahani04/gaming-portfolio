@@ -1,15 +1,15 @@
 import { withContentlayer } from "next-contentlayer";
 // const { withContentlayer } = require("next-contentlayer");
-import withMDX from "@next/mdx";
-import remarkGfm from "remark-gfm";
+// import withMDX from "@next/mdx";
+// import remarkGfm from "remark-gfm";
 
-const withMDXConfig = withMDX({
-  extension: /\.mdx?$/,
-  options: {
-    remarkPlugins: [remarkGfm],
-    rehypePlugins: [],
-  },
-});
+// const withMDXConfig = withMDX({
+//   extension: /\.mdx?$/,
+//   options: {
+//     remarkPlugins: [remarkGfm],
+//     rehypePlugins: [],
+//   },
+// });
 
 
 /** @type {import('next').NextConfig} */
@@ -17,7 +17,10 @@ const nextConfig = {
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx", "glb", "gltf"],
   experimental: {
     mdxRs: true,
+    esmExternals: false,
+    // reactCompiler: true
   },
+
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -33,7 +36,13 @@ const nextConfig = {
       },
     ],
   },
-  transpilePackages: ["three", "@react-three/fiber", "@react-three/drei"],
+  transpilePackages: [
+    'three',
+    '@react-three/fiber',
+    '@react-three/drei',
+    '@react-spring/three',
+    'framer-motion-3d'
+  ]
 };
 
-export default withContentlayer(withMDXConfig(nextConfig));
+export default withContentlayer(nextConfig);
