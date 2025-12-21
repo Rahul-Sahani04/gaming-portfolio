@@ -2,107 +2,21 @@
 
 import type { Metadata } from "next"
 import { Navigation } from "../components/nav"
-import { useRef, useState } from "react"
+import { useState, useEffect } from "react"
 import { Particles } from "../components/magicui/star_particles"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import CustomCursor from "../components/CustomCursor"
 import NextTopLoader from "nextjs-toploader"
 import LoadingScreen from "../components/LoadingScreen"
-import { ArrowUpRight, Sparkles } from "lucide-react"
 import SkillTree from "./components/SkillTree"
 import GameCard from "./components/GameCard"
 import SubtleAnimatedDivider from "./components/SubtleAnimatedDivider"
-import EnhancedTable from "./components/SummaryTable"
-
-const metadata: Metadata = {
-  title: "Lessons from Gaming | Rahul Sahani",
-  description:
-    "Exploring the key skills, insights, and personal growth inspired by some of my all-time favorite games.",
-}
-
-// Enhanced Glassmorphic Final Section with better responsive design
-const WhyItMattersSection = () => {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
-  const shouldReduceMotion = useReducedMotion()
-
-  const points = [
-    {
-      icon: ArrowUpRight,
-      title: "Transferable Skills",
-      description:
-        "Gaming abilities translate directly to real-world problem-solving, leadership, and collaborative success.",
-    },
-    {
-      icon: Sparkles,
-      title: "Growth Mindset",
-      description:
-        "Overcoming digital challenges builds resilience and comfort with uncertainty, failure, and continuous learning.",
-    },
-  ]
-
-  return (
-    <motion.div
-      ref={sectionRef}
-      initial={shouldReduceMotion ? {} : { opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8 }}
-      className="max-w-4xl mx-auto relative px-4 sm:px-6"
-    >
-      {/* Main glassmorphic container */}
-      <div className="relative backdrop-blur-2xl bg-white/[0.02] border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl">
-        {/* Animated accent ring */}
-        <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-teal-500/10 animate-pulse" />
-
-        <motion.h2
-          initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.2 }}
-          className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-6 sm:mb-8 text-center"
-        >
-          Why These Lessons Matter
-        </motion.h2>
-
-        <div className="relative space-y-4 sm:space-y-6">
-          {points.map((point, index) => (
-            <motion.div
-              key={point.title}
-              initial={shouldReduceMotion ? {} : { opacity: 0, x: -30 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: 0.4 + index * 0.2 }}
-              whileHover={shouldReduceMotion ? {} : { scale: 1.02, transition: { duration: 0.2 } }}
-              className="flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/5 hover:border-blue-500/20 transition-all duration-300 group"
-            >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center flex-shrink-0 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-300">
-                <point.icon className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400 group-hover:text-blue-300 transition-colors" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="font-bold text-white mb-2 group-hover:text-blue-100 transition-colors text-sm sm:text-base">
-                  {point.title}
-                </h3>
-                <p className="text-zinc-400 group-hover:text-zinc-300 transition-colors leading-relaxed text-sm sm:text-base">
-                  {point.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div
-          initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8 }}
-          className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-white/10 text-center"
-        >
-          <p className="text-zinc-400 italic text-sm sm:text-base leading-relaxed">
-            This page celebrates the games that have shaped my approach to challenges, creativity, and collaboration—
-            lessons that continue to influence my work and personal growth.
-          </p>
-        </motion.div>
-      </div>
-    </motion.div>
-  )
-}
+import SkillsGallery from "./components/SkillsGallery"
+import WhyItMatters from "./components/WhyItMatters"
+import { useKonamiCode } from "../hooks/useKonamiCode"
+import { toast } from "sonner"
+import { Gamepad2 } from "lucide-react"
+import { recordEasterEggDiscovery } from "../actions"
 
 const AnimatedLine = ({ className }: { className?: string }) => {
   const shouldReduceMotion = useReducedMotion()
@@ -121,6 +35,30 @@ const AnimatedLine = ({ className }: { className?: string }) => {
 
 export default function GamingPage() {
   const shouldReduceMotion = useReducedMotion()
+  const konamiSuccess = useKonamiCode()
+
+  useEffect(() => {
+    if (konamiSuccess) {
+      // Record discovery
+      recordEasterEggDiscovery().then((res) => {
+        if (res.success && typeof res.count === 'number') {
+          console.log(`Easter egg discovered! Total discoverers: ${res.count}`);
+        }
+      });
+
+      toast("Achievement Unlocked: Retro Gamer 🕹️", {
+        description: "You found the hidden cheat code! +100 XP",
+        icon: <Gamepad2 className="w-5 h-5 text-emerald-400" />,
+        duration: 5000,
+        style: {
+          background: "rgba(0,0,0,0.8)",
+          backdropFilter: "blur(10px)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          color: "white"
+        }
+      })
+    }
+  }, [konamiSuccess])
 
   const games = [
     {
@@ -198,83 +136,83 @@ export default function GamingPage() {
       <LoadingScreen loading={loading} setLoading={setLoading} />
       {!loading && (
         <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      <Navigation />
-      <CustomCursor />
-      <NextTopLoader />
+          <Navigation />
+          <CustomCursor />
+          <NextTopLoader />
 
-      <div className="relative pb-8 sm:pb-16 mt-6">
-        {/* Enhanced Background with Geometric Shapes */}
-        <Particles
-          className="absolute inset-0 z-[99] animate-fade-in"
-          quantity={400}
-        />
+          <div className="relative pb-8 sm:pb-16 mt-6">
+            {/* Enhanced Background with Geometric Shapes */}
+            <Particles
+              className="absolute inset-0 z-[99] animate-fade-in"
+              quantity={400}
+            />
 
-        <div className="px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 xl:pt-32 mx-auto space-y-6 sm:space-y-8 lg:space-y-16 max-w-7xl relative z-10">
-          {/* Hero Section - Enhanced for mobile */}
-          <div className="max-w-4xl mx-auto lg:mx-0 relative">
-            <motion.h1
-              initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="z-10 h-full pb-4 text-4xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl 2xl:text-9xl text-transparent duration-1000 bg-white cursor-default animate-title font-display bg-clip-text relative leading-tight"
-              style={{
-                WebkitTextStroke: "1px #FAF9F6",
-              }}
-            >
-              Lessons Learned from <br className="hidden sm:block" />
-              <span className="block sm:inline">My Favorite Games</span>
-            </motion.h1>
+            <div className="px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 xl:pt-32 mx-auto space-y-6 sm:space-y-8 lg:space-y-16 max-w-7xl relative z-10">
+              {/* Hero Section - Enhanced for mobile */}
+              <div className="max-w-4xl mx-auto lg:mx-0 relative">
+                <motion.h1
+                  initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="z-10 h-full pb-4 text-4xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl 2xl:text-9xl text-transparent duration-1000 bg-white cursor-default animate-title font-display bg-clip-text relative leading-tight"
+                  style={{
+                    WebkitTextStroke: "1px #FAF9F6",
+                  }}
+                >
+                  Lessons Learned from <br className="hidden sm:block" />
+                  <span className="block sm:inline">My Favorite Games</span>
+                </motion.h1>
 
-            <motion.p
-              initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-4 sm:mt-6 text-zinc-400 relative z-10 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl"
-            >
-              This page explores the key skills, insights, and personal growth
-              inspired by some of my all-time favorite games. Each title has
-              challenged me in unique ways, teaching me lessons that resonate
-              beyond the screen.
-            </motion.p>
+                <motion.p
+                  initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  className="mt-4 sm:mt-6 text-zinc-400 relative z-10 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl"
+                >
+                  This page explores the key skills, insights, and personal growth
+                  inspired by some of my all-time favorite games. Each title has
+                  challenged me in unique ways, teaching me lessons that resonate
+                  beyond the screen.
+                </motion.p>
+              </div>
+
+              <AnimatedLine />
+
+              {/* Gaming Skills Tree */}
+              <SkillTree />
+
+              <SubtleAnimatedDivider />
+
+              {/* Enhanced Game Cards */}
+              <motion.div
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="text-center text-zinc-500 italic mb-4 sm:mb-6 text-sm sm:text-base"
+              >
+                Hover over the cards to see gameplay videos
+                <span className="block sm:hidden mt-1 text-xs">
+                  (Tap on mobile)
+                </span>
+              </motion.div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mx-auto max-w-6xl">
+                {games.map((game, index) => (
+                  <GameCard key={game.title} game={game} index={index} />
+                ))}
+              </div>
+
+              <SubtleAnimatedDivider />
+
+              {/* Skills Gallery */}
+              <SkillsGallery />
+
+              <SubtleAnimatedDivider />
+
+              {/* Why It Matters Section */}
+              <WhyItMatters />
+            </div>
           </div>
-
-          <AnimatedLine />
-
-          {/* Gaming Skills Tree */}
-          <SkillTree />
-
-          <SubtleAnimatedDivider />
-
-          {/* Enhanced Game Cards */}
-          <motion.div
-            initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-center text-zinc-500 italic mb-4 sm:mb-6 text-sm sm:text-base"
-          >
-            Hover over the cards to see gameplay videos
-            <span className="block sm:hidden mt-1 text-xs">
-              (Tap on mobile)
-            </span>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mx-auto max-w-6xl">
-            {games.map((game, index) => (
-              <GameCard key={game.title} game={game} index={index} />
-            ))}
-          </div>
-
-          <SubtleAnimatedDivider />
-
-          {/* Enhanced Table */}
-          <EnhancedTable />
-
-          <SubtleAnimatedDivider />
-
-          {/* Enhanced Why It Matters Section */}
-          <WhyItMattersSection />
-        </div>
-      </div>
         </div>
       )}
     </>
