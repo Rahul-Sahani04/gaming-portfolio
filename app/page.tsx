@@ -11,7 +11,7 @@ import "./page.css";
 
 // import { TextureLoader } from "three/src/loaders/TextureLoader";
 
-import { useGLTF } from "@react-three/drei";
+// import { useGLTF } from "@react-three/drei";
 
 // import { useSpring, a } from "@react-spring/three";
 
@@ -50,10 +50,10 @@ export default function Home() {
     // Load assets
     console.log("Loading assets");
     const loadAssets = async () => {
-      await Promise.all([
-        useGLTF.preload("/model/Black_hole.glb"),
-        useGLTF.preload("/model/SpaceShipV2.glb"),
-      ]);
+      // await Promise.all([
+      //   useGLTF.preload("/model/Black_hole.glb"),
+      //   useGLTF.preload("/model/SpaceShipV2.glb"),
+      // ]);
       setTimeout(() => {
         setLoading(false);
       }, 1600);
@@ -116,7 +116,7 @@ export default function Home() {
         id="cat-peeking-container"
       >
         {/* Message Bubble */}
-        <p className="absolute -top-10 right-2 w-24 !text-[16px] text-zinc-500 sm:text-base md:text-lg animate-fade-in ">
+        <p className="absolute -top-10 right-2 w-18 lg:w-24 !text-[16px] text-zinc-500 sm:text-base md:text-lg animate-fade-in ">
           Wanna play a game? 🐾
         </p>
         <img
