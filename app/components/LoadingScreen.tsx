@@ -73,7 +73,7 @@ export default function LoadingScreen({
           className="fixed inset-0 bg-black flex flex-col items-center justify-center z-[9999]"
         >
           <img
-            src="https://i.pinimg.com/1200x/13/a4/31/13a431ed022b6a7f37180153f8e1db44.jpg"
+            src="/LoadingPart.webp"
             alt="Loading Background"
             draggable={false}
             className="absolute w-[15%] top-[90%] left-1/2 -translate-x-1/2 -translate-y-1/2"

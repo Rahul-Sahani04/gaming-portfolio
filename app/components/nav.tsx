@@ -80,7 +80,7 @@ export const Navigation: React.FC = () => {
 
             <Image
               // src="https://i.pinimg.com/1200x/5e/9d/ef/5e9def915cdb97c0453505d6ac756bbd.jpg"
-              src="/NavaPfp.jpeg"
+              src="/NavaPfp.webp"
               alt="Rahul Sahani Logo"
               width={40}
               height={40}
