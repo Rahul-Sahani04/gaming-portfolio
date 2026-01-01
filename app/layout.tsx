@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     },
   ],
   alternates: {
-    canonical: "https://www.rsahani.space",
+    canonical: "./",
   },
   keywords: [
     "Rahul Sahani",
