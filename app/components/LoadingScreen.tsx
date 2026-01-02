@@ -76,7 +76,7 @@ export default function LoadingScreen({
             src="/LoadingPart.webp"
             alt="Loading Background"
             draggable={false}
-            className="absolute w-[15%] top-[90%] left-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="absolute w-[25%] md:w-[15%] bottom-0 md:-bottom-12 left-1/2 -translate-x-1/2 -translate-y-1/2"
             style={{ zIndex: -1 }}
           />
 

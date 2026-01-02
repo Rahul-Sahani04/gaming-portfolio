@@ -1,0 +1,63 @@
+#stars {
+    width: 1px;
+    height: 1px;
+    background: transparent;
+    box-shadow: 1744px 122px #FFF, 134px 1321px #FFF, 92px 859px #FFF;
+    animation: animStar 50s linear infinite;
+}
+
+#stars:after {
+    content: " ";
+    position: absolute;
+    top: 2000px;
+    width: 1px;
+    height: 1px;
+    background: transparent;
+    box-shadow: 1744px 122px #FFF, 134px 1321px #FFF, 92px 859px #FFF;
+}
+
+#stars2 {
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    box-shadow: 1744px 122px #FFF, 134px 1321px #FFF, 92px 859px #FFF;
+    animation: animStar 100s linear infinite;
+}
+
+#stars2:after {
+    content: " ";
+    position: absolute;
+    top: 2000px;
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    box-shadow: 1744px 122px #FFF, 134px 1321px #FFF, 92px 859px #FFF;
+}
+
+#stars3 {
+    width: 3px;
+    height: 3px;
+    background: transparent;
+    box-shadow: 1744px 122px #FFF, 134px 1321px #FFF, 92px 859px #FFF;
+    animation: animStar 150s linear infinite;
+}
+
+#stars3:after {
+    content: " ";
+    position: absolute;
+    top: 2000px;
+    width: 3px;
+    height: 3px;
+    background: transparent;
+    box-shadow: 1744px 122px #FFF, 134px 1321px #FFF, 92px 859px #FFF;
+}
+
+@keyframes animStar {
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(-2000px);
+    }
+}

@@ -3,6 +3,8 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Particles from "./components/particles";
+import useIsMobile from "./hooks/useIsMobile";
+import StarBackground from "./components/StarBackground";
 
 import "./page.css";
 
@@ -44,6 +46,7 @@ function PlayGame() {
 
 
 export default function Home() {
+  const isMobile = useIsMobile();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -91,7 +94,9 @@ export default function Home() {
           </div>
         )
       }
-      <ThreeScene loading={loading} />
+      {
+        !isMobile ? <ThreeScene loading={loading} /> : <StarBackground />
+      }
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
       <Particles
         className="absolute inset-0 -z-10 animate-fade-in"
@@ -124,14 +129,14 @@ export default function Home() {
         id="cat-peeking-container"
       >
         {/* Message Bubble */}
-        <p className="absolute -top-10 right-2 w-18 lg:w-24 !text-[16px] text-zinc-500 sm:text-base md:text-lg animate-fade-in ">
+        <p className="absolute -top-10 right-4 w-18 lg:w-22 !text-[12px] md:!text-[16px] text-zinc-500 animate-fade-in ">
           Wanna play a game? 🐾
         </p>
         <img
           id="cat-peeking-image"
           alt="Cat Peeking From Corner"
           src="/CatPeeking.png"
-          className=" w-16 hover:!opacity-70 !opacity-50 invisible Animate-FadeInRight backdrop:blur-sm rounded-full shadow-lg transition-transform duration-300 cursor-pointer z-20 "
+          className=" w-12 md:w-16 hover:!opacity-70 !opacity-50 invisible Animate-FadeInRight backdrop:blur-sm rounded-full shadow-lg transition-transform duration-300 cursor-pointer z-20 "
         />
       </div>
     </div>
