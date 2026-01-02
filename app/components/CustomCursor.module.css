@@ -1,7 +1,7 @@
 /* components/CustomCursor.module.css */
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap'); */
 
-.cursorContainer{
+.cursorContainer {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -24,7 +24,7 @@
   transition: width .3s ease;
 }
 
-.link:hover:after{
+.link:hover:after {
   width: 100%;
   left: 0%;
   background: black;
@@ -50,14 +50,14 @@
   background-position: center; */
 }
 
-#cursorImg{
+#cursorImg {
   transform: rotate(45deg) scale(0.7);
   /* transition: all 300ms ease-in-out; */
-  }
-  
-.cursorImg{
+}
+
+.cursorImg {
   transform: rotate(45deg) scale(0.7);
-  
+
 }
 
 
@@ -76,7 +76,7 @@
   transition: width .3s, height .3s, opacity .3s;
 }
 
-.crosshair{
+.crosshair {
   width: 20px;
   height: 20px;
   border-radius: 100%;
@@ -88,6 +88,7 @@
   transition: width .3s, height .3s, opacity .3s;
 
 }
+
 .hover {
   /* background-color: red; */
   /* opacity: 0.5; */
