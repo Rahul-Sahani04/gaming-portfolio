@@ -2,14 +2,7 @@
 
 
 
-.press-start {
-  /* font-size: 2rem; */
-  /* font-family: "Pixelify Sans", sans-serif; */
-  font-family: "Press Start 2P", system-ui;
-  font-optical-sizing: auto;
-  font-weight: 700;
-  font-style: normal;
-}
+
 
 .Animate-FadeInRight {
   animation: fadeInRight 0.5s ease-in-out forwards;
