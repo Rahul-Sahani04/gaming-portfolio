@@ -136,7 +136,7 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
                 src={videoSrc}
                 ref={videoRef}
                 autoPlay
-                muted
+                // muted
                 loop
                 playsInline
                 className="absolute inset-0 w-full h-full object-cover rounded-lg z-10"

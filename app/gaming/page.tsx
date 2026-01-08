@@ -17,6 +17,8 @@ import { toast } from "sonner"
 import { Gamepad2 } from "lucide-react"
 import { recordEasterEggDiscovery } from "../actions"
 
+
+
 const Spacer = ({ size = "md" }: { size?: "sm" | "md" | "lg" | "xl" }) => {
   const heights = {
     sm: "h-24 sm:h-32",
