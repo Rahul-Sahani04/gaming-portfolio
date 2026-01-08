@@ -221,7 +221,7 @@ const SkillTree = () => {
           inViewRef(el);
           visibilityRef(el);
         }}
-        className={`relative ${isMobile
+        className={`relative left-[2.4vh] md:-left-[4.2vh] ${isMobile
           ? "min-h-[800px] sm:min-h-[900px]"
           : "min-h-[400px] sm:min-h-[500px] lg:min-h-[600px]"
           } p-4 sm:p-6 lg:p-10 mb-32 sm:mb-40 lg:mb-52 mt-16 sm:mt-20 lg:mt-28 overflow-visible`}
@@ -352,7 +352,7 @@ const SkillTree = () => {
                     >
                       <span
                         className={`text-[10px] sm:text-xs uppercase tracking-widest font-medium ${isCenterNode ? "text-white font-bold" :
-                            isSelected ? "text-white" : "text-zinc-600 group-hover:text-zinc-400"
+                          isSelected ? "text-white" : "text-zinc-600 group-hover:text-zinc-400"
                           } transition-colors duration-300 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-sm`}
                       >
                         {skill.name}
