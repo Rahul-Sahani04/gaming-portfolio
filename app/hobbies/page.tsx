@@ -224,7 +224,7 @@ function StreamItem({ src, index, caption }: { src: string; index: number; capti
     // Intentional breaking of the grid
     const alignment = [
         "self-start md:ml-[10%]",           // 0
-        "self-end md:mr-[15%] md:-mt-24",   // 1 (Overlap!)
+        "self-end md:mr-[15%] md:!mt-14",   // 1 (Overlap!)
         "self-center md:ml-32",             // 2
         "self-start md:ml-0 md:-ml-[10%] z-10", // 3: THE CONTROLLED BREAK (Pushed way out)
         "self-end md:mr-[5%]",              // 4
@@ -254,13 +254,13 @@ function StreamItem({ src, index, caption }: { src: string; index: number; capti
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="absolute -bottom-8 -right-8 font-serif italic text-zinc-500 text-sm md:text-base max-w-[200px] text-right"
+                    className="absolute -bottom-8 -right-8 font-serif italic text-zinc-500 text-[16px] md:text-[18px] max-w-[200px] text-right"
                 >
                     {caption}
                 </motion.p>
             )}
 
-            <div className="absolute -left-6 top-0 text-[10px] font-mono text-zinc-800 -rotate-90 origin-bottom-right">
+            <div className={"absolute -left-6 top-0 text-[20px] font-mono text-zinc-800 -rotate-90 origin-bottom-right" + (index === 2 || index === 5 || index === 6 ? " !text-white" : "")}>
                 IMG_0{index + 1}
             </div>
         </motion.div>
