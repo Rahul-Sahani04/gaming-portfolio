@@ -25,6 +25,7 @@ export const Navigation: React.FC = () => {
     { href: "/projects", label: "Projects" },
     { href: "/gaming", label: "Gaming" },
     { href: "/guestbook", label: "Guestbook" },
+    { href: "/hobbies", label: "Hobbies" },
     { href: "/contact", label: "Contact" },
     {
       href: "https://raw.githubusercontent.com/Rahul-Sahani04/Rahul-Sahani04/main/Rahul_Resume.pdf",
