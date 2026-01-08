@@ -141,14 +141,34 @@ export default function HobbiesPage() {
                         ))}
                     </div>
 
-                    <div className="mt-48 text-center">
+                    <div className="mt-24 text-center">
                         <span className="font-serif italic text-2xl text-zinc-700">"Imperfection is the point."</span>
                     </div>
                 </section>
 
+                <section className="min-h-[60vh] flex items-center justify-center px-6">
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 2 }}
+                        className="max-w-xl text-center"
+                    >
+                        <p className="font-serif text-xl md:text-2xl text-zinc-400 leading-relaxed">
+                            I keep fragments<br />
+                            not to remember,<br />
+                            but to notice what I almost missed.
+                        </p>
+                        <span className="block mt-8 text-sm font-mono text-zinc-700 tracking-widest">
+                            — notes
+                        </span>
+                    </motion.div>
+                </section>
+
+
                 {/* Outro */}
                 <section className="h-[40vh] flex items-center justify-center relative">
-                    <div className="w-[1px] h-24 bg-gradient-to-b from-zinc-800 to-transparent" />
+                    <div className="w-[2px] h-36 bg-gradient-to-b from-zinc-700 to-transparent" />
+                    {/* Outro */}
                 </section>
 
             </main>
