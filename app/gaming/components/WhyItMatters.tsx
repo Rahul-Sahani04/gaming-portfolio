@@ -46,7 +46,8 @@ const WhyItMatters = () => {
                         SYSTEM_LOG_FINAL_ENTRY
                     </div>
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 tracking-tight font-display">
-                        Why These Lessons <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Matter</span>
+                        Why These Lessons <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-600 to-zinc-400
+                        ">Matter</span>
                     </h2>
                     <p className="text-zinc-500 text-sm sm:text-base max-w-lg mx-auto">
                         Decoding the impact of virtual experiences on reality.
