@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useRef, useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
@@ -51,25 +50,24 @@ const SkillTree = () => {
     }
   }, [isVisible, selectedSkill])
 
-  // Toggle branch expansion (mobile only)
- // Toggle branch expansion (only one active at a time)
-const toggleBranch = useCallback(
-  (branchId: string) => {
-    if (!isMobile) return;
+  // Toggle branch expansion (only one active at a time)
+  const toggleBranch = useCallback(
+    (branchId: string) => {
+      if (!isMobile) return;
 
-    setExpandedBranches((prev) => {
-      const newSet = new Set<string>();
+      setExpandedBranches((prev) => {
+        const newSet = new Set<string>();
 
-      if (!prev.has(branchId)) {
-        // Collapse all others and expand only the current one
-        newSet.add(branchId);
-      }
+        if (!prev.has(branchId)) {
+          // Collapse all others and expand only the current one
+          newSet.add(branchId);
+        }
 
-      return newSet;
-    });
-  },
-  [isMobile],
-);
+        return newSet;
+      });
+    },
+    [isMobile],
+  );
 
   // Check if a skill should be visible on mobile
   const isSkillVisibleOnMobile = useCallback(
@@ -202,15 +200,6 @@ const toggleBranch = useCallback(
 
   return (
     <div className="relative">
-      {/* Title */}
-      <motion.h2
-        initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
-        className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 lg:mb-8 z-50 text-center text-white"
-      >
-        Interactive Skill Tree
-      </motion.h2>
 
       {/* Instructions for mobile */}
       {isMobile && (
@@ -220,8 +209,7 @@ const toggleBranch = useCallback(
           transition={{ delay: 0.3 }}
           className="text-center text-zinc-500 text-sm mb-6 px-4"
         >
-          Tap on skill categories to expand • Tap individual skills to learn
-          more
+          Tap categories to expand • Tap skills for details
         </motion.p>
       )}
 
@@ -233,11 +221,10 @@ const toggleBranch = useCallback(
           inViewRef(el);
           visibilityRef(el);
         }}
-        className={`relative ${
-          isMobile
-            ? "min-h-[800px] sm:min-h-[900px]"
-            : "min-h-[400px] sm:min-h-[500px] lg:min-h-[600px]"
-        } p-4 sm:p-6 lg:p-10 mb-32 sm:mb-40 lg:mb-52 mt-16 sm:mt-20 lg:mt-28 overflow-visible`}
+        className={`relative ${isMobile
+          ? "min-h-[800px] sm:min-h-[900px]"
+          : "min-h-[400px] sm:min-h-[500px] lg:min-h-[600px]"
+          } p-4 sm:p-6 lg:p-10 mb-32 sm:mb-40 lg:mb-52 mt-16 sm:mt-20 lg:mt-28 overflow-visible`}
       >
         {/* SVG for connection lines */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
@@ -248,8 +235,9 @@ const toggleBranch = useCallback(
               y1={l.y1}
               x2={l.x2}
               y2={l.y2}
-              stroke="#27272a"
-              strokeWidth={isMobile ? 1.5 : 2}
+              stroke="#52525b"
+              strokeOpacity={0.4}
+              strokeWidth={isMobile ? 1 : 1.5}
               initial={
                 shouldReduceMotion
                   ? { opacity: 1 }
@@ -310,93 +298,62 @@ const toggleBranch = useCallback(
                   <div className="relative">
                     {/* Node circle */}
                     <motion.div
-                      className={`relative ${
-                        isMobile
-                          ? "w-14 h-14"
-                          : "w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16"
-                      } ${
-                        isCenterNode
-                          ? "bg-gradient-to-br from-blue-600 to-purple-600 border-2 border-blue-400"
+                      className={`relative z-10 ${isMobile
+                        ? "w-12 h-12"
+                        : "w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16"
+                        } ${isCenterNode
+                          ? "bg-zinc-100 border-2 border-white shadow-[0_0_30px_rgba(255,255,255,0.15)]"
                           : isBranchRoot
-                          ? "bg-gradient-to-br from-emerald-600 to-teal-600 border-2 border-emerald-400"
-                          : "bg-neutral-900 border border-neutral-700"
-                      } ${
-                        isSelected
-                          ? "border-blue-400 bg-blue-900/20"
-                          : "group-hover:border-neutral-500"
-                      } rounded-full flex items-center justify-center shadow-lg transition-all duration-300`}
+                            ? "bg-black border border-zinc-700"
+                            : "bg-black border border-zinc-800"
+                        } ${isSelected
+                          ? "ring-1 ring-white/50 bg-zinc-800"
+                          : "group-hover:border-zinc-500"
+                        } rounded-full flex items-center justify-center transition-all duration-300`}
                       animate={
                         isSelected
-                          ? {
-                              boxShadow: "0 0 20px rgba(59, 130, 246, 0.5)",
-                            }
-                          : {}
+                          ? { scale: 1.05 }
+                          : { scale: 1.0 }
                       }
                     >
                       <skill.icon
-                        className={`${
-                          isMobile
-                            ? "w-6 h-6"
-                            : "w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7"
-                        } ${
-                          isCenterNode || isBranchRoot
-                            ? "text-white"
-                            : "text-neutral-400 group-hover:text-white"
-                        } ${
-                          isSelected ? "text-blue-300" : ""
-                        } transition-all duration-300`}
+                        className={`${isMobile
+                          ? "w-5 h-5"
+                          : "w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7"
+                          } ${isCenterNode
+                            ? "text-black"
+                            : isBranchRoot
+                              ? "text-zinc-100"
+                              : "text-zinc-500 group-hover:text-zinc-300"
+                          } ${isSelected ? "text-white" : ""
+                          } transition-all duration-300`}
+                        strokeWidth={1.5}
                       />
                     </motion.div>
 
                     {/* Expand/Collapse indicator for branch roots on mobile */}
                     {isMobile && isBranchRoot && (
                       <motion.div
-                        className="absolute -top-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg"
+                        className="absolute -top-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-sm z-20"
                         whileTap={{ scale: 0.9 }}
                       >
                         {isExpanded ? (
-                          <ChevronDown className="w-3 h-3 text-white" />
+                          <ChevronDown className="w-3 h-3 text-black" />
                         ) : (
-                          <ChevronRight className="w-3 h-3 text-white" />
+                          <ChevronRight className="w-3 h-3 text-black" />
                         )}
                       </motion.div>
                     )}
 
-                    {/* Level indicator */}
+                    {/* Skill name - Clean Typography */}
                     <div
-                      className={`absolute ${
-                        isMobile ? "-bottom-3" : "-bottom-2 sm:-bottom-3"
-                      } left-1/2 transform -translate-x-1/2 px-2 py-0.5 rounded-full ${
-                        isMobile ? "text-xs" : "text-xs"
-                      } bg-neutral-900 ${
-                        isSelected
-                          ? "text-blue-300 border-blue-500"
-                          : "text-neutral-400 border-neutral-700"
-                      } border font-mono shadow-sm transition-all duration-300`}
-                    >
-                      {skill.level}/10
-                    </div>
-
-                    {/* Skill name */}
-                    <div
-                      className={`absolute ${
-                        isMobile ? "-bottom-9" : "-bottom-6 sm:-bottom-8"
-                      } left-1/2 transform -translate-x-1/2 whitespace-nowrap select-none ${
-                        isMobile ? "max-w-24" : "max-w-20 sm:max-w-none"
-                      }`}
+                      className={`absolute ${isMobile ? "-bottom-8" : "-bottom-8"
+                        } left-1/2 transform -translate-x-1/2 whitespace-nowrap select-none pointer-events-none`}
                     >
                       <span
-                        className={`text-white ${
-                          isMobile
-                            ? "text-xs leading-tight"
-                            : "text-xs sm:text-sm"
-                        } font-medium tracking-wide ${
-                          isSelected ? "text-blue-300" : ""
-                        } ${
-                          isBranchRoot ? "text-emerald-300" : ""
-                        } transition-colors duration-300 ${
-                          isMobile ? "text-center block" : ""
-                        }`}
+                        className={`text-[10px] sm:text-xs uppercase tracking-widest font-medium ${isCenterNode ? "text-white font-bold" :
+                            isSelected ? "text-white" : "text-zinc-600 group-hover:text-zinc-400"
+                          } transition-colors duration-300 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-sm`}
                       >
                         {skill.name}
                       </span>

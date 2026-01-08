@@ -1,5 +1,5 @@
 import { memo, useState, useEffect, useRef } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import GameIcon from "../utils/GameIcons";
 import "../page.css"; // Import global styles
@@ -41,19 +41,18 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
     ? getCloudinaryUrl(game.bgVideoId)
     : undefined;
 
+  const [isMobile, setIsMobile] = useState(false)
 
-    const [isMobile, setIsMobile] = useState(false)
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
-      // Detect mobile device
-      useEffect(() => {
-        const checkMobile = () => {
-          setIsMobile(window.innerWidth < 768);
-        };
-
-        checkMobile();
-        window.addEventListener("resize", checkMobile);
-        return () => window.removeEventListener("resize", checkMobile);
-      }, []);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
 
   useEffect(() => {
@@ -61,11 +60,11 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
       setShowVideo(false);
       return;
     }
-    const timer = setTimeout(() => setShowVideo(true), 3500); // Shorten to 1.5s for better UX
+    const timer = setTimeout(() => setShowVideo(true), 1200);
     return () => clearTimeout(timer);
   }, [hovered]);
 
-   // once showVideo flips on, wire up draw-loop
+  // Ambient Light Loop
   useEffect(() => {
     if (!showVideo) return;
     const video = videoRef.current;
@@ -75,21 +74,19 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // low-res buffer
-    canvas.width = 120;
-    canvas.height = 60;
+    // Low-res buffer for performance
+    canvas.width = 40;
+    canvas.height = 20;
 
     let frameId: number;
 
-    function render() {
-      if (!video || video.paused || video.ended || !ctx || !canvas) return;
+    const render = () => {
+      if (!video || video.paused || video.ended) return;
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       frameId = requestAnimationFrame(render);
-    }
+    };
 
-    // start rendering when video starts playing
     video.addEventListener("play", render);
-    // if it’s already autoplaying, kick it off immediately
     if (!video.paused) render();
 
     return () => {
@@ -110,80 +107,100 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
         type: "spring",
         stiffness: 120,
       }}
-      className="relative group"
+      className="relative group w-full h-full min-h-[220px]"
       style={{ perspective: 1000 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* --- Ambient Glow Canvas --- */}
 
-      {!isMobile && showVideo && videoSrc && (
-        <>
-          <canvas
-            ref={canvasRef}
-            className="ambience-canvas z-[9]"
-            aria-hidden="true"
-          />
-          <video
-            src={videoSrc}
-            ref={videoRef}
-            autoPlay
-            controls={false}
-            loop
-            playsInline
-            preload="auto"
-            className="absolute inset-0 w-full h-full object-cover rounded-2xl z-10"
-            poster={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/${game.bgVideoId}.jpg`} // optional: video poster
-          />
-          <div className="absolute bottom-3 right-4 z-20 bg-black/40 text-neutral-200 text-xs px-2 py-1 rounded pointer-events-none opacity-80">
-            Credits: @{game.videoCreator || "original_creator"}
-          </div>
-        </>
-      )}
+      {/* --- VIDEO LAYER (Absolute Background) --- */}
+      {/* Set overflow-visible specifically on this container so the blur can spill out */}
+      <div className="absolute inset-0 z-0 overflow-visible rounded-lg pointer-events-none">
+        <AnimatePresence>
+          {!isMobile && showVideo && videoSrc && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 w-full h-full"
+            >
+              {/* Ambient Glow Canvas - BEHIND VIDEO */}
+              <canvas
+                ref={canvasRef}
+                className="absolute inset-0 w-full h-full object-cover blur-[60px] opacity-70 scale-110 z-0"
+                aria-hidden="true"
+              />
 
-      {!showVideo && (
-        <motion.div
-          className={`relative p-6 rounded-2xl z-20 border border-neutral-700
-            shadow-xl transition-all duration-200 
-            bg-gradient-to-br from-white/5 via-white/2 to-white/0
-            backdrop-blur-xl
-            ${hovered ? "border-neutral-400 bg-white/5" : ""}
-          `}
-        >
-          {/* Card glass shine effect (subtle overlay) */}
-          <div
-            className={`pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-500 
-            ${hovered ? "opacity-20" : "opacity-10"} 
-            bg-gradient-to-tr from-white/30 via-transparent to-transparent`}
-          />
+              <video
+                src={videoSrc}
+                ref={videoRef}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover rounded-lg z-10"
+              />
 
-          <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-6">
+              {/* Dark overlay for text readability if needed, currently light to let video pop */}
+              <div className="absolute inset-0 bg-black/20 z-10 rounded-lg" />
+
+              <div className="absolute bottom-3 right-4 z-20 bg-black/60 text-white/80 text-[10px] uppercase font-medium tracking-wider px-2 py-1 rounded backdrop-blur-sm">
+                @{game.videoCreator || "GAMEPLAY"}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+
+      {/* --- CONTENT LAYER (Relative Foreground) --- */}
+      <div
+        className={`relative z-10 w-full h-full flex flex-col justify-between p-6 sm:p-8 rounded-lg border transition-all duration-500
+            ${showVideo
+            ? "border-transparent bg-transparent" // Transparent when video plays
+            : "bg-zinc-900/20 backdrop-blur-md border-zinc-800 hover:bg-zinc-900 hover:border-zinc-500" // Default premium style
+          }
+        `}
+      >
+        {/* Using opacity to hide content without collapsing height */}
+        <div className={`transition-opacity duration-500 ${showVideo ? "opacity-0" : "opacity-100"}`}>
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-6">
+            <div className="p-2 border border-zinc-800 bg-black/40 text-zinc-400 group-hover:text-white transition-colors duration-300 rounded-md">
               <GameIcon
                 game={game.title}
-                className="w-7 h-7 text-neutral-400"
+                className="w-5 h-5 sm:w-6 sm:h-6"
               />
-              <h3 className="text-xl font-bold text-white">{game.title}</h3>
             </div>
-            <ul className="space-y-3 text-neutral-400">
-              {game.lessons.map((lesson: string, i: number) => (
-                <li key={i} className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 bg-neutral-600 rounded-full mt-2.5" />
-                  <span className="text-sm">{lesson}</span>
-                </li>
-              ))}
-            </ul>
+            <div>
+              <h3 className="text-lg sm:text-xl font-medium text-zinc-200 group-hover:text-white transition-colors tracking-wide font-display">
+                {game.title.toUpperCase()}
+              </h3>
+              <div className="h-px w-8 group-hover:w-full bg-zinc-700 group-hover:bg-zinc-500 transition-all duration-500 mt-2" />
+            </div>
           </div>
-        </motion.div>
-      )}
 
-      {/* Preload video */}
+          {/* Content */}
+          <ul className="space-y-3">
+            {game.lessons.map((lesson: string, i: number) => (
+              <li key={i} className="flex items-start gap-3 group/item">
+                <div className="w-1.5 h-1.5 border border-zinc-600 group-hover/item:border-zinc-400 group-hover/item:bg-zinc-400 rounded-full mt-1.5 transition-all duration-300" />
+                <span className="text-zinc-500 text-sm leading-relaxed group-hover:text-zinc-300 transition-colors duration-300">
+                  {lesson}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Preload video - Hidden */}
       {videoSrc && (
         <video
           src={videoSrc}
           preload="auto"
-          className="absolute inset-0 w-full h-full object-cover rounded-2xl z-10"
-          style={{ display: "none" }} // Hide the preloaded video
+          className="hidden"
         />
       )}
     </motion.div>
