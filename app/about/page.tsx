@@ -12,15 +12,15 @@ import NextTopLoader from "nextjs-toploader";
 import ParticleFooter from "./components/ParticleFooter";
 import LoadingScreen from "../components/LoadingScreen";
 import "./page.css";
-import PhotographyGrid from "./components/PhotographyGrid";
+// import PhotographyGrid from "./components/PhotographyGrid";
 // import Spotify from "../components/Spotify";
 
 export default function AboutPage() {
   const AnimatedLine = ({ className }: { className?: string }) => {
     return (
       <div className={"relative mt-2 " + className}>
-        <div className="absolute w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 mt-16" />
-        <div className="absolute w-screen h-px animate-glow md:block animate-fade-in bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 mt-16" />
+        <div className="absolute w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-800/0 via-zinc-800 to-zinc-800/0 mt-16" />
+        <div className="absolute w-screen h-px animate-glow md:block animate-fade-in bg-gradient-to-r from-zinc-800/0 via-zinc-800 to-zinc-800/0 mt-16" />
       </div>
     );
   };
@@ -96,178 +96,18 @@ export default function AboutPage() {
     loadImages();
   }, []);
 
-  const technologies = [
-    {
-      category: "Design",
-      items: [
-        {
-          name: "Figma",
-          description: "Design Tool",
-          icon: "/icons/tech/figma.svg",
-        },
-      ],
-    },
-    {
-      category: "Frontend",
-      items: [
-        {
-          name: "JavaScript",
-          description: "Programming Language",
-          icon: "/icons/tech/javascript.svg",
-        },
-        {
-          name: "TypeScript",
-          description: "JavaScript but better",
-          icon: "/icons/tech/typescript.svg",
-        },
-        {
-          name: "React",
-          description: "JavaScript Library",
-          icon: "/icons/tech/react.svg",
-        },
-        {
-          name: "Tailwind",
-          description: "CSS framework",
-          icon: "/icons/tech/tailwind.svg",
-        },
-        {
-          name: "NextJS",
-          description: "React framework",
-          icon: "/icons/tech/nextjs.svg",
-        },
-      ],
-    },
-    {
-      category: "Backend",
-      items: [
-        {
-          name: "NodeJS",
-          description: "Backend",
-          icon: "/icons/tech/nodejs.svg",
-        },
-        {
-          name: "Supabase",
-          description: "Backend tool",
-          icon: "/icons/tech/supabase.svg",
-        },
-        {
-          name: "MongoDB",
-          description: "NoSQL database",
-          icon: "/icons/tech/mongodb.svg",
-        },
-        {
-          name: "PostgreSQL",
-          description: "OR database system",
-          icon: "/icons/tech/postgresql.svg",
-        },
-        {
-          name: "Prisma",
-          description: "ORM",
-          icon: "/icons/tech/prisma.svg",
-        },
-      ],
-    },
-    {
-      category: "Backend & APIs",
-      items: [
-        {
-          name: "Express.js",
-          description: "Backend framework",
-          icon: "/icons/tech/express.svg",
-        },
-        {
-          name: "GraphQL",
-          description: "Query language for APIs",
-          icon: "/icons/tech/graphql.png",
-        },
-        {
-          name: "REST APIs",
-          description: "API architecture",
-          icon: "/icons/tech/RestApi.png",
-        },
-      ],
-    },
-    {
-      category: "DevOps & Cloud",
-      items: [
-        {
-          name: "Vercel",
-          description: "Deployment platform",
-          icon: "/icons/tech/vercel.svg",
-        },
-        {
-          name: "AWS",
-          description: "Cloud services",
-          icon: "/icons/tech/aws.svg",
-        },
-        // {
-        //   name: "Docker",
-        //   description: "Containerization",
-        //   icon: "/icons/tech/docker.svg",
-        // },
-      ],
-    },
-    {
-      category: "AI & Automation",
-      items: [
-        {
-          name: "Python",
-          description: "Scripting & AI",
-          icon: "/icons/tech/Python.svg",
-        },
-        {
-          name: "OpenAI / Gemini",
-          description: "LLM APIs",
-          icon: "/icons/tech/Gemini.svg",
-        },
-        {
-          name: "Automation",
-          description: "Bots & scripts",
-          icon: "/icons/tech/n8n.png",
-        },
-      ],
-    },
-    {
-      category: "Development",
-      items: [
-        {
-          name: "Git",
-          description: "Version control",
-          icon: "/icons/tech/git.svg",
-        },
-      ],
-    },
-    {
-      category: "Favorite Games",
-      items: [
-        // Best Story Games
-        // {
-        //   name: "God of War",
-        //   description: "Action-adventure game",
-        //   icon: "/icons/games/god-of-war.png",
-        // },
-        {
-          name: "DmC: Devil May Cry",
-          description: "Action-adventure hack and slash",
-          icon: "/icons/games/dmc.png",
-        },
-        {
-          name: "Sekiro: Shadows Die Twice",
-          description: "Action-adventure game with RPG elements",
-          icon: "/icons/games/sekiro.png",
-        },
-        {
-          name: "Red Dead Redemption 2",
-          description: "Action-adventure game",
-          icon: "/icons/games/rdr2.png",
-        },
-        {
-          name: "Marvels Spiderman",
-          description: "Action-adventure game",
-          icon: "/icons/games/spiderman.png",
-        },
-      ],
-    },
+  const coreStack = [
+    { name: "Next.js", description: "Framework", icon: "/icons/tech/nextjs.svg" },
+    { name: "React", description: "UI Library", icon: "/icons/tech/react.svg" },
+    { name: "TypeScript", description: "Type Safety", icon: "/icons/tech/typescript.svg" },
+    { name: "Tailwind CSS", description: "Styling", icon: "/icons/tech/tailwind.svg" },
+    { name: "Node.js", description: "Runtime", icon: "/icons/tech/nodejs.svg" },
+    { name: "Supabase", description: "Backend", icon: "/icons/tech/supabase.svg" },
+  ];
+
+  const toolkit = [
+    "PostgreSQL", "MongoDB", "Prisma", "GraphQL", "Express.js",
+    "Figma", "Git", "AWS", "Vercel", "Python", "OpenAI/Gemini"
   ];
 
   const projects = [
@@ -367,10 +207,10 @@ export default function AboutPage() {
       }
 
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden min-h-[50vh]">
+      <section className="relative py-32 overflow-hidden min-h-[50vh]">
         <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/20 to-black" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-950 to-black" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-rose-900/10 rounded-full blur-[120px] opacity-50" />
         </div>
 
         <motion.div
@@ -379,20 +219,20 @@ export default function AboutPage() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="container mx-auto px-4 text-center"
         >
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+          <h1 className="text-6xl md:text-8xl font-bold mb-8 text-zinc-100 tracking-tight">
             About Me
           </h1>
-          <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto text-justify">
-            I'm Rahul Sahani. By day, I write code and build things that work
-            like they should. By Heart, I'm a gamer. I chase what sparks my
-            curiosity, both on the screen and off. When I'm facing off against
+          <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed text-justify md:text-center">
+            I&apos;m Rahul Sahani. By day, I write code and build things that work
+            like they should. By Heart, I&apos;m a gamer. I chase what sparks my
+            curiosity, both on the screen and off. When I&apos;m facing off against
             a tough bug or a tough boss, I work fast and think on my feet.
-            There's always something new to learn, and I'm always pushing for
+            There&apos;s always something new to learn, and I&apos;m always pushing for
             the next level.
             <br />{" "}
-            <span className="mt-4 italic text-zinc-500 text-base md:text-lg whitespace-normal sm:whitespace-nowrap">
-              Falling twice or getting stuck? Nah, I just respawn and keep
-              going.
+            <span className="mt-8 block italic text-zinc-600 text-base md:text-lg">
+              "Falling twice or getting stuck? Nah, I just respawn and keep
+              going."
             </span>
           </p>
         </motion.div>
@@ -401,7 +241,7 @@ export default function AboutPage() {
       </section>
 
       {/* Technologies Section */}
-      <section className="py-20 relative">
+      <section className="py-24 relative">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -409,88 +249,94 @@ export default function AboutPage() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mb-16 text-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Current Technologies
+            <h2 className="text-3xl md:text-4xl font-semibold mb-6 text-zinc-200">
+              Technologies
             </h2>
-            <p className="text-zinc-400 max-w-3xl mx-auto">
-              I&apos;m proficient in a range of modern technologies that
-              empower me to build highly functional solutions. These are some
-              of my main technologies.
+            <p className="text-zinc-500 max-w-2xl mx-auto">
+              My core stack for building scalable applications.
             </p>
           </motion.div>
 
-          <div className="space-y-12 mb-12">
-            {technologies.map((category, index) => (
+          {/* Core Stack Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-24 max-w-6xl mx-auto">
+            {coreStack.map((tech, index) => (
               <motion.div
-                key={category.category}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-                transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
+                key={tech.name}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
               >
-                <h3 className="text-2xl font-semibold mb-6 text-zinc-200">
-                  {category.category}
-                </h3>
-                <div className="relative grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                  {category.items.map((tech) => (
-                    <TechCard key={tech.name} tech={tech} />
-                  ))}
-
-                  {category.category === "Favorite Games" && (
-                    <div className="mt-6 text-center w-screen absolute -bottom-16 left-1/2 -translate-x-1/2">
-                      <Link
-                        href="/gaming"
-                        className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
-                      >
-                        Visit Gaming <ArrowUpRight size={16} />
-                      </Link>
-                    </div>
-                  )}
-                </div>
+                <TechCard tech={tech} />
               </motion.div>
             ))}
           </div>
+
+          {/* Extended Toolkit */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-center max-w-2xl mx-auto"
+          >
+            <h3 className="text-xs font-mono text-zinc-600 uppercase tracking-widest mb-8">
+                /// Extended Toolkit & Libraries
+            </h3>
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-3">
+              {toolkit.map((item) => (
+                <span key={item} className="text-sm text-zinc-500 hover:text-zinc-300 transition-colors cursor-default">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
         </div>
 
         <AnimatedLine />
       </section>
 
-      {/* Photography Hobby Section */}
-      <section className="py-20 relative">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mb-16 text-center"
+      {/* "Calibration Pause" - Transition to Hobbies */}
+      <section className="min-h-[50vh] py-32 flex flex-col items-center justify-center relative">
+        {/* Visual Anchor - Top */}
+        <div className="w-[1px] h-24 bg-gradient-to-b from-zinc-800 to-transparent absolute top-0 left-1/2 -translate-x-1/2" />
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2 }}
+          className="text-center z-10 px-4"
+        >
+          <p className="font-serif italic text-2xl md:text-3xl text-zinc-600 leading-relaxed max-w-2xl mx-auto">
+            "Outside of the grid,<br />
+            I collect <span className="text-zinc-400">fragments</span>."
+          </p>
+
+          <Link
+            href="/hobbies"
+            className="mt-12 inline-block text-[16px] font-mono text-zinc-600 tracking-[0.2em] hover:text-rose-500 transition-colors uppercase group"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Photography Hobby
-            </h2>
-            <p className="text-zinc-400 max-w-3xl mx-auto">
-              I love capturing moments through my lens. Here are some of my
-              favorite shots.
-            </p>
-          </motion.div>
+            Enter Stream <span className="inline-block transition-transform group-hover:translate-x-1">-&gt;</span>
+          </Link>
+        </motion.div>
 
-          <PhotographyGrid photos={photos} />
-        </div>
-
-        <AnimatedLine />
+        {/* Visual Anchor - Bottom */}
+        <div className="w-[1px] h-24 bg-gradient-to-t from-zinc-800 to-transparent absolute bottom-0 left-1/2 -translate-x-1/2" />
       </section>
 
       {/* Featured Projects */}
-      <section className="py-20 relative">
+      <section className="py-32 relative">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="mb-16 text-center"
+            className="mb-24 text-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-6 text-zinc-200">
               Featured Projects
             </h2>
-            <p className="text-zinc-400 max-w-3xl mx-auto">
+            <p className="text-zinc-500 max-w-2xl mx-auto">
               A selection of my recent work. Each project represents a unique
               challenge and solution.
             </p>
@@ -512,7 +358,7 @@ export default function AboutPage() {
           <div className="mt-12 text-center">
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors text-sm uppercase tracking-widest"
             >
               View all projects <ArrowUpRight size={16} />
             </Link>
