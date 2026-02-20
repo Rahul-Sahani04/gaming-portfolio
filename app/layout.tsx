@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import LocalFont from "next/font/local";
 import { Metadata } from "next";
 import { Analytics } from "./components/analytics";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.rsahani.space"),
@@ -121,6 +122,15 @@ export default function RootLayout({
         className={`bg-black overflow-x-hidden ${process.env.NODE_ENV === "development" ? "debug-screens" : ""
           }`}
       >
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-GCJ9N0FQ3X" />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-GCJ9N0FQ3X');
+          `}
+        </Script>
         <Analytics />
         <CommandMenu />
         <CmdKToast />
