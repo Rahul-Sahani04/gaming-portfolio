@@ -87,7 +87,7 @@ export default function Contact() {
   ];
 
   return (
-    <div className=" bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
+    <div className="bg-gradient-to-b from-zinc-900 via-black to-black min-h-screen">
       <Navigation />
       <NextTopLoader />
       {
@@ -97,48 +97,56 @@ export default function Contact() {
           </div>
         )
       }
-      <div className="container flex flex-col items-center justify-center min-h-screen px-4 mx-auto">
-        <div className="grid w-full grid-rows-1 gap-8 mx-auto mt-32 sm:mt-0 sm:grid-cols-3 lg:gap-16">
-          {socials.map((s) => (
-            <Card key={s.label}>
-              <Link
-                onMouseEnter={() =>
-                  setIsHovered({ ...isHovered, [s.label.toLowerCase()]: true })
+      <div className="container flex flex-col items-center justify-center min-h-screen px-4 mx-auto pt-24 md:pt-32">
 
-                }
-                onMouseLeave={() =>
-                  setIsHovered({ ...isHovered, [s.label.toLowerCase()]: false })
-                }
-                href={s.href}
-                target="_blank"
-                className="p-4 relative flex flex-col items-center gap-4 duration-700 group md:gap-8 md:py-24  lg:pb-48  md:p-16"
-              >
-                <span
-                  className="absolute w-px h-2/3 bg-gradient-to-b from-zinc-500 via-zinc-500/50 to-transparent"
-                  aria-hidden="true"
-                />
-                <span className="relative z-10 flex items-center justify-center w-12 h-12 text-sm duration-1000 border rounded-full text-zinc-200 group-hover:text-white group-hover:bg-zinc-900 border-zinc-500 bg-zinc-900 group-hover:border-zinc-200 drop-shadow-orange">
-                  {s.icon}
-                </span>{" "}
-                <div className="z-10 flex flex-col items-center">
-                  <span className="lg:text-xl font-medium duration-150 xl:text-3xl text-zinc-200 group-hover:text-white font-display">
-                    {s.handle}
-                  </span>
-                  <span className="mt-4 text-sm text-center duration-1000 text-zinc-400 group-hover:text-zinc-200">
-                    {s.label}
-                  </span>
-                </div>
-              </Link>
-            </Card>
+        <div className="text-center space-y-4 mb-16 hidden sm:block">
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-zinc-100 font-display">
+            Connect
+          </h1>
+          <p className="text-zinc-400 text-lg font-light">
+            Reach out through any of these secure channels.
+          </p>
+        </div>
+
+        <div className="grid w-full grid-rows-1 gap-6 mx-auto sm:grid-cols-3 lg:gap-8 max-w-5xl">
+          {socials.map((s) => (
+            <Link
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              onMouseEnter={() =>
+                setIsHovered({ ...isHovered, [s.label.toLowerCase()]: true })
+              }
+              onMouseLeave={() =>
+                setIsHovered({ ...isHovered, [s.label.toLowerCase()]: false })
+              }
+              className="group relative flex flex-col items-center justify-center gap-6 p-8 md:p-12 h-full rounded-3xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] transition-all duration-500 shadow-xl hover:shadow-2xl hover:-translate-y-2 backdrop-blur-md"
+            >
+              <div
+                className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"
+                aria-hidden="true"
+              />
+              <span className="relative z-10 flex items-center justify-center w-16 h-16 text-sm duration-500 border rounded-full text-zinc-200 group-hover:text-white group-hover:bg-white/10 border-white/10 bg-black/50 group-hover:border-white/20 shadow-lg">
+                {s.icon}
+              </span>
+              <div className="z-10 flex flex-col items-center gap-1">
+                <span className="lg:text-xl font-medium duration-300 xl:text-2xl text-zinc-200 group-hover:text-white font-display tracking-tight">
+                  {s.handle}
+                </span>
+                <span className="text-sm text-center duration-300 text-zinc-500 group-hover:text-zinc-300 font-light">
+                  {s.label}
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
 
-        {/* Arrow Down Icon Aniamted */}
-        <div className="mt-16 w-full flex items-center justify-center" aria-hidden="true">
-          <ArrowDown className="w-12 h-12 text-zinc-200 group-hover:text-white group-hover:bg-zinc-900 border-zinc-500 bg-zinc-900 group-hover:border-zinc-200 drop-shadow-orange animate-bounce" />
+        {/* Arrow Down Icon Animated */}
+        <div className="mt-24 mb-12 w-full flex items-center justify-center" aria-hidden="true">
+          <ArrowDown className="w-10 h-10 text-zinc-500 animate-bounce" />
         </div>
       </div>
-      <div className="mt-8 pb-16 w-full">
+      <div className="py-16 w-full max-w-2xl mx-auto px-4">
         <ContactForm />
       </div>
     </div>

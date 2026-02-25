@@ -31,9 +31,9 @@ export default function ContactForm() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="w-full max-w-xl mx-auto p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm"
+      className="w-full max-w-2xl mx-auto p-8 rounded-3xl bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-md"
     >
-      <h3 className="text-xl font-bold text-zinc-100 mb-6">Send me a message</h3>
+      <h3 className="text-2xl font-bold tracking-tight text-zinc-100 mb-8 font-display">Send me a message</h3>
       <form
         ref={formRef}
         action={action}
@@ -49,7 +49,7 @@ export default function ContactForm() {
             id="email"
             placeholder="your@email.com"
             required
-            className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-400/50 focus:border-transparent transition-all"
           />
         </div>
 
@@ -63,7 +63,7 @@ export default function ContactForm() {
             id="subject"
             placeholder="What's this about?"
             required
-            className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-400/50 focus:border-transparent transition-all"
           />
         </div>
 
@@ -77,7 +77,7 @@ export default function ContactForm() {
             placeholder="Your message..."
             required
             rows={4}
-            className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all resize-none"
+            className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-400/50 focus:border-transparent transition-all resize-none"
           />
         </div>
 
@@ -91,7 +91,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex items-center gap-2 px-6 py-2 rounded-lg text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-zinc-800 border border-zinc-700 hover:bg-zinc-700"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-zinc-200 text-black font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:-translate-y-0.5"
           >
             {isSubmitting ? (
               <>
