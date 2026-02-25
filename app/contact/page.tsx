@@ -87,7 +87,7 @@ export default function Contact() {
   ];
 
   return (
-    <div className="bg-gradient-to-b from-zinc-900 via-black to-black min-h-screen">
+    <div className="bg-cyber-dark bg-cyber-grid bg-fixed min-h-screen relative">
       <Navigation />
       <NextTopLoader />
       {
