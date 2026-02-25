@@ -32,6 +32,15 @@ module.exports = {
 				sans: ["var(--font-inter)", ...defaultTheme.fontFamily.sans],
 				display: ["var(--font-calsans)"],
 			},
+			colors: {
+				cyber: {
+					cyan: "#00f0ff",
+					pink: "#ff003c",
+					yellow: "#fcee0a",
+					dark: "#0a0a0c",
+					gray: "#1a1a1c",
+				},
+			},
 			backgroundImage: {
 				"gradient-radial":
 					"radial-gradient(50% 50% at 50% 50%, var(--tw-gradient-stops))",
@@ -105,18 +114,18 @@ module.exports = {
 					},
 				},
 				meteor: {
-                    "0%": {
-                        transform: "rotate(var(--angle)) translateX(0)",
-                        opacity: 1,
-                    },
-                    "70%": {
-                        opacity: 1,
-                    },
-                    "100%": {
-                        transform: "rotate(var(--angle)) translateX(-500px)",
-                        opacity: 0,
-                    }
-                }, 
+					"0%": {
+						transform: "rotate(var(--angle)) translateX(0)",
+						opacity: 1,
+					},
+					"70%": {
+						opacity: 1,
+					},
+					"100%": {
+						transform: "rotate(var(--angle)) translateX(-500px)",
+						opacity: 0,
+					}
+				},
 			},
 		},
 	},

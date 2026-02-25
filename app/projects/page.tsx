@@ -49,66 +49,80 @@ export default async function ProjectsPage() {
 
   return (
     <ProjectsClient>
-      <div className="relative pb-16">
+      <div className="relative pb-16 min-h-screen bg-cyber-dark bg-cyber-grid bg-fixed">
+        <div className="pointer-events-none fixed inset-0 z-50 h-full w-full bg-cyber-scanline opacity-20 mix-blend-overlay"></div>
         <Navigation />
         <CustomCursor />
         <NextTopLoader />
 
 
-        <div className="px-6 pt-20 mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32">
-          <div className="max-w-2xl mx-auto lg:mx-0">
-            <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
-              Projects
+        <div className="px-6 mx-auto max-w-7xl lg:px-8 pt-24 md:pt-32 pb-16 relative z-10 flex flex-col gap-16">
+          <div className="max-w-3xl mx-auto lg:mx-0">
+            <h2 className="text-5xl tracking-[-0.05em] text-white sm:text-7xl font-display uppercase text-edge-outline animate-fade-in drop-shadow-[0_0_15px_rgba(0,240,255,0.5)]">
+              [ARCHIVE: <span className="text-cyber-cyan">PROJECTS</span>]
             </h2>
-            <p className="mt-4 text-zinc-400">
-              Some of the projects are from work and some are on my own time.
-            </p>
+            <div className="mt-8 flex flex-col gap-2">
+              <div className="h-px w-full bg-gradient-to-r from-cyber-cyan via-cyber-pink to-transparent opacity-50" />
+              <p className="mt-4 text-zinc-400 font-mono text-sm leading-relaxed uppercase tracking-[0.2em] border-l-2 border-cyber-pink pl-6">
+                // SYS.DAT: Accessing designated project records.<br />
+                // Some records are restricted work files, others exist in personal databanks.
+              </p>
+            </div>
           </div>
-          <div className="w-full h-px bg-zinc-800" />
 
-          <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2 ">
-            <Card>
-              <Link href={`/projects/${featured.slug}`}>
-                <article className="relative w-full h-full p-4 md:p-8">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="text-xs text-zinc-100">
-                      {featured.date ? (
-                        <time dateTime={new Date(featured.date).toISOString()}>
-                          {Intl.DateTimeFormat(undefined, {
-                            dateStyle: "medium",
-                          }).format(new Date(featured.date))}
-                        </time>
-                      ) : (
-                        <span>SOON</span>
-                      )}
+          {/* Featured Grid Asymmetry */}
+          <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-3 lg:gap-12">
+            <div className="lg:col-span-2 relative group">
+              {/* Decorative corner accents */}
+              <div className="absolute -top-2 -left-2 w-4 h-4 border-t-2 border-l-2 border-cyber-cyan z-20 transition-all group-hover:-top-3 group-hover:-left-3 group-hover:border-cyber-pink duration-300"></div>
+              <div className="absolute -bottom-2 -right-2 w-4 h-4 border-b-2 border-r-2 border-cyber-cyan z-20 transition-all group-hover:-bottom-3 group-hover:-right-3 group-hover:border-cyber-pink duration-300"></div>
+
+              <Card>
+                <Link href={`/projects/${featured.slug}`}>
+                  <article className="relative w-full h-full p-6 md:p-12 flex flex-col justify-between">
+                    <div className="absolute inset-0 bg-cyber-cyan/5 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0"></div>
+
+                    <div>
+                      <div className="flex items-center justify-between gap-2 z-20 relative">
+                        <div className="text-xs text-cyber-cyan font-mono tracking-widest bg-cyber-cyan/10 px-3 py-1 chamfered-sm border border-cyber-cyan/30">
+                          {featured.date ? (
+                            <time dateTime={new Date(featured.date).toISOString()}>
+                              ID:{new Date(featured.date).getFullYear()}/{String(new Date(featured.date).getMonth() + 1).padStart(2, '0')}
+                            </time>
+                          ) : (
+                            <span>ID:UNDEF</span>
+                          )}
+                        </div>
+                        <span className="flex items-center gap-2 text-xs text-cyber-pink font-mono tracking-widest">
+                          <Eye className="w-4 h-4 animate-pulse" />{" "}
+                          {Intl.NumberFormat("en-US", { notation: "compact" }).format(
+                            views[featured.slug] ?? 0
+                          )}
+                        </span>
+                      </div>
+
+                      <h2
+                        id="featured-post"
+                        className="mt-8 text-4xl font-bold text-white group-hover:text-cyber-cyan sm:text-6xl font-display uppercase tracking-tighter z-20 relative transition-colors duration-500 drop-shadow-[0_0_10px_rgba(0,240,255,0)] group-hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]"
+                      >
+                        {featured.title}
+                      </h2>
+                      <p className="mt-4 leading-relaxed duration-150 text-zinc-300 group-hover:text-white font-light z-20 relative max-w-2xl text-sm sm:text-base">
+                        {featured.description}
+                      </p>
                     </div>
-                    <span className="flex items-center gap-1 text-xs text-zinc-500">
-                      <Eye className="w-4 h-4" />{" "}
-                      {Intl.NumberFormat("en-US", { notation: "compact" }).format(
-                        views[featured.slug] ?? 0
-                      )}
-                    </span>
-                  </div>
 
-                  <h2
-                    id="featured-post"
-                    className="mt-4 text-3xl font-bold text-zinc-100 group-hover:text-white sm:text-4xl font-display"
-                  >
-                    {featured.title}
-                  </h2>
-                  <p className="mt-4 leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300">
-                    {featured.description}
-                  </p>
-                  <div className="absolute bottom-4 md:bottom-8">
-                    <p className="hidden text-zinc-200 hover:text-zinc-50 lg:block">
-                      Read more <span aria-hidden="true">&rarr;</span>
-                    </p>
-                  </div>
-                </article>
-              </Link>
-            </Card>
+                    <div className="mt-12 pt-6 border-t border-cyber-gray/50 flex justify-end z-20 relative">
+                      <span className="text-sm font-mono text-zinc-500 group-hover:text-cyber-cyan transition-colors uppercase tracking-widest flex items-center gap-2">
+                        [INITIALIZE PROTOCOL] <span aria-hidden="true" className="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                      </span>
+                    </div>
+                  </article>
+                </Link>
+              </Card>
+            </div>
 
-            <div className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0 ">
+            <div className="flex flex-col w-full gap-8 mx-auto lg:col-span-1 border-t border-cyber-gray lg:border-t-0 pt-8 lg:pt-0">
               {[top2, top3].map((project: Project) => (
                 <Card key={project.slug}>
                   <Article project={project} views={views[project.slug] ?? 0} />
@@ -116,10 +130,17 @@ export default async function ProjectsPage() {
               ))}
             </div>
           </div>
-          <div className="hidden w-full h-px md:block bg-zinc-800" />
 
-          <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
-            <div className="grid grid-cols-1 gap-4">
+          <div className="w-full flex items-center gap-4 py-8">
+            <div className="flex-1 h-px bg-cyber-cyan/30"></div>
+            <span className="font-mono text-cyber-cyan text-sm font-bold uppercase tracking-[0.3em] px-6 py-2 chamfered-sm bg-cyber-dark border border-cyber-cyan/50 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+              Standard Records
+            </span>
+            <div className="flex-1 h-px bg-cyber-cyan/30"></div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 mx-auto lg:mx-0 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6">
               {sorted
                 .filter((_: any, i: number) => i % 3 === 0)
                 .map((project: Project) => (
@@ -128,7 +149,7 @@ export default async function ProjectsPage() {
                   </Card>
                 ))}
             </div>
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-6">
               {sorted
                 .filter((_: any, i: number) => i % 3 === 1)
                 .map((project: Project) => (
@@ -137,7 +158,7 @@ export default async function ProjectsPage() {
                   </Card>
                 ))}
             </div>
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-6">
               {sorted
                 .filter((_: any, i: number) => i % 3 === 2)
                 .map((project: Project) => (

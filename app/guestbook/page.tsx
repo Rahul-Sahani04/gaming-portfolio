@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   description: "Leave a message for me and future visitors.",
 };
 import { Navigation } from "../components/nav";
-import { Card } from "../components/card";
 import { formatDistanceToNow } from "date-fns";
 import CustomCursor from "../components/CustomCursor";
 import NextTopLoader from "nextjs-toploader";
@@ -29,44 +28,47 @@ export default async function GuestbookPage() {
   }).filter(Boolean);
 
   return (
-    <div className=" bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0 min-h-screen">
+    <div className="bg-gradient-to-b from-zinc-900 via-black to-black min-h-screen">
       <Navigation />
       <CustomCursor />
       <NextTopLoader />
 
       <div className="container flex flex-col items-center justify-center min-h-screen px-4 mx-auto pt-24 md:pt-32 pb-16">
-        <div className="max-w-2xl w-full mx-auto space-y-8">
+        <div className="max-w-2xl w-full mx-auto space-y-12">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-zinc-100 font-display">
+            <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-zinc-100 font-display">
               Guestbook
             </h1>
-            <p className="text-zinc-400 text-lg">
+            <p className="text-zinc-400 text-lg font-light">
               Leave a message for me and future visitors.
             </p>
           </div>
 
           <GuestbookForm />
 
-          <div className="space-y-4">
+          <div className="space-y-6">
             {entries.length === 0 ? (
-              <p className="text-center text-zinc-500 italic">No entries yet. Be the first!</p>
+              <p className="text-center text-zinc-500 italic font-light">No entries yet. Be the first!</p>
             ) : (
               entries.map((entry: any) => (
-                <Card key={entry.id}>
-                  <div className="p-4 md:p-6 flex flex-col gap-2">
+                <div
+                  key={entry.id}
+                  className="p-6 md:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.05] transition-colors hover:bg-white/[0.04] backdrop-blur-sm"
+                >
+                  <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-zinc-200 font-medium text-lg">
+                      <span className="text-zinc-100 font-medium text-lg tracking-tight">
                         {entry.name}
                       </span>
-                      <span className="text-xs text-zinc-500">
+                      <span className="text-sm text-zinc-500 font-light">
                         {formatDistanceToNow(entry.created_at, { addSuffix: true })}
                       </span>
                     </div>
-                    <p className="text-zinc-400 leading-relaxed whitespace-pre-wrap">
+                    <p className="text-zinc-300 leading-relaxed font-light whitespace-pre-wrap">
                       {entry.message}
                     </p>
                   </div>
-                </Card>
+                </div>
               ))
             )}
           </div>

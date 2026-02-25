@@ -31,9 +31,9 @@ export default function GuestbookForm() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full max-w-2xl mx-auto mb-12 p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm"
+      className="w-full max-w-2xl mx-auto mb-16 p-8 rounded-3xl bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-md"
     >
-      <h3 className="text-xl font-bold text-zinc-100 mb-4">Sign the Guestbook</h3>
+      <h3 className="text-2xl font-bold tracking-tight text-zinc-100 mb-6 font-display">Sign the Guestbook</h3>
       <form
         ref={formRef}
         action={action}
@@ -49,7 +49,7 @@ export default function GuestbookForm() {
             id="name"
             placeholder="Your name"
             required
-            className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-500/50 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-400/50 focus:border-transparent transition-all"
           />
           {typeof errors === 'object' && errors?.name && (
             <p className="mt-1 text-sm text-red-400">{errors.name[0]}</p>
@@ -66,7 +66,7 @@ export default function GuestbookForm() {
             placeholder="Leave a nice message..."
             required
             rows={3}
-            className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-500/50 focus:border-transparent transition-all resize-none"
+            className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-400/50 focus:border-transparent transition-all resize-none"
           />
           {typeof errors === 'object' && errors?.message && (
             <p className="mt-1 text-sm text-red-400">{errors.message[0]}</p>
@@ -81,7 +81,7 @@ export default function GuestbookForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex items-center gap-2 px-6 py-2 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-900 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-zinc-200 text-black font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:-translate-y-0.5"
           >
             {isSubmitting ? (
               <>

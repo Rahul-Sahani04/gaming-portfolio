@@ -13,6 +13,19 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        cyber: {
+          cyan: "#00f0ff",
+          pink: "#ff003c",
+          yellow: "#fcee0a",
+          dark: "#0a0a0c",
+          gray: "#1a1a1c",
+        },
+      },
+      fontFamily: {
+        display: ["var(--font-display)", "sans-serif"],
+        mono: ["var(--font-mono)", "monospace"],
+      },
     },
     animation: {
       "fade-in": "fade-in 3s ease-in-out forwards",
