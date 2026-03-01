@@ -8,10 +8,10 @@ import Script from "next/script";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.rsahani.space"),
   title: {
-    default: "Rahul Sahani | Full-Stack Developer",
+    default: "Rahul Sahani — Full-Stack Developer & Creative Engineer",
     template: "%s | Rahul Sahani",
   },
-  description: "Full-stack developer and designer crafting interactive web experiences with Next.js, React, TypeScript, Three.js, and Tailwind CSS. Explore projects and experiments.",
+  description: "Full-stack developer crafting interactive web experiences with Next.js, React, Three.js, and TypeScript. Explore projects & experiments.",
 
   authors: [
     {
@@ -44,9 +44,9 @@ export const metadata: Metadata = {
   ],
   publisher: "Rahul Sahani",
   openGraph: {
-    title: "Rahul Sahani",
+    title: "Rahul Sahani — Full-Stack Developer & Creative Engineer",
     description:
-      "Hey, I'm Rahul Sahani, a full-stack developer and designer building interactive web experiences with Next.js, React, TypeScript, and Three.js.",
+      "Full-stack developer crafting interactive web experiences with Next.js, React, Three.js, and TypeScript. Explore projects & experiments.",
     url: "https://www.rsahani.space",
     siteName: "Rahul Sahani",
     images: [
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Rahul Sahani",
     description:
-      "Full-stack developer and designer building interactive web experiences with Next.js, React, TypeScript, and Three.js.",
+      "Full-stack developer crafting interactive web experiences with Next.js, React, Three.js, and TypeScript. Explore projects & experiments.",
     images: ["/og.png"],
     creator: "@me_rsahani",
   },
@@ -131,6 +131,48 @@ export default function RootLayout({
             gtag('config', 'G-GCJ9N0FQ3X');
           `}
         </Script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  "@id": "https://www.rsahani.space/#person",
+                  name: "Rahul Sahani",
+                  url: "https://www.rsahani.space",
+                  jobTitle: "Full-Stack Developer",
+                  description:
+                    "Full-stack developer and creative engineer building interactive web experiences with Next.js, React, TypeScript, Three.js, and Tailwind CSS.",
+                  sameAs: [
+                    "https://github.com/Rahul-Sahani04",
+                    "https://linkedin.com/in/rahulsahani04",
+                    "https://x.com/me_rsahani",
+                  ],
+                  knowsAbout: [
+                    "Next.js",
+                    "React",
+                    "TypeScript",
+                    "Three.js",
+                    "Tailwind CSS",
+                    "Full-Stack Development",
+                    "3D Web Development",
+                  ],
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://www.rsahani.space/#website",
+                  url: "https://www.rsahani.space",
+                  name: "Rahul Sahani — Portfolio",
+                  publisher: {
+                    "@id": "https://www.rsahani.space/#person",
+                  },
+                },
+              ],
+            }),
+          }}
+        />
         <Analytics />
         <CommandMenu />
         <CmdKToast />
