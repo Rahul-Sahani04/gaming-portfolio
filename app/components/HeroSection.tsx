@@ -53,12 +53,12 @@ export default function HeroSection() {
     }, []);
 
     return (
-        <div className="!overflow-hidden flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
+        <div className="!overflow-hidden flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
             <CustomCursor />
             <NextTopLoader />
             {
                 loading && (
-                    <div className="flex items-center justify-center w-screen h-screen bg-black">
+                    <div className="flex items-center justify-center w-full h-screen bg-black">
                         <LoadingScreen loading={loading} setLoading={setLoading} />
                     </div>
                 )
@@ -66,7 +66,7 @@ export default function HeroSection() {
             {
                 !isMobile ? <ThreeScene loading={loading} /> : <StarBackground />
             }
-            <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
+            <div className="hidden w-full h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
             <Particles
                 className="absolute inset-0 -z-10 animate-fade-in"
                 quantity={100}
@@ -74,17 +74,17 @@ export default function HeroSection() {
             <h3 className="z-10 text-sm text-center text-zinc-500 sm:text-base md:text-lg animate-fade-in">
                 Hey, Ready to be impressed? Explore my portfolio. 🚀
             </h3>
-            <h1 className="z-10 text-6xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
+            <h1 className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
                 Rahul Sahani
             </h1>
 
-            <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
+            <div className="hidden w-full h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
 
             <div className="my-16 text-center animate-fade-in ">
                 <h2 className="text-sm text-zinc-500 ">
                     <Link
                         href="/about"
-                        className=" duration-500 hover:text-zinc-300 no-underline press-start sm:text-xl md:text-3xl z-20"
+                        className="duration-500 hover:text-zinc-300 no-underline press-start text-base sm:text-xl md:text-3xl z-20"
                     >
                         Press Start
                     </Link>

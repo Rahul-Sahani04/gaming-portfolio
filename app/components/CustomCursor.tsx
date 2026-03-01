@@ -1,19 +1,22 @@
 // components/CustomCursor.tsx
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./CustomCursor.module.css";
 import Image from "next/image";
 
 const CustomCursor = () => {
-  // Check if device supports hover (non-touch devices)
-  const isNonTouchDevice = () => {
-    if (typeof window === 'undefined') return false;
-    return window.matchMedia('(hover: hover)').matches;
-  };
+  // SSR-safe: start hidden, detect pointer capability after mount
+  const [showCursor, setShowCursor] = useState(false);
+
+  useEffect(() => {
+    // Only show cursor on devices with fine pointer (mouse/trackpad)
+    const hasPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    setShowCursor(hasPointer);
+  }, []);
 
   useEffect(() => {
     // Don't initialize cursor on touch devices
-    if (!isNonTouchDevice()) return;
+    if (!showCursor) return;
 
     const cursor = document.querySelector(`.${styles.cursor}`);
     const cursorinner = document.querySelector(`.${styles.cursor2}`);
@@ -91,10 +94,10 @@ const CustomCursor = () => {
         item.removeEventListener("mouseleave", handleLinkMouseLeave);
       });
     };
-  }, []);
+  }, [showCursor]);
 
-  // Don't render custom cursor on touch devices
-  if (!isNonTouchDevice()) return null;
+  // Don't render on SSR or touch devices
+  if (!showCursor) return null;
 
   return (
     <div className={styles.cursorContainer}>
@@ -114,3 +117,4 @@ const CustomCursor = () => {
 };
 
 export default CustomCursor;
+

@@ -81,7 +81,11 @@ const SpaceShipModel = ({
 
 
     useEffect(() => {
-        document.addEventListener("mousemove", (e) => handleMouseMove(e));
+        // Only attach mousemove on devices with a fine pointer (mouse/trackpad)
+        if (!window.matchMedia('(pointer: fine)').matches) return;
+        const handler = (e: MouseEvent) => handleMouseMove(e);
+        document.addEventListener("mousemove", handler);
+        return () => document.removeEventListener("mousemove", handler);
     }, []);
 
     useEffect(() => {
@@ -164,9 +168,10 @@ export default function ThreeScene({ loading }: { loading: boolean }) {
 
     return (
         <Canvas
-            style={{ position: "absolute", height: "100vh", width: "100vw" }}
-            className="absolute w-screen h-screen bg-transparent -z-10"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+            className="absolute inset-0 bg-transparent -z-10"
             camera={{ near: 0.1, far: 1000 }}
+            dpr={[1, 1.5]}
             id="black-hole-canvas"
         >
             <OrbitControls enableZoom={false} enablePan={false} />

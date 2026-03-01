@@ -39,7 +39,7 @@ export default function ContactForm() {
   }
 
   const inputStyles =
-    "w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-zinc-100 placeholder-zinc-500 " +
+    "w-full px-4 py-3.5 rounded-xl bg-black/50 border border-white/10 text-zinc-100 placeholder-zinc-500 text-base " +
     "focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 transition-all";
 
   return (
@@ -131,8 +131,8 @@ export default function ContactForm() {
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             className={`text-sm ${status.type === "success"
-                ? "text-green-400"
-                : "text-red-400"
+              ? "text-green-400"
+              : "text-red-400"
               }`}
           >
             {status.message}
@@ -144,7 +144,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-zinc-200 text-black font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl bg-white hover:bg-zinc-200 text-black font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:-translate-y-0.5"
           >
             {isSubmitting ? (
               <>

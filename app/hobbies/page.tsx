@@ -120,7 +120,22 @@ export default function HobbiesPage() {
                     <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-800 via-black to-black"></div>
                     <ChapterMarker number="02" label="LOOPS" className="absolute top-12 md:left-[10%] z-20" />
 
-                    <div className="max-w-[1800px] mx-auto px-6 overflow-x-auto no-scrollbar md:overflow-visible flex md:grid md:grid-cols-3 gap-12 pt-12 md:pt-32 snap-x snap-mandatory">
+                    <div className="max-w-[1800px] mx-auto px-6 overflow-x-auto no-scrollbar md:overflow-visible flex md:grid md:grid-cols-3 gap-12 pt-12 md:pt-32 snap-x snap-mandatory"
+                        style={{
+
+                            // Mobile specific styles
+                            overflowX: "auto",
+                            scrollSnapTypeX: "mandatory",
+                            scrollSnapTypeY: "none",
+                            scrollBehavior: "smooth",
+
+                            scrollbarColor: "#2b2b2b #4b4b4b",
+                            scrollbarWidth: "thin",
+                            msOverflowStyle: "none",
+
+
+                        }}
+                    >
                         {videos.map((vid, i) => (
                             <VideoItem key={i} src={vid} index={i} onClick={() => setSelectedVideo(vid)} />
                         ))}
