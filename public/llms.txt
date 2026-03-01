@@ -1,0 +1,33 @@
+# Rahul Sahani — Portfolio
+
+> Full-stack developer and creative engineer specializing in Next.js, React, TypeScript, Three.js, and Tailwind CSS.
+
+## About
+Rahul Sahani is a passionate full-stack developer from India who builds immersive, high-performance web applications. His work spans frontend engineering, creative 3D development, and full-stack architecture. He brings designs to life with Framer Motion animations, builds real-time 3D visualizations with Three.js and React Three Fiber, and architects serverless backends.
+
+## Pages
+- / — Homepage with interactive 3D hero section featuring a spaceship and black hole
+- /about — About page with skills, experience, and personal story
+- /projects — Project showcase with case studies and interactive previews
+- /contact — Contact form (powered by Resend) and social links
+- /guestbook — Public guestbook with community messages
+- /gaming — Gaming section with interactive content and game videos
+- /blog — Technical blog posts written in MDX
+
+## Tech Stack
+- Framework: Next.js 14 (App Router)
+- Language: TypeScript
+- Styling: Tailwind CSS
+- 3D: Three.js, React Three Fiber, React Three Drei
+- Animation: Framer Motion
+- CMS: ContentLayer (MDX)
+- Database: Upstash Redis
+- Email: Resend
+- Hosting: Vercel
+- Analytics: Google Analytics
+
+## Social
+- GitHub: https://github.com/Rahul-Sahani04
+- LinkedIn: https://linkedin.com/in/rahulsahani04
+- X/Twitter: https://x.com/me_rsahani
+- Website: https://www.rsahani.space

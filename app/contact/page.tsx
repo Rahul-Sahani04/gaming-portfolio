@@ -120,7 +120,7 @@ export default function Contact() {
               onMouseLeave={() =>
                 setIsHovered({ ...isHovered, [s.label.toLowerCase()]: false })
               }
-              className="group relative flex flex-col items-center justify-center gap-6 p-8 md:p-12 h-full rounded-3xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] transition-all duration-500 shadow-xl hover:shadow-2xl hover:-translate-y-2 backdrop-blur-md"
+              className="group relative flex flex-col items-center justify-center gap-6 p-8 md:p-12 h-full rounded-3xl bg-white/[0.02] border border-white/[0.1] hover:bg-white/[0.04] transition-all duration-500 shadow-xl hover:shadow-2xl hover:-translate-y-2 backdrop-blur-md"
             >
               <div
                 className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"

@@ -1,145 +1,69 @@
-'use client';
+import { Metadata } from "next";
+import HeroSection from "./components/HeroSection";
 
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import Particles from "./components/particles";
-import useIsMobile from "./hooks/useIsMobile";
-import StarBackground from "./components/StarBackground";
-
-import "./page.css";
-
-// import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-// import { OrbitControls } from "@react-three/drei";
-
-// import { TextureLoader } from "three/src/loaders/TextureLoader";
-
-// import { useGLTF } from "@react-three/drei";
-
-// import { useSpring, a } from "@react-spring/three";
-
-// import { Suspense } from "react";
-// import { EffectComposer, Outline, Bloom } from "@react-three/postprocessing";
-// import { GlitchMode } from "postprocessing";
-
-import CustomCursor from "./components/CustomCursor";
-// import { Vector2 } from "three";
-
-import NextTopLoader from 'nextjs-toploader';
-
-// import { BoxHelper, CylinderGeometry, MeshBasicMaterial, Mesh } from "three";
-
-// import { motion, AnimatePresence } from 'framer-motion';
-import LoadingScreen from "./components/LoadingScreen";
-
-import dynamic from 'next/dynamic';
-
-const ThreeScene = dynamic(() => import('./components/ThreeScene'), { ssr: false });
-
-const navigation = [
-  { name: "Projects", href: "/projects" },
-  { name: "Contact", href: "/contact" },
-];
-
-function PlayGame() {
-  window.open("https://mini-space-shooter.vercel.app/", "_blank");
-}
-
+export const metadata: Metadata = {
+  title: "Rahul Sahani — Full-Stack Developer & Creative Engineer",
+  description:
+    "Full-stack developer crafting interactive web experiences with Next.js, React, Three.js, and TypeScript. Explore projects & experiments.",
+  alternates: { canonical: "https://www.rsahani.space" },
+};
 
 export default function Home() {
-  const isMobile = useIsMobile();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Load assets
-    console.log("Loading assets");
-    const loadAssets = async () => {
-      // await Promise.all([
-      //   useGLTF.preload("/model/Black_hole.glb"),
-      //   useGLTF.preload("/model/SpaceShipV2.glb"),
-      // ]);
-      // setTimeout(() => {
-      //   setLoading(false);
-      // }, 1600);
-      console.log("Assets loaded");
-    };
-
-    loadAssets();
-
-    // On mouse click anywhere on the page, play sound effect
-    document.addEventListener("click", () => {
-      const audio = new Audio("/plasmablaster-37114.mp3");
-      audio.volume = 0.2;
-      audio.playbackRate = 0.9;
-      audio.play();
-    });
-  }, []);
-
-  // if (loading) {
-  //   return (
-  //     <div className="flex items-center justify-center w-screen h-screen bg-black">
-  //       <LoadingScreen loading={loading} setLoading={setLoading} />
-  //     </div>
-  //   );
-  // }
-
   return (
+    <>
+      <HeroSection />
 
-    <div className="!overflow-hidden flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
-      <CustomCursor />
-      <NextTopLoader />
-      {
-        loading && (
-          <div className="flex items-center justify-center w-screen h-screen bg-black">
-            <LoadingScreen loading={loading} setLoading={setLoading} />
-          </div>
-        )
-      }
-      {
-        !isMobile ? <ThreeScene loading={loading} /> : <StarBackground />
-      }
-      <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
-      <Particles
-        className="absolute inset-0 -z-10 animate-fade-in"
-        quantity={100}
-      />
-      <h3 className="z-10 text-sm text-center text-zinc-500 sm:text-base md:text-lg animate-fade-in">
-        Hey, Ready to be impressed? Explore my portfolio. 🚀
-      </h3>
-      <h1 className="z-10 text-6xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
-        Rahul Sahani
-      </h1>
-
-      <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
-
-      <div className="my-16 text-center animate-fade-in ">
-        <h2 className="text-sm text-zinc-500 ">
-          <Link
-            href="/about"
-            className=" duration-500 hover:text-zinc-300 no-underline press-start sm:text-xl md:text-3xl z-20"
-          >
-            Press Start
-          </Link>
-        </h2>
-      </div>
-
-      <div
-        className="absolute -bottom-0 -right-2"
-        onClick={PlayGame}
-        style={{ cursor: "pointer" }}
-        id="cat-peeking-container"
-      >
-        {/* Message Bubble */}
-        <p className="absolute -top-10 right-4 w-18 lg:w-22 !text-[12px] md:!text-[16px] text-zinc-500 animate-fade-in ">
-          Wanna play a game? 🐾
+      {/* SEO-rich content — visible to crawlers and assistive technologies */}
+      <section className="sr-only" aria-label="About Rahul Sahani">
+        <h2>Rahul Sahani — Full-Stack Developer &amp; Creative Engineer</h2>
+        <p>
+          Welcome to the portfolio of Rahul Sahani, a  full-stack
+          developer and creative engineer from India, specializing in crafting
+          immersive, high-performance web applications that push the boundaries
+          of what&apos;s possible in the browser.
         </p>
-        <img
-          id="cat-peeking-image"
-          alt="Cat Peeking From Corner"
-          src="/CatPeeking.png"
-          className=" w-12 md:w-16 hover:!opacity-70 !opacity-50 invisible Animate-FadeInRight backdrop:blur-sm rounded-full shadow-lg transition-transform duration-300 cursor-pointer z-20 "
-        />
-      </div>
-    </div>
+
+        <h3>What I Build</h3>
+        <p>
+          I specialize in building modern web applications using trending
+          technologies including Next.js, React, TypeScript, Three.js, and
+          Tailwind CSS. From interactive 3D experiences to scalable full-stack
+          platforms, every project I build prioritizes performance, accessibility,
+          and exceptional user experience.
+        </p>
+        <p>
+          My work spans across frontend engineering, creative development, and
+          full-stack architecture. I bring designs to life with smooth animations
+          powered by Framer Motion, build real-time 3D visualizations with
+          Three.js and React Three Fiber, and architect serverless backends with
+          modern tooling.
+        </p>
+
+        <h3>Featured Projects</h3>
+        <p>
+          Explore the project showcase to see case studies of interactive web
+          experiences, SaaS platforms, game prototypes, and open-source
+          contributions. Each project demonstrates a thoughtful approach to
+          solving real problems with elegant, maintainable code.
+        </p>
+
+        <h3>Skills &amp; Technologies</h3>
+        <p>
+          Frontend: React, Next.js, TypeScript, Tailwind CSS, Framer Motion,
+          Three.js. Backend: Node.js, Express, Serverless Functions, REST APIs.
+          Tools: Git, Vercel, Figma, VS Code. Creative: 3D Web Development,
+          WebGL, GLSL Shaders, Interactive Animations.
+        </p>
+
+        <h3>Let&apos;s Connect</h3>
+        <p>
+          I&apos;m always open to discussing new projects, creative ideas, or
+          opportunities to collaborate. Whether you&apos;re looking for a developer
+          to bring your vision to life or want to explore a partnership, feel
+          free to reach out through the contact page or connect with me on
+          GitHub, LinkedIn, or X.
+        </p>
+      </section>
+    </>
   );
 }
-
