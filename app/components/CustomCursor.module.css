@@ -11,6 +11,13 @@
   pointer-events: none;
 }
 
+/* Hide custom cursor on touch/mobile devices (CSS-only fallback) */
+@media (pointer: coarse) {
+  .cursorContainer {
+    display: none !important;
+  }
+}
+
 
 .link:after {
   content: '';

@@ -92,7 +92,7 @@ export default function Contact() {
       <NextTopLoader />
       {
         loading && (
-          <div className="flex items-center justify-center w-screen h-screen bg-black">
+          <div className="flex items-center justify-center w-full h-screen bg-black">
             <LoadingScreen loading={loading} setLoading={setLoading} />
           </div>
         )

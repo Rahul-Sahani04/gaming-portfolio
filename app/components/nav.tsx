@@ -91,7 +91,7 @@ export const Navigation: React.FC = () => {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-zinc-300 hover:text-zinc-100"
+            className="md:hidden text-zinc-300 hover:text-zinc-100 min-w-[44px] min-h-[44px] flex items-center justify-center"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -123,7 +123,7 @@ export const Navigation: React.FC = () => {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-3xl font-medium text-zinc-200 hover:text-zinc-100 duration-200"
+                    className="text-3xl font-medium text-zinc-200 hover:text-zinc-100 duration-200 py-2 px-4"
                     onClick={() => setMobileOpen(false)}
                   >
                     {label}
@@ -131,7 +131,7 @@ export const Navigation: React.FC = () => {
                 ) : (
                   <Link
                     href={href}
-                    className="text-3xl font-medium text-zinc-200 hover:text-zinc-100 duration-200"
+                    className="text-3xl font-medium text-zinc-200 hover:text-zinc-100 duration-200 py-2 px-4"
                     onClick={() => setMobileOpen(false)}
                   >
                     {label}

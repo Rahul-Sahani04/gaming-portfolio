@@ -19,8 +19,8 @@ export default function AboutPage() {
   const AnimatedLine = ({ className }: { className?: string }) => {
     return (
       <div className={"relative mt-2 " + className}>
-        <div className="absolute w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-800/0 via-zinc-800 to-zinc-800/0 mt-16" />
-        <div className="absolute w-screen h-px animate-glow md:block animate-fade-in bg-gradient-to-r from-zinc-800/0 via-zinc-800 to-zinc-800/0 mt-16" />
+        <div className="absolute w-full h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-800/0 via-zinc-800 to-zinc-800/0 mt-16" />
+        <div className="absolute w-full h-px animate-glow md:block animate-fade-in bg-gradient-to-r from-zinc-800/0 via-zinc-800 to-zinc-800/0 mt-16" />
       </div>
     );
   };
@@ -200,7 +200,7 @@ export default function AboutPage() {
 
       {
         loading && (
-          <div className="flex items-center justify-center w-screen h-screen bg-black">
+          <div className="flex items-center justify-center w-full h-screen bg-black">
             <LoadingScreen loading={loading} setLoading={setLoading} />
           </div>
         )
