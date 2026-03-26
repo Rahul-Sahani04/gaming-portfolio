@@ -62,9 +62,47 @@ export const Page = defineDocumentType(() => ({
   computedFields,
 }));
 
+export const Skill = defineDocumentType(() => ({
+  name: "Skill",
+  filePathPattern: "skills/**/*.mdx",
+  contentType: "mdx",
+  fields: {
+    title: {
+      type: "string",
+      required: true,
+    },
+    description: {
+      type: "string",
+      required: true,
+    },
+    level: {
+      type: "number",
+    },
+    category: {
+      type: "enum",
+      options: ["cognitive", "social", "resilience", "focus", "core"],
+    },
+    icon: {
+      type: "string",
+    },
+    relatedGames: {
+      type: "list",
+      of: { type: "string" },
+    },
+    tags: {
+      type: "list",
+      of: { type: "string" },
+    },
+    insight: {
+      type: "string",
+    },
+  },
+  computedFields,
+}));
+
 export default makeSource({
   contentDirPath: "./content",
-  documentTypes: [Page, Project],
+  documentTypes: [Page, Project, Skill],
   mdx: {
     remarkPlugins: [],
     rehypePlugins: [
