@@ -1,6 +1,5 @@
 "use client"
 
-import type { Metadata } from "next"
 import { Navigation } from "../components/nav"
 import { useState, useEffect, useRef } from "react"
 import { Particles } from "../components/magicui/star_particles"
