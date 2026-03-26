@@ -20,7 +20,6 @@ const SpaceShipModel = ({
 
     // On mouse click, shoot a laser beam
     const shootLaser = () => {
-        console.log("Shooting laser");
         const geometry = new CylinderGeometry(1, 1, 1, 32);
         const material = new MeshBasicMaterial({ color: 0x00ff00 });
         const laser = new Mesh(geometry, material);

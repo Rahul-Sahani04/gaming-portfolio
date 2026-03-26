@@ -118,13 +118,6 @@ const WhyItMatters = () => {
                                 "This page celebrates the games that have shaped my approach to challenges, creativity, and collaboration—lessons that continue to influence my work and personal growth."
                             </p>
 
-                            {/* Hidden Hint */}
-                            <div className="mt-6 opacity-30 text-xs border-t border-zinc-800 pt-4 text-zinc-600 select-none">
-                                <span className="text-zinc-700"># TODO: remove secret code logic</span><br />
-                                <span className="text-zinc-700"># sequence: </span>
-                                <span className="font-bold">↑ ↑ ↓ ↓ ← → ← → B A</span>
-                            </div>
-
                             <motion.span
                                 animate={{ opacity: [0, 1] }}
                                 transition={{ repeat: Infinity, duration: 0.8 }}
