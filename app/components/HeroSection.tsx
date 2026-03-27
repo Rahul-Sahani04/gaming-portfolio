@@ -33,13 +33,6 @@ export default function HeroSection() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log("Loading assets");
-        const loadAssets = async () => {
-            console.log("Assets loaded");
-        };
-
-        loadAssets();
-
         // On mouse click anywhere on the page, play sound effect
         const handleClick = () => {
             const audio = new Audio("/plasmablaster-37114.mp3");
