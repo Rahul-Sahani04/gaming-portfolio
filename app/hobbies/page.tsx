@@ -22,9 +22,9 @@ const videos = [
 
 const sketches = [
     "https://res.cloudinary.com/dezgrhc2p/image/upload/v1767876031/q7pdpuu1mo8jtgljkddv_u0t4to.webp",
-    "https://res.cloudinary.com/dezgrhc2p/image/upload/v1767876029/velnid9wcpsdglztosqm_adqoe8.webp",
+    "https://res.cloudinary.com/dezgrhc2p/image/upload/v1774612725/IMG_2443_vxjke7_cwwly2.webp",
     "https://res.cloudinary.com/dezgrhc2p/image/upload/v1767876028/trrtumlt0s6nnx2fzpxn_bzjn20.webp",
-    "https://res.cloudinary.com/dezgrhc2p/image/upload/v1767876027/vxgilaykn5izkaxizxtj_jg99qr.webp",
+    "https://res.cloudinary.com/dezgrhc2p/image/upload/v1774612725/IMG_5024_epcvjh_qcgush.webp",
     "https://res.cloudinary.com/dezgrhc2p/image/upload/v1767876027/qnjjga6cv7ulgqxfx9k6_yahdph.webp",
 ];
 
