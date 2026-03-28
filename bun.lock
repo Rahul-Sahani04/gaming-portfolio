@@ -25,6 +25,7 @@
         "lottie-react": "^2.4.1",
         "lottie-web": "^5.13.0",
         "lucide-react": "^0.509.0",
+        "maath": "^0.10.8",
         "markdown-wasm": "^1.2.0",
         "motion": "^12.34.2",
         "next": "^14.2.35",

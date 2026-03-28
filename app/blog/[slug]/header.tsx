@@ -4,7 +4,7 @@ import { ArrowLeft, Github, Calendar, Tag } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import FloatingGeometry from "../../components/FloatingGeometry";
+import Hero3D from "../../components/Hero3D";
 
 type Props = {
     post: {
@@ -13,6 +13,7 @@ type Props = {
         date: string;
         tags?: string[];
         repository?: string;
+        hero3d?: string;
     };
 };
 
@@ -43,8 +44,8 @@ export const BlogHeader: React.FC<Props> = ({ post }) => {
             className="relative isolate overflow-hidden bg-cyber-dark"
         >
             <motion.div style={{ y: yValue, opacity: opacityValue }} className="absolute inset-0 z-0">
-                {/* Embedded 3D Hero Element */}
-                <FloatingGeometry className="w-full h-full opacity-60 mix-blend-screen" />
+                {/* Embedded 3D Hero Element with variants */}
+                <Hero3D variant={post.hero3d} className="w-full h-full opacity-60 mix-blend-screen" />
             </motion.div>
 
             {/* Cyber grid background on the header */}

@@ -21,7 +21,7 @@ export default function ClientBlogPost({ post }: ClientBlogPostProps) {
 
             {/* MDX body — dark-themed prose */}
             <div className="relative z-10">
-                <motion.article 
+                <motion.article
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
@@ -47,7 +47,7 @@ export default function ClientBlogPost({ post }: ClientBlogPostProps) {
                 </motion.article>
 
                 {/* Bottom divider */}
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
