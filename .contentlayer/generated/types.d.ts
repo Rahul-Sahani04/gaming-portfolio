@@ -18,6 +18,7 @@ export type Blog = {
   description: string
   date: IsoDateTimeString
   tags?: string[] | undefined
+  hero3d?: string | undefined
   repository?: string | undefined
   /** MDX file body */
   body: MDX

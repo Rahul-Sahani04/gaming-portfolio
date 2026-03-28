@@ -70,6 +70,10 @@ export const Blog = defineDocumentType(() => ({
       type: "list",
       of: { type: "string" },
     },
+    hero3d: {
+      type: "string",
+      required: false,
+    },
     repository: {
       type: "string",
     },
