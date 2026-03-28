@@ -4,6 +4,7 @@ import NextTopLoader from "nextjs-toploader";
 import { BlogHeader } from "./header";
 import { Mdx } from "@/app/components/mdx";
 import type { Blog } from "contentlayer/generated";
+import { motion } from "framer-motion";
 
 type ClientBlogPostProps = {
     post: Blog;
@@ -20,7 +21,12 @@ export default function ClientBlogPost({ post }: ClientBlogPostProps) {
 
             {/* MDX body — dark-themed prose */}
             <div className="relative z-10">
-                <article className="px-6 py-16 mx-auto max-w-3xl prose prose-invert prose-quoteless
+                <motion.article 
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="px-6 py-16 mx-auto max-w-3xl prose prose-invert prose-quoteless
                     prose-headings:font-display prose-headings:uppercase prose-headings:tracking-tight
                     prose-headings:text-white
                     prose-h1:drop-shadow-[0_0_8px_rgba(0,240,255,0.4)]
@@ -38,15 +44,21 @@ export default function ClientBlogPost({ post }: ClientBlogPostProps) {
                     prose-p:text-zinc-300
                 ">
                     <Mdx code={post.body.code} />
-                </article>
+                </motion.article>
 
                 {/* Bottom divider */}
-                <div className="max-w-3xl mx-auto px-6 pb-16">
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, delay: 0.5 }}
+                    className="max-w-3xl mx-auto px-6 pb-16"
+                >
                     <div className="h-px bg-gradient-to-r from-transparent via-cyber-cyan to-transparent opacity-30" />
                     <p className="mt-6 font-mono text-xs text-zinc-600 uppercase tracking-widest text-center">
                         // END_OF_TRANSMISSION
                     </p>
-                </div>
+                </motion.div>
             </div>
         </div>
     );
