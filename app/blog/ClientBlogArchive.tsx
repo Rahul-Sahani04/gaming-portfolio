@@ -35,7 +35,7 @@ export default function ClientBlogArchive({ posts }: { posts: any[] }) {
 
             <div className="px-6 mx-auto max-w-7xl lg:px-8 pt-24 md:pt-32 pb-16 relative z-10 flex flex-col gap-16">
                 {/* Header */}
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
@@ -43,11 +43,11 @@ export default function ClientBlogArchive({ posts }: { posts: any[] }) {
                 >
                     <BlurText text="Blog Archive" className="text-5xl text-white sm:text-7xl font-display tracking-tight text-edge-outline drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center gap-4" delay={2} />
                     <div className="mt-8 flex flex-col gap-2">
-                        <motion.div 
-                            initial={{ scaleX: 0 }} 
-                            animate={{ scaleX: 1 }} 
+                        <motion.div
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
                             transition={{ duration: 1, delay: 0.2 }}
-                            className="origin-left h-px w-full bg-gradient-to-r from-zinc-800 via-zinc-400 to-transparent opacity-50" 
+                            className="origin-left h-px w-full bg-gradient-to-r from-zinc-800 via-zinc-400 to-transparent opacity-50"
                         />
                         <p className="mt-4 text-zinc-400 text-sm font-light leading-relaxed tracking-wider border-l-2 border-zinc-700 pl-6">
                             Thoughts on building things — tools, apps, and lessons learned.<br />
@@ -63,7 +63,7 @@ export default function ClientBlogArchive({ posts }: { posts: any[] }) {
                         <span>No records found — check back soon.</span>
                     </div>
                 ) : (
-                    <motion.div 
+                    <motion.div
                         variants={container}
                         initial="hidden"
                         animate="show"
@@ -71,7 +71,7 @@ export default function ClientBlogArchive({ posts }: { posts: any[] }) {
                     >
                         {posts.map((post, index) => (
                             <motion.div key={post.slug} variants={item} className="relative group perspective">
-                                <motion.div 
+                                <motion.div
                                     whileHover={{ scale: 1.02, rotateX: 2, rotateY: -2 }}
                                     transition={{ type: "spring", stiffness: 300 }}
                                     className="h-full"

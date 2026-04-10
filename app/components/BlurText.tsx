@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import React from "react";
+import { Variants } from "framer-motion";
 
 type BlurTextProps = {
   text: string;
@@ -20,7 +21,9 @@ export const BlurText: React.FC<BlurTextProps> = ({ text, className, delay = 0 }
     }),
   };
 
-  const child = {
+
+
+  const child: Variants = {
     visible: {
       opacity: 1,
       filter: "blur(0px)",
