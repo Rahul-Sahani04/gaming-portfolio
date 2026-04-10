@@ -10,8 +10,8 @@ const navLinks = [
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
   { href: "/gaming", label: "Gaming" },
-  { href: "/guestbook", label: "Guestbook" },
   { href: "/hobbies", label: "Hobbies" },
+  { href: "/guestbook", label: "Guestbook" },
   { href: "/contact", label: "Contact" },
   { href: "/blog", label: "Blogs" },
 ];
@@ -49,19 +49,17 @@ export const Navigation: React.FC = () => {
   return (
     <header ref={ref}>
       <div
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          scrolled
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled
             ? "py-2"
             : "py-3"
-        }`}
+          }`}
       >
         {/* Glassmorphic background bar */}
         <div
-          className={`absolute inset-0 transition-all duration-500 border-b ${
-            scrolled || !isIntersecting
+          className={`absolute inset-0 transition-all duration-500 border-b ${scrolled || !isIntersecting
               ? "bg-zinc-950/80 backdrop-blur-xl border-zinc-800/60 shadow-[0_1px_30px_rgba(0,0,0,0.4)]"
               : "bg-transparent border-transparent"
-          }`}
+            }`}
         />
 
         <div className="relative container flex items-center justify-between px-4 mx-auto">
@@ -91,11 +89,10 @@ export const Navigation: React.FC = () => {
                 <Link
                   key={label}
                   href={href}
-                  className={`relative px-3 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 ${
-                    isActive
+                  className={`relative px-3 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 ${isActive
                       ? "text-white"
                       : "text-zinc-400 hover:text-zinc-100"
-                  }`}
+                    }`}
                 >
                   {isActive && (
                     <motion.span
@@ -240,11 +237,10 @@ export const Navigation: React.FC = () => {
                   >
                     <Link
                       href={href}
-                      className={`flex items-center justify-center w-full py-3 px-6 rounded-xl text-2xl font-medium transition-all duration-200 ${
-                        isActive
+                      className={`flex items-center justify-center w-full py-3 px-6 rounded-xl text-2xl font-medium transition-all duration-200 ${isActive
                           ? "text-[#00f0ff] bg-[#00f0ff]/10 border border-[#00f0ff]/25"
                           : "text-zinc-300 hover:text-white hover:bg-zinc-800/50 border border-transparent"
-                      }`}
+                        }`}
                     >
                       {label}
                     </Link>

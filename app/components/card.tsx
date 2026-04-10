@@ -2,11 +2,10 @@
 import {
 	motion,
 	useMotionTemplate,
-	useMotionValue,
 	useSpring,
 } from "framer-motion";
 
-import { MouseEventHandler, PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 
 export const Card: React.FC<PropsWithChildren> = ({ children }) => {
 	const mouseX = useSpring(0, { stiffness: 500, damping: 100 });
@@ -17,27 +16,33 @@ export const Card: React.FC<PropsWithChildren> = ({ children }) => {
 		mouseX.set(clientX - left);
 		mouseY.set(clientY - top);
 	}
-	const maskImage = useMotionTemplate`radial-gradient(240px at ${mouseX}px ${mouseY}px, white, transparent)`;
+	const maskImage = useMotionTemplate`radial-gradient(350px at ${mouseX}px ${mouseY}px, white, transparent)`;
 	const style = { maskImage, WebkitMaskImage: maskImage };
 
 	return (
 		<div
 			onMouseMove={onMouseMove}
-			className="overflow-hidden relative duration-700 bg-cyber-gray/40 border border-cyber-cyan/20 chamfered group md:gap-8 hover:border-cyber-cyan hover:bg-cyber-gray/80 transition-all hover:shadow-[0_0_15px_rgba(0,240,255,0.3)]"
+			className="overflow-hidden relative duration-700 bg-white/[0.02] border border-white/5 rounded-2xl group transition-all hover:border-white/20 hover:bg-white/[0.04] backdrop-blur-md hover:shadow-2xl hover:shadow-white/5"
 		>
 			<div className="pointer-events-none">
-				<div className="absolute inset-0 z-0 transition duration-1000 [mask-image:linear-gradient(black,transparent)]" />
+				<div className="absolute inset-0 z-0 bg-zinc-950/20 transition-colors duration-1000" />
+				
+				{/* Inner Glowing Core */}
 				<motion.div
-					className="absolute inset-0 z-10 bg-gradient-to-br opacity-0 via-cyber-cyan/10 transition duration-1000 group-hover:opacity-100 mix-blend-screen"
+					className="absolute inset-0 z-10 bg-gradient-to-br from-zinc-300/[0.15] via-white/[0.1] to-transparent opacity-0 transition duration-1000 group-hover:opacity-100 mix-blend-overlay rounded-2xl"
 					style={style}
 				/>
+				
+				{/* Intense Spotlight Edge Follower */}
 				<motion.div
-					className="absolute inset-0 z-10 opacity-0 mix-blend-overlay transition duration-1000 group-hover:opacity-20 bg-cyber-cyan"
+					className="absolute inset-0 z-10 opacity-0 mix-blend-plus-lighter transition duration-1000 group-hover:opacity-60 bg-gradient-to-tr from-transparent via-zinc-400/[0.3] to-transparent rounded-2xl"
 					style={style}
 				/>
 			</div>
 
-			{children}
+			<div className="relative z-20 h-full w-full">
+				{children}
+			</div>
 		</div>
 	);
 };

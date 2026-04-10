@@ -13,6 +13,10 @@ import animatedGithub from "../components/AnimatedIcons/icons8-github.json";
 import animatedTwitter from "../components/AnimatedIcons/icons8-twitter.json";
 import animatedMail from "../components/AnimatedIcons/icons8-gmail-logo.json";
 import NextTopLoader from "nextjs-toploader";
+import Particles from "../components/particles";
+import { Meteors } from "../components/magicui/meteors";
+import { BlurText } from "../components/BlurText";
+import { MagneticWrapper } from "../components/MagneticWrapper";
 import LoadingScreen from "../components/LoadingScreen";
 import ContactForm from "./form";
 import { ArrowDown } from "lucide-react";
@@ -87,7 +91,9 @@ export default function Contact() {
   ];
 
   return (
-    <div className="bg-cyber-dark bg-cyber-grid bg-fixed min-h-screen relative">
+    <div className="bg-black bg-gradient-to-t from-black via-zinc-950 to-black min-h-screen relative overflow-hidden">
+      <Particles className="absolute inset-0 -z-10 animate-fade-in" quantity={150} />
+      <Meteors number={20} />
       <Navigation />
       <NextTopLoader />
       {
@@ -100,9 +106,7 @@ export default function Contact() {
       <div className="container flex flex-col items-center justify-center min-h-screen px-4 mx-auto pt-24 md:pt-32">
 
         <div className="text-center space-y-4 mb-16 hidden sm:block">
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-zinc-100 font-display">
-            Connect
-          </h1>
+          <BlurText text="Connect" className="text-5xl md:text-6xl font-bold tracking-tight text-zinc-100 font-display" delay={2} />
           <p className="text-zinc-400 text-lg font-light">
             Reach out through any of these secure channels.
           </p>
@@ -126,9 +130,11 @@ export default function Contact() {
                 className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"
                 aria-hidden="true"
               />
-              <span className="relative z-10 flex items-center justify-center w-16 h-16 text-sm duration-500 border rounded-full text-zinc-200 group-hover:text-white group-hover:bg-white/10 border-white/10 bg-black/50 group-hover:border-white/20 shadow-lg">
-                {s.icon}
-              </span>
+              <MagneticWrapper strength={0.3}>
+                <span className="relative z-10 flex items-center justify-center w-16 h-16 text-sm duration-500 border rounded-full text-zinc-200 group-hover:text-white group-hover:bg-white/10 border-white/10 bg-black/50 group-hover:border-white/20 shadow-lg">
+                  {s.icon}
+                </span>
+              </MagneticWrapper>
               <div className="z-10 flex flex-col items-center gap-1">
                 <span className="lg:text-xl font-medium duration-300 xl:text-2xl text-zinc-200 group-hover:text-white font-display tracking-tight">
                   {s.handle}
