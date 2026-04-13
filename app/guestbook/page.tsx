@@ -14,6 +14,7 @@ import Particles from "../components/particles";
 import { Card } from "../components/card";
 import { BlurText } from "../components/BlurText";
 import { MessageSquare } from "lucide-react";
+import AnimatedBeams from "@/components/AnimatedBeam";
 
 const redis = Redis.fromEnv();
 
@@ -57,6 +58,7 @@ export default async function GuestbookPage() {
       <Navigation />
       <CustomCursor />
       <NextTopLoader />
+      <AnimatedBeams />
 
       <div className="container flex flex-col items-center min-h-screen px-4 mx-auto pt-24 md:pt-32 pb-20">
         <div className="max-w-2xl w-full mx-auto">
