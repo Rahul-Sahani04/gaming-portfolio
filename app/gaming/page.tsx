@@ -15,6 +15,7 @@ import { useKonamiCode } from "../hooks/useKonamiCode"
 import { toast } from "sonner"
 import { Gamepad2 } from "lucide-react"
 import { recordEasterEggDiscovery } from "../actions"
+import BlurText from "../components/BlurText"
 
 
 
@@ -172,18 +173,19 @@ export default function GamingPage() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-black text-white overflow-x-hidden selection:bg-white/20 selection:text-white">
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-black text-white overflow-x-hidden selection:bg-white/20 selection:text-white"
+    >
       <Navigation />
       <CustomCursor />
       <NextTopLoader />
 
-      {
-        loading && (
-          <div className="flex items-center justify-center w-screen h-screen bg-black fixed inset-0 z-[100]">
-            <LoadingScreen loading={loading} setLoading={setLoading} />
-          </div>
-        )
-      }
+      {loading && (
+        <div className="flex items-center justify-center w-screen h-screen bg-black fixed inset-0 z-[100]">
+          <LoadingScreen loading={loading} setLoading={setLoading} />
+        </div>
+      )}
 
       <div className="relative w-full">
         {/* Thread/Timeline Line */}
@@ -209,12 +211,38 @@ export default function GamingPage() {
             transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-display tracking-tight text-white mb-8 sm:mb-12">
+            {/* <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-display tracking-tight text-white mb-8 sm:mb-12">
               Gaming <span className="opacity-40 font-light font-serif italic">&</span><br />
               <span className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                 Growth
               </span>
-            </h1>
+            </h1> */}
+
+            {!loading && (
+              <BlurText
+                segments={[
+                  { text: "Gaming", className: "text-white" },
+
+                  {
+                    text: "&",
+                    className: "opacity-40 font-light font-serif italic mx-4",
+                  },
+
+                  {
+                    text: "\n",
+                  },
+
+                  {
+                    text: "Growth",
+                    className:
+                      "text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]",
+                  },
+                ]}
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-display tracking-tight text-white mb-8 sm:mb-12"
+                delay={250}
+                animateBy="words"
+              />
+            )}
 
             <NarrativeText className="max-w-xl">
               More than just entertainment, games are a sandbox for the mind.
@@ -230,9 +258,9 @@ export default function GamingPage() {
           <Spacer size="sm" />
 
           <NarrativeText>
-            It starts with the fundamental skills. Like a character build in an RPG,
-            my professional abilities have branched out from core competencies,
-            each new skill unlocking further possibilities.
+            It starts with the fundamental skills. Like a character build in an
+            RPG, my professional abilities have branched out from core
+            competencies, each new skill unlocking further possibilities.
           </NarrativeText>
 
           <Spacer size="sm" />
@@ -249,9 +277,10 @@ export default function GamingPage() {
           <ChapterTitle>The Source Material</ChapterTitle>
 
           <NarrativeText>
-            Every difficult boss fight, every complex puzzle, and every cooperative mission
-            left a mark. These aren't just games I played—they are experiences that shaped
-            my perspective on resilience, leadership, and creativity.
+            Every difficult boss fight, every complex puzzle, and every
+            cooperative mission left a mark. These aren't just games I
+            played—they are experiences that shaped my perspective on
+            resilience, leadership, and creativity.
           </NarrativeText>
 
           <Spacer size="md" />
@@ -269,7 +298,12 @@ export default function GamingPage() {
           {/* Cards Container - Aligned with thread */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12 mx-auto max-w-6xl">
             {games.map((game, index) => (
-              <div key={game.title} className={index % 2 === 0 ? "lg:translate-y-12" : "lg:-translate-y-12"}>
+              <div
+                key={game.title}
+                className={
+                  index % 2 === 0 ? "lg:translate-y-12" : "lg:-translate-y-12"
+                }
+              >
                 <GameCard game={game} index={index} />
               </div>
             ))}
@@ -283,7 +317,8 @@ export default function GamingPage() {
           <ChapterTitle>The Inventory</ChapterTitle>
 
           <NarrativeText>
-            A visual collection of the tools and technologies I've mastered along the way.
+            A visual collection of the tools and technologies I've mastered
+            along the way.
           </NarrativeText>
 
           <Spacer size="sm" />
@@ -301,7 +336,6 @@ export default function GamingPage() {
 
           <Spacer size="xl" />
         </section>
-
       </div>
     </div>
   );
