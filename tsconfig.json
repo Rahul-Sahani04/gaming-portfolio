@@ -41,7 +41,7 @@
     ".contentlayer/generated",
     "**/*.glb",
     ".next/dev/types/**/*.ts"
-, "components/Beams.jsx"  ],
+, "components/Beams.jsx", "tailwind.config.js"  ],
   "exclude": [
     "node_modules"
   ]
