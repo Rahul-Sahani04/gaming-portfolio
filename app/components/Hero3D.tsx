@@ -84,7 +84,7 @@ function CubeMatrixVariant() {
 }
 
 function ParticlesVariant() {
-    const ref = useRef<any>();
+    const ref = useRef<any>(null);
     // Generate persistent positions using maath random utility
     const [sphere] = useState(() => random.inSphere(new Float32Array(3000), { radius: 2 }) as Float32Array);
 

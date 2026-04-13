@@ -1,5 +1,8 @@
 "use client";
-import { ArrowLeft, Eye, Github, Twitter } from "lucide-react";
+import { ArrowLeft, Eye } from "lucide-react";
+
+import { Github, Twitter } from "@/components/Icons";
+
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -13,6 +16,7 @@ type Props = {
 
 	views: number;
 };
+
 export const Header: React.FC<Props> = ({ project, views }) => {
 	const ref = useRef<HTMLElement>(null);
 	const [isIntersecting, setIntersecting] = useState(true);

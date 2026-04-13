@@ -7,8 +7,6 @@ import Particles from "./particles";
 import useIsMobile from "../hooks/useIsMobile";
 import StarBackground from "./StarBackground";
 
-import "../page.css";
-
 import CustomCursor from "./CustomCursor";
 
 import NextTopLoader from 'nextjs-toploader';

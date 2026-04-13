@@ -9,7 +9,7 @@ import { skills } from "../utils/Skills"
 import SkillDetailPanel from "./SkillDetailPanel"
 
 const SkillTree = () => {
-  const treeRef = useRef<HTMLDivElement>(null)
+  const treeRef = useRef<HTMLDivElement | null>(null)
   const nodeRefs = useRef<Record<string, HTMLDivElement | null>>({})
   const [lines, setLines] = useState<{ from: string; to: string; x1: number; y1: number; x2: number; y2: number }[]>([])
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null)

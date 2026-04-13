@@ -3,9 +3,11 @@
 import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { Github, Linkedin, Mail, Twitter } from "lucide-react"
+import {  Mail } from "lucide-react"
 import { Meteors } from "@/app/components/magicui/meteors"
 import { Particles } from "@/app/components/magicui/star_particles"
+
+import { Github, Twitter, Linkedin } from "@/components/Icons";
 
 export default function ParticleFooter() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -25,7 +27,7 @@ export default function ParticleFooter() {
           minDelay={0.2}
           maxDelay={1.2}
           angle={215}
-          
+
         />
       </div>
 
@@ -42,11 +44,11 @@ export default function ParticleFooter() {
           </p>
         </motion.div>
 
-       <motion.div
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative flex justify-center gap-6 mb-12 z-50" 
+          className="relative flex justify-center gap-6 mb-12 z-50"
         >
           <Link
             href="https://github.com/rahul-sahani04"

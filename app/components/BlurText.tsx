@@ -1,27 +1,32 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import React from "react";
-import { Variants } from "framer-motion";
 
 type BlurTextProps = {
   text: string;
   className?: string;
   delay?: number;
+  as?: "h1" | "h2" | "h3" | "p" | "span" | "div";
 };
 
-export const BlurText: React.FC<BlurTextProps> = ({ text, className, delay = 0 }) => {
-  // Split text into words for staggered effect
+export const BlurText: React.FC<BlurTextProps> = ({
+  text,
+  className,
+  delay = 0,
+  as = "h1",
+}) => {
   const words = text.split(" ");
 
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
-    visible: (i = 1) => ({
+    visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.08, delayChildren: delay * 0.1 },
-    }),
+      transition: {
+        staggerChildren: 0.07,
+        delayChildren: delay * 0.08,
+      },
+    },
   };
-
-
 
   const child: Variants = {
     visible: {
@@ -30,19 +35,21 @@ export const BlurText: React.FC<BlurTextProps> = ({ text, className, delay = 0 }
       y: 0,
       transition: {
         type: "spring",
-        damping: 12,
-        stiffness: 100,
+        damping: 14,
+        stiffness: 90,
       },
     },
     hidden: {
       opacity: 0,
-      filter: "blur(10px)",
-      y: 20,
+      filter: "blur(8px)",
+      y: 16,
     },
   };
 
+  const MotionTag = motion[as] as typeof motion.h1;
+
   return (
-    <motion.h1
+    <MotionTag
       className={className}
       variants={container}
       initial="hidden"
@@ -52,11 +59,11 @@ export const BlurText: React.FC<BlurTextProps> = ({ text, className, delay = 0 }
         <motion.span
           key={index}
           variants={child}
-          className="inline-block mr-[0.25em] last:mr-0 drop-shadow-sm"
+          className="inline-block mr-[0.22em] last:mr-0"
         >
           {word}
         </motion.span>
       ))}
-    </motion.h1>
+    </MotionTag>
   );
 };

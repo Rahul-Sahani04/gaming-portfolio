@@ -14,16 +14,10 @@ import LoadingScreen from "../components/LoadingScreen";
 import "./page.css";
 // import PhotographyGrid from "./components/PhotographyGrid";
 // import Spotify from "../components/Spotify";
+import AnimatedLine from "@/components/AnimatedLine";
 
 export default function AboutPage() {
-  const AnimatedLine = ({ className }: { className?: string }) => {
-    return (
-      <div className={"relative mt-2 " + className}>
-        <div className="absolute w-full h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-800/0 via-zinc-800 to-zinc-800/0 mt-16" />
-        <div className="absolute w-full h-px animate-glow md:block animate-fade-in bg-gradient-to-r from-zinc-800/0 via-zinc-800 to-zinc-800/0 mt-16" />
-      </div>
-    );
-  };
+
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);

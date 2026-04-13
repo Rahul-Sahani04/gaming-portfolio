@@ -1,6 +1,8 @@
 import "../global.css";
 import { Inter } from "next/font/google";
 import LocalFont from "next/font/local";
+
+
 import { Metadata } from "next";
 import { Analytics } from "./components/analytics";
 import Script from "next/script";
@@ -107,6 +109,12 @@ const calSans = LocalFont({
 import { CommandMenu } from "./components/CommandMenu";
 import { Toaster } from "sonner";
 import { CmdKToast } from "./components/CmdKToast";
+import { cn } from "@/lib/utils";
+
+import { GeistSans } from "geist/font/sans";
+
+const geist = GeistSans;
+
 
 export default function RootLayout({
   children,
@@ -116,7 +124,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={[inter.variable, calSans.variable].join(" ")}
+      className={cn([inter.variable, calSans.variable].join(" "), "font-sans", geist.variable)}
     >
       <body
         className={`bg-black overflow-x-hidden ${process.env.NODE_ENV === "development" ? "debug-screens" : ""

@@ -1,4 +1,5 @@
-import { withContentlayer } from "next-contentlayer";
+import { withContentlayer } from "next-contentlayer2"
+
 // const { withContentlayer } = require("next-contentlayer");
 // import withMDX from "@next/mdx";
 // import remarkGfm from "remark-gfm";
@@ -17,13 +18,9 @@ const nextConfig = {
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx", "glb", "gltf"],
   experimental: {
     mdxRs: true,
-    esmExternals: false,
     // reactCompiler: true
   },
-
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  turbopack: {},
   images: {
     remotePatterns: [
       {

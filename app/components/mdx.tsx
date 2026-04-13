@@ -1,11 +1,20 @@
-// "use client";
+"use client";
 // @ts-nocheck
 import * as React from "react";
+import * as ReactDOM from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-// import { useMDXComponent } from "next-contentlayer/hooks";
-// import { MDXRemote } from 'next-mdx-remote/rsc';
-import { useMDXComponent } from "next-contentlayer/hooks";
+import * as jsxRuntime from "react/jsx-runtime";
+
+function getMDXComponent(code: string) {
+	const scope = {
+		React,
+		ReactDOM,
+		_jsx_runtime: jsxRuntime,
+	};
+	const fn = new Function(...Object.keys(scope), code);
+	return fn(...Object.values(scope)).default;
+}
 
 function clsx(...args: any) {
 	return args.filter(Boolean).join(" ");
@@ -172,7 +181,7 @@ interface MdxProps {
 }
 
 export function Mdx({ code }: MdxProps) {
-	const MDXContent = useMDXComponent(code);
+	const MDXContent = React.useMemo(() => getMDXComponent(code), [code]);
 
 	return (
 		<div className="mdx">

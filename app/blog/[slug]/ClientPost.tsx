@@ -1,6 +1,5 @@
 "use client";
 
-import NextTopLoader from "nextjs-toploader";
 import { BlogHeader } from "./header";
 import { Mdx } from "@/app/components/mdx";
 import type { Blog } from "contentlayer/generated";
@@ -16,7 +15,6 @@ export default function ClientBlogPost({ post }: ClientBlogPostProps) {
             {/* Scanline overlay */}
             <div className="pointer-events-none fixed inset-0 z-50 h-full w-full bg-cyber-scanline opacity-10 mix-blend-overlay" />
 
-            <NextTopLoader color="#00f0ff" />
             <BlogHeader post={post} />
 
             {/* MDX body — dark-themed prose */}
