@@ -106,10 +106,8 @@ const calSans = LocalFont({
   variable: "--font-calsans",
 });
 
-import { CommandMenu } from "./components/CommandMenu";
-import { Toaster } from "sonner";
-import { CmdKToast } from "./components/CmdKToast";
 import { cn } from "@/lib/utils";
+import LayoutClientShell from "./components/LayoutClientShell";
 
 import { GeistSans } from "geist/font/sans";
 
@@ -182,9 +180,7 @@ export default function RootLayout({
           }}
         />
         <Analytics />
-        <CommandMenu />
-        <CmdKToast />
-        <Toaster theme="dark" />
+        <LayoutClientShell />
         {children}
       </body>
     </html>

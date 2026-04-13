@@ -17,11 +17,6 @@ import dynamic from 'next/dynamic';
 
 const ThreeScene = dynamic(() => import('./ThreeScene'), { ssr: false });
 
-const navigation = [
-    { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/contact" },
-];
-
 function PlayGame() {
     window.open("https://mini-space-shooter.vercel.app/", "_blank");
 }
@@ -31,12 +26,14 @@ export default function HeroSection() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const audio = new Audio("/plasmablaster-37114.mp3");
+        audio.volume = 0.2;
+        audio.playbackRate = 0.9;
+
         // On mouse click anywhere on the page, play sound effect
         const handleClick = () => {
-            const audio = new Audio("/plasmablaster-37114.mp3");
-            audio.volume = 0.2;
-            audio.playbackRate = 0.9;
-            audio.play();
+            audio.currentTime = 0;
+            void audio.play();
         };
 
         document.addEventListener("click", handleClick);
