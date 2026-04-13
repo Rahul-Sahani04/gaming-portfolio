@@ -18,6 +18,7 @@ import LoadingScreen from "../components/LoadingScreen";
 import ContactForm from "./form";
 import { motion } from "framer-motion";
 import { ArrowDown, Radio } from "lucide-react";
+import AnimatedBeams from "@/components/AnimatedBeam";
 
 export default function Contact() {
   const [loading, setLoading] = useState(true);
@@ -89,6 +90,7 @@ export default function Contact() {
       <Particles className="absolute inset-0 -z-10 animate-fade-in" quantity={150} staticity={35} />
       <Meteors number={15} minDuration={6} maxDuration={14} />
 
+      <AnimatedBeams />
       <Navigation />
       <NextTopLoader />
       {loading && (

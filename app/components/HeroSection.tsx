@@ -65,7 +65,7 @@ export default function HeroSection() {
             <h3 className="z-10 text-sm text-center text-zinc-500 sm:text-base md:text-lg animate-fade-in">
                 Hey, Ready to be impressed? Explore my portfolio. 🚀
             </h3>
-            <h1 className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
+            <h1 className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-extrabold sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
                 Rahul Sahani
             </h1>
 

@@ -10,6 +10,7 @@ import NextTopLoader from "nextjs-toploader";
 import ThreeCanvas from "../components/ThreeCanvas";
 import { BlurText } from "../components/BlurText";
 import { useRef } from "react";
+import AnimatedBeams from "@/components/AnimatedBeam";
 
 function BlogCard({ post, index }: { post: any; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -99,6 +100,8 @@ export default function ClientBlogArchive({ posts }: { posts: any[] }) {
       <Navigation />
       <CustomCursor />
       <NextTopLoader />
+
+      <AnimatedBeams />
 
       <div className="px-6 mx-auto max-w-7xl lg:px-8 pt-24 md:pt-32 pb-16 relative z-10 flex flex-col gap-20">
 
