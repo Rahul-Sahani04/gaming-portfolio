@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, useGLTF, useAnimations } from "@react-three/drei";
+import { useGLTF, useAnimations } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
 import { Vector2, CylinderGeometry, MeshBasicMaterial, Mesh, Group } from "three";
 import { Suspense } from "react";
@@ -43,6 +43,8 @@ const SpaceShipModel = ({
 
         setTimeout(() => {
             scene.remove(laser);
+            geometry.dispose();
+            material.dispose();
         }, 1000);
     };
 
@@ -139,7 +141,7 @@ const BlackHoleModel = ({
 };
 
 
-export default function ThreeScene({ loading }: { loading: boolean }) {
+export default function ThreeScene({ loading: _loading }: { loading: boolean }) {
     const size = 1;
     const scalingSize: [number, number, number] = [size, size, size];
 
@@ -151,7 +153,6 @@ export default function ThreeScene({ loading }: { loading: boolean }) {
             dpr={[1, 1.5]}
             id="black-hole-canvas"
         >
-            <OrbitControls enableZoom={false} enablePan={false} />
             <ambientLight intensity={1.5} />
             <directionalLight position={[2, 1, 1]} />
 

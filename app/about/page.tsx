@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -17,78 +17,7 @@ import "./page.css";
 import AnimatedLine from "@/components/AnimatedLine";
 
 export default function AboutPage() {
-
-
-  const [isLoaded, setIsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [imageProgress, setImageProgress] = useState(0);
-
-  // Function to preload images
-  const preloadImage = (src: string) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = resolve;
-      img.onerror = reject;
-      img.src = src;
-    });
-  };
-
-  useEffect(() => {
-    const loadImages = async () => {
-      const imagesToLoad = [
-        // Tech icons
-        "/icons/tech/figma.svg",
-        "/icons/tech/javascript.svg",
-        "/icons/tech/typescript.svg",
-        "/icons/tech/react.svg",
-        "/icons/tech/tailwind.svg",
-        "/icons/tech/nextjs.svg",
-        "/icons/tech/nodejs.svg",
-        "/icons/tech/supabase.svg",
-        "/icons/tech/mongodb.svg",
-        "/icons/tech/postgresql.svg",
-        "/icons/tech/prisma.svg",
-        "/icons/tech/git.svg",
-        // Game images
-        "/icons/games/dmc.png",
-        "/icons/games/sekiro.png",
-        "/icons/games/rdr2.png",
-        "/icons/games/spiderman.png",
-        // Photo gallery images
-        "/photos/photo1.jpeg",
-        "/photos/photo2.jpeg",
-        "/photos/photo3.jpeg",
-        "/photos/photo4.jpeg",
-        "/photos/photo5.jpeg",
-        "/photos/photo6.jpeg",
-        "/photos/photo7.jpeg",
-        // Project screenshots
-        "/screenshots/v-anime.png",
-        "/screenshots/StellarConflict1.png",
-        "/screenshots/FlexAPp.png",
-      ];
-
-      let loadedCount = 0;
-      const updateProgress = () => {
-        loadedCount++;
-        setImageProgress((loadedCount / imagesToLoad.length) * 100);
-      };
-
-      try {
-        await Promise.all(
-          imagesToLoad.map((src) =>
-            preloadImage(src).then(updateProgress).catch(updateProgress)
-          )
-        );
-        setIsLoaded(true);
-      } catch (error) {
-        console.error("Error preloading images:", error);
-        setIsLoaded(true);
-      }
-    };
-
-    loadImages();
-  }, []);
 
   const coreStack = [
     { name: "Next.js", description: "Framework", icon: "/icons/tech/nextjs.svg" },
@@ -209,7 +138,7 @@ export default function AboutPage() {
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="container mx-auto px-4 text-center"
         >
@@ -239,7 +168,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mb-16 text-center"
           >
@@ -323,7 +252,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mb-24 text-center"
           >
@@ -341,7 +270,7 @@ export default function AboutPage() {
               <motion.div
                 key={project.title}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
               >
                 <ProjectCard project={project} />
