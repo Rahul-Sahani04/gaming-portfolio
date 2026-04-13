@@ -12,7 +12,7 @@ import CustomCursor from "../components/CustomCursor";
 import NextTopLoader from "nextjs-toploader";
 import Particles from "../components/particles";
 import { Card } from "../components/card";
-import { BlurText } from "../components/BlurText";
+import BlurText from "../components/BlurText";
 import { MessageSquare } from "lucide-react";
 import AnimatedBeams from "@/components/AnimatedBeam";
 
@@ -64,18 +64,22 @@ export default async function GuestbookPage() {
         <div className="max-w-2xl w-full mx-auto">
 
           {/* Header */}
-          <div className="text-center mb-3">
-            <div className="inline-flex items-center gap-2 text-[10px] font-mono text-zinc-600 tracking-[0.25em] uppercase mb-5">
-              <span className="w-1 h-1 rounded-full bg-zinc-600" />
+          <div className="text-center mb-3 flex items-center justify-center gap-3 flex-col">
+            <div className="inline-flex items-center gap-2 text-[10px] font-mono text-zinc-400 tracking-[0.25em] uppercase mb-5">
+              <span className="w-1 h-1 rounded-full bg-zinc-500" />
               Open transmission channel
-              <span className="w-1 h-1 rounded-full bg-zinc-600" />
+              <span className="w-1 h-1 rounded-full bg-zinc-500" />
             </div>
+            
             <BlurText
               text="Guestbook"
-              className="text-5xl md:text-6xl font-bold tracking-tight text-zinc-200 !bg-clip-text !bg-gradient-to-b !from-white !via-zinc-200 to-zinc-500 font-display"
-              delay={2}
+              className="!text-center text-5xl md:text-6xl font-bold tracking-tight text-zinc-200 !bg-clip-text !bg-gradient-to-b !from-white !via-zinc-200 to-zinc-500 font-display"
+              delay={100}
+              animateBy="letters"
+              direction="top"
+
             />
-            <p className="mt-4 text-zinc-500 font-light text-sm leading-relaxed">
+            <p className="mt-4 text-zinc-300 font-light text-sm leading-relaxed">
               Leave a message — it'll float here in the void forever.
             </p>
           </div>
@@ -83,7 +87,7 @@ export default async function GuestbookPage() {
           {/* Entry count badge */}
           {entries.length > 0 && (
             <div className="flex justify-center mt-6 mb-12">
-              <span className="inline-flex items-center gap-2 text-xs font-mono text-zinc-600 border border-white/[0.06] bg-white/[0.02] px-4 py-1.5 rounded-full">
+              <span className="inline-flex items-center gap-2 text-xs font-mono text-zinc-400 border border-white/[0.2] bg-white/[0.1] px-4 py-1.5 rounded-full">
                 <MessageSquare className="w-3 h-3" />
                 {entries.length} message{entries.length !== 1 ? "s" : ""} received
               </span>

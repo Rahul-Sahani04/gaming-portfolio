@@ -11,7 +11,7 @@ import animatedMail from "../components/AnimatedIcons/icons8-gmail-logo.json";
 import NextTopLoader from "nextjs-toploader";
 import Particles from "../components/particles";
 import { Meteors } from "../components/magicui/meteors";
-import { BlurText } from "../components/BlurText";
+import BlurText from "../components/BlurText";
 import { MagneticWrapper } from "../components/MagneticWrapper";
 import { OrbitRing } from "../components/OrbitRing";
 import LoadingScreen from "../components/LoadingScreen";
@@ -121,7 +121,9 @@ export default function Contact() {
           <BlurText
             text="Connect"
             className="text-6xl md:text-7xl font-bold tracking-tight text-white font-display mb-4"
-            delay={2}
+            delay={100}
+            animateBy="letters"
+            direction="top"
           />
           <motion.p
             initial={{ opacity: 0 }}

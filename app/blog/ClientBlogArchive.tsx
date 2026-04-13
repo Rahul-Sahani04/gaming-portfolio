@@ -8,7 +8,7 @@ import { Navigation } from "../components/nav";
 import CustomCursor from "../components/CustomCursor";
 import NextTopLoader from "nextjs-toploader";
 import ThreeCanvas from "../components/ThreeCanvas";
-import { BlurText } from "../components/BlurText";
+import BlurText  from "../components/BlurText";
 import { useRef } from "react";
 import AnimatedBeams from "@/components/AnimatedBeam";
 
@@ -120,7 +120,9 @@ export default function ClientBlogArchive({ posts }: { posts: any[] }) {
             <BlurText
               text="Blog Archive"
               className="text-5xl text-white sm:text-7xl font-display tracking-tight text-edge-outline drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-              delay={2}
+              delay={100}
+              animateBy="letters"
+              direction="top"
             />
           </div>
           <motion.div

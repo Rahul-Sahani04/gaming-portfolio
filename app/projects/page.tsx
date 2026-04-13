@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 import { Navigation } from "../components/nav";
-import { BlurText } from "../components/BlurText";
+import BlurText from "../components/BlurText";
 import { Card } from "../components/card";
 import Particles from "../components/particles";
 import { Article } from "./article";
@@ -72,7 +72,9 @@ export default async function ProjectsPage() {
               <BlurText
                 text="Projects"
                 className="text-6xl text-white sm:text-8xl font-display tracking-tight text-edge-outline drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"
-                delay={2}
+                delay={100}
+                animateBy="letters"
+                direction="top"
               />
               <div className="flex-1 h-1 bg-gradient-to-r from-transparent via-white/[0.2] to-transparent" />
 
