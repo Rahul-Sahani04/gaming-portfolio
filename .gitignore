@@ -52,4 +52,4 @@ next-env.d.ts
 .lock
 
 rsahani.space-Coverage-Drilldown-2026-02-20
-.contentlayer
+.contentlayer/*

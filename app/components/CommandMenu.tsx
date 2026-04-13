@@ -14,12 +14,12 @@ import {
     Gamepad2,
     BookOpen,
     Mail,
-    Github,
-    Twitter,
-    Linkedin,
+
     FileText,
     Search,
 } from "lucide-react";
+
+import { Github, Linkedin } from "@/components/Icons";
 
 export function CommandMenu() {
     const [open, setOpen] = useState(false);

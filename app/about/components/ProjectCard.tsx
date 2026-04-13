@@ -3,8 +3,8 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight, Github } from "lucide-react"
-
+import { ArrowUpRight } from "lucide-react"
+import { Github } from "@/components/Icons";
 interface ProjectCardProps {
   project: {
     title: string

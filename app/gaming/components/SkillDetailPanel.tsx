@@ -11,13 +11,13 @@ type SkillDetailPanelProps = {
   selectedSkill: string | null
   setSelectedSkill: React.Dispatch<React.SetStateAction<string | null>>
   inView?: boolean
-  treeRef?: React.RefObject<HTMLDivElement>
+  treeRef?: React.RefObject<HTMLDivElement | null>
 }
 
 const SkillDetailPanel = ({ selectedSkill, setSelectedSkill }: SkillDetailPanelProps) => {
   const panelRef = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
-  const autoCloseTimeoutRef = useRef<NodeJS.Timeout>()
+  const autoCloseTimeoutRef = useRef<NodeJS.Timeout>(null)
 
   const skill = skills.find((sk) => sk.id === selectedSkill)
 

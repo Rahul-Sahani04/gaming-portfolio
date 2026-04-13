@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF, useAnimations } from "@react-three/drei";
-import { useSpring, a } from "@react-spring/three";
-import { Vector2, CylinderGeometry, MeshBasicMaterial, Mesh } from "three";
+import { useSpring, animated } from "@react-spring/three";
+import { Vector2, CylinderGeometry, MeshBasicMaterial, Mesh, Group } from "three";
 import { Suspense } from "react";
+
 
 const SpaceShipModel = ({
     scale,
@@ -14,11 +15,10 @@ const SpaceShipModel = ({
     scale: any;
     position: any;
 }) => {
-    const spaceShipRef = React.useRef(null) as any;
+    const spaceShipRef = useRef<Group>(null);
     const { scene, animations } = useGLTF("/model/SpaceShipV2.glb") as any;
     const { actions } = useAnimations(animations, spaceShipRef);
 
-    // On mouse click, shoot a laser beam
     const shootLaser = () => {
         const geometry = new CylinderGeometry(1, 1, 1, 32);
         const material = new MeshBasicMaterial({ color: 0x00ff00 });
@@ -26,9 +26,6 @@ const SpaceShipModel = ({
         laser.scale.set(0.1, 0.1, 2);
         laser.position.z = -2;
         laser.rotation.x = Math.PI / 6;
-        // laser.updateMatrix();
-        // laser.updateMatrixWorld();
-
 
         scene.add(laser);
 
@@ -37,21 +34,17 @@ const SpaceShipModel = ({
         const animateLaser = () => {
             const elapsedTime = Date.now() - startTime;
             if (elapsedTime < 1000) {
-                laser.position.z += 0.75; // Adjust the speed as needed
+                laser.position.z += 0.75;
                 requestAnimationFrame(animateLaser);
             }
         };
 
         animateLaser();
 
-
-        // Remove the laser beam after 1 second
         setTimeout(() => {
             scene.remove(laser);
         }, 1000);
     };
-
-
 
     useEffect(() => {
         document.addEventListener("click", shootLaser);
@@ -60,13 +53,10 @@ const SpaceShipModel = ({
         };
     }, []);
 
-
-    // Move the spaceship up, down and left, right using mouse move
-
     let lastMove = 0;
-    const handleMouseMove = (e: any) => {
+    const handleMouseMove = (e: MouseEvent) => {
         const now = Date.now();
-        if (now - lastMove > 16) {  // Roughly 60 FPS
+        if (now - lastMove > 16) {
             lastMove = now;
             const { clientX, clientY } = e;
             const x = (clientX / window.innerWidth) * 2 - 1;
@@ -78,43 +68,30 @@ const SpaceShipModel = ({
         }
     };
 
-
     useEffect(() => {
-        // Only attach mousemove on devices with a fine pointer (mouse/trackpad)
-        if (!window.matchMedia('(pointer: fine)').matches) return;
+        if (!window.matchMedia("(pointer: fine)").matches) return;
         const handler = (e: MouseEvent) => handleMouseMove(e);
         document.addEventListener("mousemove", handler);
         return () => document.removeEventListener("mousemove", handler);
     }, []);
 
     useEffect(() => {
-        // console.log("Ship actions", actions, animations);
         actions["Animation"]?.play();
-        // actions["Animation"]?.setDuration(50);
-        // slow down the animation speed by 0.5 times every 10 seconds (10000 ms) and then reset it
     }, [actions]);
 
-
-
     return (
-        <a.mesh
+        // ✅ Use animated.mesh instead of a.mesh
+        <animated.mesh
             ref={spaceShipRef}
             position={position}
             scale={scale}
             rotation={[0, 60, 0]}
         >
             <primitive object={scene} />
-            {/* <EffectComposer>
-          <Outline
-          edgeStrength={2.5}
-          resolutionScale={0.5}
-          visibleEdgeColor={0xffffff}
-          
-          />
-        </EffectComposer> */}
-        </a.mesh>
+        </animated.mesh>
     );
-}
+};
+
 
 const BlackHoleModel = ({
     opacity,
@@ -125,45 +102,46 @@ const BlackHoleModel = ({
     scale: any;
     position: any;
 }) => {
-    const macintoshRef = React.useRef(null) as any;
+    const macintoshRef = useRef<Group>(null);
     const { scene, animations } = useGLTF("/model/Black_hole.glb") as any;
     const { actions } = useAnimations(animations, macintoshRef);
 
-    useFrame((state, delta) => {
-        macintoshRef.current.rotation.z -= delta * 0.25;
+    useFrame((_, delta) => {
+        if (macintoshRef.current) {
+            macintoshRef.current.rotation.z -= delta * 0.25;
+        }
     });
 
-
     useEffect(() => {
-        // console.log("actions", actions, animations);
         actions["Take 001"]?.play();
     }, [actions]);
 
-    const props = useSpring({ opacity });
+    // ✅ Destructure opacity directly from useSpring
+    const { animatedOpacity } = useSpring({ animatedOpacity: opacity });
 
     return (
-        <a.mesh
+        // ✅ Use animated.mesh instead of a.mesh
+        <animated.mesh
             ref={macintoshRef}
             position={position}
             scale={scale}
             rotation={[0, 0, 0]}
         >
             <primitive object={scene} />
-            <a.meshStandardMaterial
+            {/* ✅ Use animated.meshStandardMaterial from the animated export */}
+            <animated.meshStandardMaterial
                 attach="material"
                 transparent
-                opacity={props.opacity}
+                opacity={animatedOpacity}
             />
-        </a.mesh>
+        </animated.mesh>
     );
 };
 
+
 export default function ThreeScene({ loading }: { loading: boolean }) {
     const size = 1;
-    const scalingSize = [size, size, size];
-
-    const delayTimeX = new Vector2(1.5);
-    const delayTimeY = new Vector2(3.5);
+    const scalingSize: [number, number, number] = [size, size, size];
 
     return (
         <Canvas
@@ -174,33 +152,20 @@ export default function ThreeScene({ loading }: { loading: boolean }) {
             id="black-hole-canvas"
         >
             <OrbitControls enableZoom={false} enablePan={false} />
-            {/* <ambientLight />
-      <pointLight position={[10, 10, 10]} /> */}
             <ambientLight intensity={1.5} />
-
             <directionalLight position={[2, 1, 1]} />
-            <Suspense fallback={
-                <mesh>
-                    <boxGeometry args={[1, 1, 1]} />
-                    <meshBasicMaterial color="hotpink" />
-                </mesh>
-            }>
 
-
-                <SpaceShipModel
-                    scale={0.3}
-                    position={[0, 0, 0]}
-                />
-
-
-
-                <BlackHoleModel
-                    opacity={0}
-                    scale={scalingSize}
-                    position={[0, 0, 0]}
-                />
-
+            <Suspense
+                fallback={
+                    <mesh>
+                        <boxGeometry args={[1, 1, 1]} />
+                        <meshBasicMaterial color="hotpink" />
+                    </mesh>
+                }
+            >
+                <SpaceShipModel scale={0.3} position={[0, 0, 0]} />
+                <BlackHoleModel opacity={0} scale={scalingSize} position={[0, 0, 0]} />
             </Suspense>
         </Canvas>
     );
-};
+}
