@@ -141,7 +141,7 @@ const BlackHoleModel = ({
 };
 
 
-export default function ThreeScene({ loading: _loading }: { loading: boolean }) {
+export default function ThreeScene() {
     const size = 1;
     const scalingSize: [number, number, number] = [size, size, size];
 

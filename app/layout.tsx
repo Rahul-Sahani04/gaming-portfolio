@@ -108,6 +108,7 @@ const calSans = LocalFont({
 
 import { cn } from "@/lib/utils";
 import LayoutClientShell from "./components/LayoutClientShell";
+import RouteTransition from "./components/RouteTransition";
 
 import { GeistSans } from "geist/font/sans";
 
@@ -181,7 +182,7 @@ export default function RootLayout({
         />
         <Analytics />
         <LayoutClientShell />
-        {children}
+        <RouteTransition>{children}</RouteTransition>
       </body>
     </html>
   );

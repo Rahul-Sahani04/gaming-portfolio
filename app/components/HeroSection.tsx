@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Particles from "./particles";
 import useIsMobile from "../hooks/useIsMobile";
 import StarBackground from "./StarBackground";
@@ -10,8 +10,6 @@ import StarBackground from "./StarBackground";
 import CustomCursor from "./CustomCursor";
 
 import NextTopLoader from 'nextjs-toploader';
-
-import LoadingScreen from "./LoadingScreen";
 
 import dynamic from 'next/dynamic';
 
@@ -23,7 +21,6 @@ function PlayGame() {
 
 export default function HeroSection() {
     const isMobile = useIsMobile();
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const audio = new Audio("/plasmablaster-37114.mp3");
@@ -41,20 +38,13 @@ export default function HeroSection() {
     }, []);
 
     return (
-        <div className="!overflow-hidden flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
+        <div className="flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-linear-to-tl from-black via-zinc-600/20 to-black">
             <CustomCursor />
             <NextTopLoader />
             {
-                loading && (
-                    <div className="flex items-center justify-center w-full h-screen bg-black">
-                        <LoadingScreen loading={loading} setLoading={setLoading} />
-                    </div>
-                )
+                !isMobile ? <ThreeScene /> : <StarBackground />
             }
-            {
-                !isMobile ? <ThreeScene loading={loading} /> : <StarBackground />
-            }
-            <div className="hidden w-full h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
+            <div className="hidden h-px w-full animate-glow animate-fade-left bg-linear-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 md:block" />
             <Particles
                 className="absolute inset-0 -z-10 animate-fade-in"
                 quantity={100}
@@ -66,7 +56,7 @@ export default function HeroSection() {
                 Rahul Sahani
             </h1>
 
-            <div className="hidden w-full h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
+            <div className="hidden h-px w-full animate-glow animate-fade-right bg-linear-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 md:block" />
 
             <div className="my-16 text-center animate-fade-in ">
                 <h2 className="text-sm text-zinc-500 ">
