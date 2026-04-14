@@ -14,14 +14,12 @@ import { Meteors } from "../components/magicui/meteors";
 import BlurText from "../components/BlurText";
 import { MagneticWrapper } from "../components/MagneticWrapper";
 import { OrbitRing } from "../components/OrbitRing";
-import LoadingScreen from "../components/LoadingScreen";
 import ContactForm from "./form";
 import { motion } from "framer-motion";
 import { ArrowDown, Radio } from "lucide-react";
 import AnimatedBeams from "@/components/AnimatedBeam";
 
 export default function Contact() {
-  const [loading, setLoading] = useState(true);
   const [isHovered, setIsHovered] = useState({
     linkedin: false,
     email: false,
@@ -93,11 +91,6 @@ export default function Contact() {
       <AnimatedBeams />
       <Navigation />
       <NextTopLoader />
-      {loading && (
-        <div className="flex items-center justify-center w-full h-screen bg-black">
-          <LoadingScreen loading={loading} setLoading={setLoading} />
-        </div>
-      )}
 
       <div className="container flex flex-col items-center min-h-screen px-4 mx-auto pt-28 md:pt-36 pb-24">
 

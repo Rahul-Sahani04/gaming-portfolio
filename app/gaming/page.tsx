@@ -1,12 +1,11 @@
 "use client"
 
 import { Navigation } from "../components/nav"
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { Particles } from "../components/magicui/star_particles"
 import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion"
 import CustomCursor from "../components/CustomCursor"
 import NextTopLoader from "nextjs-toploader"
-import LoadingScreen from "../components/LoadingScreen"
 import SkillTree from "./components/SkillTree"
 import GameCard from "./components/GameCard"
 import SkillsGallery from "./components/SkillsGallery"
@@ -170,8 +169,6 @@ export default function GamingPage() {
     },
   ]
 
-  const [loading, setLoading] = useState(true);
-
   return (
     <div
       ref={containerRef}
@@ -181,18 +178,12 @@ export default function GamingPage() {
       <CustomCursor />
       <NextTopLoader />
 
-      {loading && (
-        <div className="flex items-center justify-center w-screen h-screen bg-black fixed inset-0 z-[100]">
-          <LoadingScreen loading={loading} setLoading={setLoading} />
-        </div>
-      )}
-
       <div className="relative w-full">
         {/* Thread/Timeline Line */}
         <div className="absolute left-1/2 top-[10vh] bottom-0 w-px -translate-x-1/2 bg-white/5 z-0 pointer-events-none hidden md:block" />
         <motion.div
           style={{ scaleY, originY: 0 }}
-          className="absolute left-1/2 top-[10vh] bottom-0 w-px -translate-x-1/2 bg-gradient-to-b from-white/0 via-white/20 to-white/0 z-0 pointer-events-none hidden md:block"
+          className="absolute left-1/2 top-[10vh] bottom-0 z-0 hidden w-px -translate-x-1/2 bg-linear-to-b from-white/0 via-white/20 to-white/0 pointer-events-none md:block"
         />
 
         {/* Enhanced Background */}
@@ -218,31 +209,29 @@ export default function GamingPage() {
               </span>
             </h1> */}
 
-            {!loading && (
-              <BlurText
-                segments={[
-                  { text: "Gaming", className: "text-white" },
+            <BlurText
+              segments={[
+                { text: "Gaming", className: "text-white" },
 
-                  {
-                    text: "&",
-                    className: "opacity-40 font-light font-serif italic mx-4",
-                  },
+                {
+                  text: "&",
+                  className: "opacity-40 font-light font-serif italic mx-4",
+                },
 
-                  {
-                    text: "\n",
-                  },
+                {
+                  text: "\n",
+                },
 
-                  {
-                    text: "Growth",
-                    className:
-                      "text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]",
-                  },
-                ]}
-                className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-display tracking-tight text-white mb-8 sm:mb-12"
-                delay={250}
-                animateBy="words"
-              />
-            )}
+                {
+                  text: "Growth",
+                  className:
+                    "text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]",
+                },
+              ]}
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-display tracking-tight text-white mb-8 sm:mb-12"
+              delay={250}
+              animateBy="words"
+            />
 
             <NarrativeText className="max-w-xl">
               More than just entertainment, games are a sandbox for the mind.

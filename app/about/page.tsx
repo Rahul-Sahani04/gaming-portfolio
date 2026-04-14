@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -10,15 +9,12 @@ import { Navigation } from "../components/nav";
 import CustomCursor from "../components/CustomCursor";
 import NextTopLoader from "nextjs-toploader";
 import ParticleFooter from "./components/ParticleFooter";
-import LoadingScreen from "../components/LoadingScreen";
 import "./page.css";
 // import PhotographyGrid from "./components/PhotographyGrid";
 // import Spotify from "../components/Spotify";
 import AnimatedLine from "@/components/AnimatedLine";
 
 export default function AboutPage() {
-  const [loading, setLoading] = useState(true);
-
   const coreStack = [
     { name: "Next.js", description: "Framework", icon: "/icons/tech/nextjs.svg" },
     { name: "React", description: "UI Library", icon: "/icons/tech/react.svg" },
@@ -120,14 +116,6 @@ export default function AboutPage() {
       <Navigation />
       <CustomCursor />
       <NextTopLoader />
-
-      {
-        loading && (
-          <div className="flex items-center justify-center w-full h-screen bg-black">
-            <LoadingScreen loading={loading} setLoading={setLoading} />
-          </div>
-        )
-      }
 
       {/* Hero Section */}
       <section className="relative py-32 overflow-hidden min-h-[50vh]">
