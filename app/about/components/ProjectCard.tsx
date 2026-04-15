@@ -26,8 +26,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <Image
           src={project.image || "/placeholder.svg"}
           alt={project.title}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           fill
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
+
+          loading="eager"
         />
         <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
       </div>

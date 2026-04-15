@@ -1,45 +1,25 @@
 "use client";
-import { ArrowLeft, Menu, X, Download, ExternalLink } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import { X } from "lucide-react";
+import { useRouteTransitionState } from "./RouteTransition";
 
 const navLinks = [
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
   { href: "/gaming", label: "Gaming" },
   { href: "/hobbies", label: "Hobbies" },
-  { href: "/guestbook", label: "Guestbook" },
+  { href: "/guestbook", label: "Guestbk" },
+  { href: "/blog", label: "Writing" },
   { href: "/contact", label: "Contact" },
-  { href: "/blog", label: "Blogs" },
 ];
 
-const RESUME_URL =
-  "https://raw.githubusercontent.com/Rahul-Sahani04/Rahul-Sahani04/main/Rahul_Resume.pdf";
-
 export const Navigation: React.FC = () => {
-  const ref = useRef<HTMLElement>(null);
-  const [isIntersecting, setIntersecting] = useState(true);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(([entry]) =>
-      setIntersecting(entry.isIntersecting),
-    );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { isTransitioning, timingMs } = useRouteTransitionState();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // Close mobile nav on route change
   useEffect(() => {
@@ -47,236 +27,153 @@ export const Navigation: React.FC = () => {
   }, [pathname]);
 
   return (
-    <header ref={ref}>
-      <div
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled
-            ? "py-2"
-            : "py-3"
-          }`}
-      >
-        {/* Glassmorphic background bar */}
-        <div
-          className={`absolute inset-0 transition-all duration-500 border-b ${scrolled || !isIntersecting
-              ? "bg-zinc-950/80 backdrop-blur-xl border-zinc-800/60 shadow-[0_1px_30px_rgba(0,0,0,0.4)]"
-              : "bg-transparent border-transparent"
-            }`}
-        />
+    <>
+      {/* Top Gradient Mask for smooth reading over page content */}
+      <div className="fixed top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none z-40" />
 
-        <div className="relative container flex items-center justify-between px-4 mx-auto">
-          {/* Left: Logo / Back arrow */}
+      {/* Main Header Container */}
+      <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none select-none px-6 md:px-12 pt-8">
+        
+        <motion.div 
+           className="relative flex justify-between items-end border-b border-zinc-800/60 pb-4"
+           animate={{ opacity: isTransitioning ? 0 : 1, y: isTransitioning ? -12 : 0 }}
+           transition={{ duration: timingMs / 1000, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          {/* Logo / Home */}
           <Link
             href="/"
-            className="group flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors duration-200"
+            className="pointer-events-auto group relative flex flex-col items-start gap-1"
           >
-            <motion.div
-              whileHover={{ x: -3 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </motion.div>
-            <span className="hidden sm:inline text-sm font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              Home
+            <span className="text-zinc-500 font-mono text-[9px] tracking-[0.25em] group-hover:text-zinc-300 transition-colors">
+              // SYSTEM.INDEX
             </span>
+            <span className="text-zinc-200 text-xs font-bold tracking-widest uppercase">
+              Rahul Sahani
+            </span>
+            {/* Active indicator for Home */}
+            {pathname === "/" && (
+              <motion.div
+                layoutId="active-nav-rail"
+                className="absolute -bottom-[17px] left-0 w-full h-[2px] bg-zinc-200"
+                transition={{ type: "spring", stiffness: 350, damping: 35 }}
+              />
+            )}
           </Link>
 
-          {/* Desktop nav — centered floating pill */}
-          <nav className="hidden md:flex items-center gap-1 px-3 py-1.5 rounded-full border border-zinc-800/70 bg-zinc-900/60 backdrop-blur-md shadow-lg">
-            {navLinks.map(({ href, label }) => {
-              const isActive =
-                pathname === href ||
-                (href !== "/" && pathname?.startsWith(href));
+          {/* Desktop Nav */}
+          <nav className="pointer-events-auto hidden md:flex items-center gap-10">
+            {navLinks.map(({ href, label }, idx) => {
+              const isActive = pathname === href || (href !== "/" && pathname?.startsWith(href));
               return (
                 <Link
-                  key={label}
+                  key={href}
                   href={href}
-                  className={`relative px-3 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 ${isActive
-                      ? "text-white"
-                      : "text-zinc-400 hover:text-zinc-100"
-                    }`}
+                  className="relative group flex flex-col items-end gap-1"
                 >
+                  <span
+                    className={`font-mono text-[9px] tracking-[0.25em] transition-colors duration-300 ${
+                      isActive ? "text-zinc-400" : "text-zinc-600 group-hover:text-zinc-400"
+                    }`}
+                  >
+                    0{idx + 1}
+                  </span>
+                  <span
+                    className={`text-[11px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
+                      isActive ? "text-zinc-100" : "text-zinc-400 group-hover:text-zinc-200"
+                    }`}
+                  >
+                    {label}
+                  </span>
                   {isActive && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      className="absolute inset-0 rounded-full bg-zinc-700/70 border border-zinc-600/50"
-                      style={{ zIndex: -1 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 30,
-                      }}
+                    <motion.div
+                      layoutId="active-nav-rail"
+                      // Exact offset to rest precisely on the border-b
+                      className="absolute -bottom-[17px] left-0 w-full h-[2px] bg-zinc-200"
+                      transition={{ type: "spring", stiffness: 350, damping: 35 }}
                     />
                   )}
-                  {label}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Right: ⌘K · Resume · Avatar */}
-          <div className="hidden md:flex items-center gap-3">
-            {/* ⌘K hint */}
-            <button
-              className="flex items-center gap-1 px-2 py-1 rounded-md bg-zinc-900/60 border border-zinc-800/70 text-xs text-zinc-500 font-medium hover:text-zinc-300 hover:border-zinc-700 transition-all duration-200 backdrop-blur-md"
-              onClick={() => {
-                // trigger command menu via synthetic keyboard event
-                document.dispatchEvent(
-                  new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true })
-                );
-              }}
-              title="Open command menu"
-            >
-              <span className="text-xs">⌘</span>K
-            </button>
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="pointer-events-auto md:hidden flex flex-col items-end gap-1 relative text-zinc-400 hover:text-zinc-200 transition-colors"
+          >
+            <span className="font-mono text-[9px] tracking-[0.25em]">
+              0{navLinks.length + 1}
+            </span>
+            <span className="text-[11px] uppercase tracking-widest font-bold">Menu</span>
+          </button>
+        </motion.div>
+      </header>
 
-            {/* Resume download */}
-            <a
-              href={RESUME_URL}
-              download="Rahul_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide text-zinc-800 transition-all duration-200
-                bg-gradient-to-r from-[#00f0ff] to-[#00c8d4]
-                hover:from-[#00d4e8] hover:to-[#00b8c0]
-                shadow-[0_0_15px_rgba(0,240,255,0.25)]
-                hover:shadow-[0_0_22px_rgba(0,240,255,0.45)]"
-              title="Download Resume"
-            >
-              Resume
-              <Download className="w-3 h-3 transition-transform duration-200 group-hover:translate-y-0.5" />
-            </a>
-
-            {/* Avatar */}
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#00f0ff]/30 to-transparent blur-sm" />
-              <Image
-                src="/NavaPfp.webp"
-                alt="Rahul Sahani"
-                width={36}
-                height={36}
-                className="relative w-9 h-9 object-cover rounded-full ring-2 ring-zinc-700/60 hover:ring-[#00f0ff]/50 transition-all duration-300"
-              />
-            </div>
-          </div>
-
-          {/* Mobile: Resume + Menu toggle */}
-          <div className="md:hidden flex items-center gap-2">
-            <a
-              href={RESUME_URL}
-              download="Rahul_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold text-zinc-800
-                bg-gradient-to-r from-[#00f0ff] to-[#00c8d4]
-                shadow-[0_0_12px_rgba(0,240,255,0.3)]"
-            >
-              <Download className="w-3 h-3" />
-            </a>
-            <button
-              className="text-zinc-300 hover:text-zinc-100 min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors duration-200"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {mobileOpen ? (
-                  <motion.span
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    <X className="w-6 h-6" />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    <Menu className="w-6 h-6" />
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile full-screen overlay */}
+      {/* Mobile Fullscreen Overlay */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-zinc-950/96 backdrop-blur-xl flex flex-col items-center justify-center"
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(24px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[100] bg-black/85 flex flex-col p-6 overflow-hidden"
           >
-            {/* Decorative glow */}
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-[#00f0ff]/5 blur-3xl pointer-events-none" />
+            <div className="flex justify-between items-center mb-16">
+              <span className="text-zinc-500 font-mono text-[9px] tracking-[0.25em]">
+                // NAV.SYS
+              </span>
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="text-zinc-400 hover:text-zinc-100 p-2 -mr-2 transition-colors"
+              >
+                <X className="w-6 h-6 stroke-[1.5]" />
+              </button>
+            </div>
 
-            <nav className="flex flex-col items-center gap-2 w-full px-8">
-              {navLinks.map(({ href, label }, idx) => {
-                const isActive =
-                  pathname === href ||
-                  (href !== "/" && pathname?.startsWith(href));
+            <nav className="flex flex-col gap-6 overflow-y-auto pb-24">
+              {[{ href: "/", label: "Home" }, ...navLinks].map((link, i) => {
+                const isActive = pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href));
                 return (
                   <motion.div
-                    key={label}
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: 15, opacity: 0 }}
-                    transition={{
-                      delay: idx * 0.07,
-                      duration: 0.35,
-                      ease: "easeOut",
-                    }}
-                    className="w-full max-w-xs"
+                    key={link.href}
+                    initial={{ opacity: 0, x: -20, rotateX: 10 }}
+                    animate={{ opacity: 1, x: 0, rotateX: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{ delay: i * 0.04, duration: 0.5, ease: "easeOut" }}
                   >
                     <Link
-                      href={href}
-                      className={`flex items-center justify-center w-full py-3 px-6 rounded-xl text-2xl font-medium transition-all duration-200 ${isActive
-                          ? "text-[#00f0ff] bg-[#00f0ff]/10 border border-[#00f0ff]/25"
-                          : "text-zinc-300 hover:text-white hover:bg-zinc-800/50 border border-transparent"
-                        }`}
+                      href={link.href}
+                      className="flex flex-col gap-1 group"
+                      onClick={() => setMobileOpen(false)}
                     >
-                      {label}
+                      <span className="font-mono text-[10px] tracking-[0.2em] text-zinc-600 mb-0.5 group-hover:text-zinc-400 transition-colors">
+                         {String("0" + i).slice(-2)}
+                      </span>
+                      <span className={`text-[2rem] font-medium tracking-wide uppercase transition-all duration-300 ${
+                        isActive ? "text-zinc-100 translate-x-2" : "text-zinc-500 group-hover:text-zinc-300 group-hover:translate-x-2"
+                      }`}>
+                        {link.label}
+                      </span>
                     </Link>
                   </motion.div>
                 );
               })}
-
-              {/* Resume in mobile menu */}
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 15, opacity: 0 }}
-                transition={{
-                  delay: navLinks.length * 0.07,
-                  duration: 0.35,
-                  ease: "easeOut",
-                }}
-                className="w-full max-w-xs mt-2"
-              >
-                <a
-                  href={RESUME_URL}
-                  download="Rahul_Resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-3 px-6 rounded-xl text-2xl font-medium
-                    text-zinc-800 bg-gradient-to-r from-[#00f0ff] to-[#00c8d4]
-                    shadow-[0_0_30px_rgba(0,240,255,0.3)]"
-                >
-                  Resume
-                  <Download className="w-5 h-5" />
-                </a>
-              </motion.div>
             </nav>
+
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="absolute bottom-8 left-6 right-6 border-t border-zinc-800/80 pt-6 flex gap-6"
+            >
+              <a href="https://github.com/Rahul-Sahani04" className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-600 hover:text-zinc-300 transition-colors">GitHub</a>
+              <a href="mailto:contact@rsahani.space" className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-600 hover:text-zinc-300 transition-colors">Email</a>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 };
