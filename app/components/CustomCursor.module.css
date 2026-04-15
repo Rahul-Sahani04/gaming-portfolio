@@ -46,15 +46,9 @@
   transition: all 200ms ease-out;
   position: absolute;
   pointer-events: none;
+  will-change: transform;
   left: 0;
   top: 0;
-  transform: translate(calc(-50% + 15px), -50%);
-
-  /* background-image: url('./custom_cursor.png'); */
-  /* background-blend-mode: overlay;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center; */
 }
 
 #cursorImg {
@@ -78,8 +72,10 @@
 
   opacity: .3;
   position: fixed;
-  transform: translate(-50%, -50%);
   pointer-events: none;
+  left: 0;
+  top: 0;
+  will-change: transform;
   transition: width .3s, height .3s, opacity .3s;
 }
 

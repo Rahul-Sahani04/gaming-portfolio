@@ -30,9 +30,8 @@ const CustomCursor = () => {
       if (cursor && cursorinner) {
         (
           cursor as HTMLElement
-        ).style.transform = `translate3d(calc(${clientX}px - 50%), calc(${clientY}px - 50%), 0)`;
-        (cursorinner as HTMLElement).style.left = `${clientX}px`;
-        (cursorinner as HTMLElement).style.top = `${clientY}px`;
+        ).style.transform = `translate3d(calc(${clientX}px - 50% + 15px), calc(${clientY}px - 50%), 0)`;
+        (cursorinner as HTMLElement).style.transform = `translate3d(calc(${clientX}px - 50%), calc(${clientY}px - 50%), 0)`;
       }
     };
 

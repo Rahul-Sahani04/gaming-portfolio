@@ -172,7 +172,7 @@ export default function GamingPage() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-black text-white overflow-x-hidden selection:bg-white/20 selection:text-white"
+      className="relative min-h-screen bg-black text-white overflow-x-hidden selection:bg-white/20 selection:text-white"
     >
       <Navigation />
       <CustomCursor />
