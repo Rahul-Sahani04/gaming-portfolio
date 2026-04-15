@@ -6,11 +6,9 @@ import React, { useEffect } from "react";
 import Particles from "./particles";
 import useIsMobile from "../hooks/useIsMobile";
 import StarBackground from "./StarBackground";
-
 import CustomCursor from "./CustomCursor";
-
 import NextTopLoader from 'nextjs-toploader';
-
+import HomeLoader from "./HomeLoader";
 import dynamic from 'next/dynamic';
 
 const ThreeScene = dynamic(() => import('./ThreeScene'), { ssr: false });
@@ -39,6 +37,7 @@ export default function HeroSection() {
 
     return (
         <div className="flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-linear-to-tl from-black via-zinc-600/20 to-black">
+            <HomeLoader />
             <CustomCursor />
             <NextTopLoader />
             {
