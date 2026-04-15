@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import { useMousePosition } from "@/util/mouse";
 
 interface ParticlesProps {
 	className?: string;
@@ -37,7 +36,7 @@ export default function Particles({
 	const circles = useRef<Circle[]>([]);
 	const rafId = useRef<number | null>(null);
 
-	const mousePos = useMousePosition();
+	const mousePos = useRef({ x: 0, y: 0 });
 	const mouse = useRef({ x: 0, y: 0 });
 	const size = useRef({ w: 0, h: 0 });
 
@@ -57,21 +56,25 @@ export default function Particles({
 		const id = requestAnimationFrame(() => animate());
 		rafId.current = id;
 
+		const handleMouseMove = (event: MouseEvent) => {
+			mousePos.current.x = event.clientX;
+			mousePos.current.y = event.clientY;
+			updateMouse();
+		};
+
 		window.addEventListener("resize", initCanvas);
+		window.addEventListener("mousemove", handleMouseMove);
 
 		return () => {
 			if (rafId.current) cancelAnimationFrame(rafId.current);
 			window.removeEventListener("resize", initCanvas);
+			window.removeEventListener("mousemove", handleMouseMove);
 		};
 	}, []);
 
 	useEffect(() => {
 		initCanvas();
-	}, [refresh]);
-
-	useEffect(() => {
-		updateMouse();
-	}, [mousePos.x, mousePos.y]);
+	}, [refresh, quantity]);
 
 	/* ---------------- helpers ---------------- */
 
@@ -90,7 +93,9 @@ export default function Particles({
 
 		ctx.current.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-		for (let i = 0; i < quantity; i++) {
+		const actualQuantity = window.innerWidth < 768 ? Math.min(quantity, 40) : quantity;
+
+		for (let i = 0; i < actualQuantity; i++) {
 			circles.current.push(createCircle());
 		}
 	};
@@ -99,8 +104,8 @@ export default function Particles({
 		if (!canvasRef.current) return;
 
 		const rect = canvasRef.current.getBoundingClientRect();
-		const x = mousePos.x - rect.left - size.current.w / 2;
-		const y = mousePos.y - rect.top - size.current.h / 2;
+		const x = mousePos.current.x - rect.left - size.current.w / 2;
+		const y = mousePos.current.y - rect.top - size.current.h / 2;
 
 		const inside =
 			x > -size.current.w / 2 &&

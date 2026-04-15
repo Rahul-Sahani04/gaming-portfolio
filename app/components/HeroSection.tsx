@@ -84,7 +84,7 @@ export default function HeroSection() {
                     src="/CatPeeking.png"
                     width={64}
                     height={64}
-                    className=" w-12 md:w-16 hover:!opacity-70 !opacity-50 invisible Animate-FadeInRight backdrop:blur-sm rounded-full shadow-lg transition-transform duration-300 cursor-pointer z-20 "
+                    className=" w-12 md:w-16 h-auto hover:!opacity-70 !opacity-50 invisible Animate-FadeInRight backdrop:blur-sm rounded-full shadow-lg transition-transform duration-300 cursor-pointer z-20 "
                 />
             </div>
         </div>
