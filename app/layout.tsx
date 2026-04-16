@@ -124,6 +124,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn([inter.variable, calSans.variable].join(" "), "font-sans", geist.variable)}
+      data-scroll-behavior="smooth"
     >
       <body
         className={`bg-black overflow-x-hidden ${process.env.NODE_ENV === "development" ? "debug-screens" : ""
