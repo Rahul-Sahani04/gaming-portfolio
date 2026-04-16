@@ -103,7 +103,8 @@ export default function RouteTransition({ children }: { children: React.ReactNod
           }}
 
           style={{
-            backgroundColor: "#2b2b2b"
+            backgroundColor: "#2b2b2b",
+            position: "relative"
           }}
         >
           {children}

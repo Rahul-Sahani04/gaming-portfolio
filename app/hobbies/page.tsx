@@ -3,6 +3,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { Navigation } from "../components/nav";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import { X, Play } from "lucide-react";
+import HobbiesCursor from "./components/HobbiesCursor";
+import { createPortal } from "react-dom";
 
 const photos = [
     { src: "/photos/photo1.jpeg", caption: "Golden hour in the city." },
@@ -53,7 +55,8 @@ export default function HobbiesPage() {
     }, []);
 
     return (
-        <div className="bg-zinc-950 min-h-screen text-zinc-100 selection:bg-rose-500/30 selection:text-rose-200">
+        <div className="bg-zinc-950 min-h-screen text-zinc-100 selection:bg-rose-500/30 selection:text-rose-200 cursor-none [&_*]:cursor-none">
+            <HobbiesCursor />
             <Navigation />
 
             {/* Video Modal */}
@@ -141,8 +144,9 @@ export default function HobbiesPage() {
                         ))}
                     </div>
 
-                    <div className="absolute bottom-12 right-12 text-zinc-800 font-mono text-[10px] hidden md:block">
-                        REC ● {new Date().toLocaleTimeString()}
+                    <div className="absolute bottom-12 right-12 text-zinc-500 font-mono text-[10px] hidden md:block">
+                        <span className=" text-red-500 animate-pulse"
+                        >REC </span>●  {new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })} ● 1080p
                     </div>
                 </section>
 
@@ -193,7 +197,16 @@ export default function HobbiesPage() {
 
 // Minimal Video Modal
 function VideoModal({ src, onClose }: { src: string; onClose: () => void }) {
-    return (
+    const mp4Fallback = src.replace(/\.webm(\?.*)?$/i, ".mp4$1");
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
+
+    return createPortal((
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -218,12 +231,16 @@ function VideoModal({ src, onClose }: { src: string; onClose: () => void }) {
                 </button>
 
                 <video
-                    src={src}
                     controls
                     autoPlay
-                    preload="none"
-                    className="w-full h-full max-h-[85vh] object-contain rounded-sm shadow-2xl shadow-black"
-                />
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-auto aspect-video max-h-[85vh] bg-black object-contain rounded-sm shadow-2xl shadow-black"
+                >
+                    <source src={mp4Fallback} type="video/mp4" />
+                    <source src={src} type="video/webm" />
+                    Your browser does not support the video tag.
+                </video>
 
                 <div className="mt-4 flex justify-between items-center text-xs text-zinc-500 font-mono">
                     <span>PLAYING: {src.split('/').pop()}</span>
@@ -231,7 +248,7 @@ function VideoModal({ src, onClose }: { src: string; onClose: () => void }) {
                 </div>
             </motion.div>
         </motion.div>
-    )
+    ), document.body)
 }
 
 // 1. Photography: Random "Throw" angles and asymmetric layout
@@ -326,12 +343,14 @@ function SketchItem({ src, index }: { src: string; index: number }) {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 1.2 }}
-            className={`break-inside-avoid mb-16 ${margin} relative group ${paperRotation}`}
+            className={`break-inside-avoid mb-16 ${margin} relative group ${paperRotation} contain-[paint] will-change-transform`}
         >
-            <div className="bg-[#111] p-6 md:p-8 shadow-xl shadow-black/50 border border-zinc-800/50 group-hover:border-zinc-700/50 transition-colors duration-500">
+            <div className="bg-[#111] p-6 md:p-8 shadow-xl shadow-black/50 border border-zinc-800/50">
                 {/* Paper texture feel via grain or just raw contrast */}
-                <img src={src} alt="" className="w-full h-auto opacity-80 contrast-125 mix-blend-screen group-hover:opacity-100 transition-opacity duration-700" />
+                <img src={src} alt="" className="w-full h-auto opacity-95 contrast-125 transform-[translateZ(0)]" />
             </div>
+
+            <div className="absolute inset-0 pointer-events-none ring-1 ring-zinc-700/0 group-hover:ring-zinc-700/60 transition-[ring-color] duration-200" />
 
             <div className="mt-4 flex justify-between items-center opacity-40 group-hover:opacity-100 transition-opacity duration-500">
                 <span className="text-[14px] font-mono text-zinc-500 tracking-widest uppercase">Figure {index + 1}</span>
