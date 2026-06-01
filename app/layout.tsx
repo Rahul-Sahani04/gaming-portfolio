@@ -111,6 +111,7 @@ import LayoutClientShell from "./components/LayoutClientShell";
 import RouteTransition from "./components/RouteTransition";
 
 import { GeistSans } from "geist/font/sans";
+import Spotify from "./components/Spotify";
 
 const geist = GeistSans;
 
@@ -123,14 +124,22 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn([inter.variable, calSans.variable].join(" "), "font-sans", geist.variable)}
+      className={cn(
+        [inter.variable, calSans.variable].join(" "),
+        "font-sans",
+        geist.variable,
+      )}
       data-scroll-behavior="smooth"
     >
       <body
-        className={`bg-black overflow-x-hidden ${process.env.NODE_ENV === "development" ? "debug-screens" : ""
-          }`}
+        className={`bg-black overflow-x-hidden ${
+          process.env.NODE_ENV === "development" ? "debug-screens" : ""
+        }`}
       >
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-GCJ9N0FQ3X" />
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-GCJ9N0FQ3X"
+        />
         <Script id="google-analytics">
           {`
             window.dataLayer = window.dataLayer || [];
@@ -183,6 +192,10 @@ export default function RootLayout({
         />
         <Analytics />
         <LayoutClientShell />
+
+        <div className="fixed bottom-4 right-4 z-99!">
+          <Spotify />
+        </div>
         <RouteTransition>{children}</RouteTransition>
       </body>
     </html>

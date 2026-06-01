@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
-import {  Mail } from "lucide-react"
+import { Mail } from "lucide-react"
 import { Meteors } from "@/app/components/magicui/meteors"
 import { Particles } from "@/app/components/magicui/star_particles"
 
@@ -24,9 +24,9 @@ export default function ParticleFooter() {
           number={50}
           minDuration={8}
           maxDuration={12}
-          minDelay={0.2}
-          maxDelay={1.2}
-          angle={215}
+          minDelay={0.4}
+          maxDelay={2}
+          angle={140}
 
         />
       </div>

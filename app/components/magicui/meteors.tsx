@@ -26,9 +26,13 @@ export const Meteors = ({
     [],
   );
 
+  function giveRandomAngle(angle: number) {
+    return angle + Math.floor(Math.random() * 50);
+  }
+
   useEffect(() => {
     const styles = [...new Array(number)].map(() => ({
-      "--angle": angle + "deg",
+      "--angle": giveRandomAngle(angle) + "deg",
       top: "-5%",
       left: `calc(0% + ${Math.floor(Math.random() * window.innerWidth)}px)`,
       animationDelay: Math.random() * (maxDelay - minDelay) + minDelay + "s",

@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Particles from "./particles";
 import useIsMobile from "../hooks/useIsMobile";
 import StarBackground from "./StarBackground";
 import CustomCursor from "./CustomCursor";
 import NextTopLoader from 'nextjs-toploader';
 import HomeLoader from "./HomeLoader";
+import VideoLoader from "./VideoLoader";
 import dynamic from 'next/dynamic';
 
 const ThreeScene = dynamic(() => import('./ThreeScene'), { ssr: false });
@@ -19,6 +20,7 @@ function PlayGame() {
 
 export default function HeroSection() {
     const isMobile = useIsMobile();
+    const [videoFinished, setVideoFinished] = useState(false);
 
     useEffect(() => {
         const audio = new Audio("/plasmablaster-37114.mp3");
@@ -37,27 +39,28 @@ export default function HeroSection() {
 
     return (
         <div className="flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-linear-to-tl from-black via-zinc-600/20 to-black">
+            <VideoLoader onComplete={() => setVideoFinished(true)} />
             <HomeLoader />
             <CustomCursor />
             <NextTopLoader />
             {
                 !isMobile ? <ThreeScene /> : <StarBackground />
             }
-            <div className="hidden h-px w-full animate-glow animate-fade-left bg-linear-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 md:block" />
+            <div className={`hidden h-px w-full animate-glow ${videoFinished ? "animate-fade-left" : "opacity-0"} bg-linear-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 md:block`} />
             <Particles
-                className="absolute inset-0 -z-10 animate-fade-in"
+                className={`absolute inset-0 -z-10 ${videoFinished ? "animate-fade-in" : "opacity-0"}`}
                 quantity={100}
             />
-            <h3 className="z-10 text-sm text-center text-zinc-500 sm:text-base md:text-lg animate-fade-in">
+            <h3 className={`z-10 text-sm text-center text-zinc-500 sm:text-base md:text-lg ${videoFinished ? "animate-fade-in" : "opacity-0"}`}>
                 Hey, Ready to be impressed? Explore my portfolio. 🚀
             </h3>
-            <h1 className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-extrabold sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
+            <h1 className={`z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline ${videoFinished ? "animate-title" : "opacity-0"} font-extrabold sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text `}>
                 Rahul Sahani
             </h1>
 
-            <div className="hidden h-px w-full animate-glow animate-fade-right bg-linear-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 md:block" />
+            <div className={`hidden h-px w-full animate-glow ${videoFinished ? "animate-fade-right" : "opacity-0"} bg-linear-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 md:block`} />
 
-            <div className="my-16 text-center animate-fade-in ">
+            <div className={`my-16 text-center ${videoFinished ? "animate-fade-in" : "opacity-0"} `}>
                 <h2 className="text-sm text-zinc-500 ">
                     <Link
                         href="/about"
@@ -75,7 +78,7 @@ export default function HeroSection() {
                 id="cat-peeking-container"
             >
                 {/* Message Bubble */}
-                <p className="absolute -top-10 right-4 w-18 lg:w-22 !text-[12px] md:!text-[16px] text-zinc-500 animate-fade-in ">
+                <p className={`absolute -top-10 right-4 w-18 lg:w-22 !text-[12px] md:!text-[16px] text-zinc-500 ${videoFinished ? "animate-fade-in" : "opacity-0"} `}>
                     Wanna play a game? 🐾
                 </p>
                 <Image
@@ -84,7 +87,7 @@ export default function HeroSection() {
                     src="/CatPeeking.png"
                     width={64}
                     height={64}
-                    className=" w-12 md:w-16 h-auto hover:!opacity-70 !opacity-50 invisible Animate-FadeInRight backdrop:blur-sm rounded-full shadow-lg transition-transform duration-300 cursor-pointer z-20 "
+                    className={`w-12 md:w-16 h-auto hover:!opacity-70 !opacity-50 invisible ${videoFinished ? "Animate-FadeInRight" : "opacity-0"} backdrop:blur-sm rounded-full shadow-lg transition-transform duration-300 cursor-pointer z-20 `}
                 />
             </div>
         </div>

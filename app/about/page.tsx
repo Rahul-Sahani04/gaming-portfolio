@@ -278,9 +278,7 @@ export default function AboutPage() {
         <AnimatedLine />
       </section>
 
-      {/* <div className="fixed bottom-4 right-4">
-          <Spotify />
-        </div> */}
+          
 
       {/* Footer */}
       <ParticleFooter />
