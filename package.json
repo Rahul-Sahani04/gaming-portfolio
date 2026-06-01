@@ -41,6 +41,7 @@
     "next-mdx-remote": "^6.0.0",
     "nextjs-toploader": "^3.9.17",
     "pnpm": "^10.33.0",
+    "postprocessing": "^6.39.1",
     "radix-ui": "^1.4.3",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
