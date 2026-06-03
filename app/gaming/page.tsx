@@ -28,7 +28,7 @@ const Spacer = ({ size = "md" }: { size?: "sm" | "md" | "lg" | "xl" }) => {
   return <div className={`w-full ${heights[size]}`} aria-hidden="true" />
 }
 
-const NarrativeText = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => {
+const NarrativeText = ({ children, className = "text-center" }: { children: React.ReactNode, className?: string }) => {
   const shouldReduceMotion = useReducedMotion()
   return (
     <motion.div
@@ -36,7 +36,7 @@ const NarrativeText = ({ children, className = "" }: { children: React.ReactNode
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.8 }}
-      className={`max-w-2xl mx-auto text-center px-4 relative z-10 ${className}`}
+      className={`max-w-2xl mx-auto px-4 relative z-10 ${className}`}
     >
       <div className="text-zinc-300 text-lg sm:text-xl leading-relaxed font-light drop-shadow-md">
         {children}
@@ -189,56 +189,56 @@ export default function GamingPage() {
         {/* Enhanced Background */}
         <Particles
           className="fixed inset-0 z-0 animate-fade-in"
-          quantity={200}
-          staticity={30}
+          quantity={80}
+          staticity={40}
           ease={20}
         />
 
         {/* --- HERO SECTION --- */}
-        <section className="relative z-10 min-h-[85vh] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
+        <section className="relative z-10 min-h-[85vh] flex flex-col justify-center px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={shouldReduceMotion ? {} : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center max-w-4xl mx-auto"
+            className="w-full max-w-5xl mx-auto"
           >
-            {/* <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-display tracking-tight text-white mb-8 sm:mb-12">
-              Gaming <span className="opacity-40 font-light font-serif italic">&</span><br />
-              <span className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-                Growth
-              </span>
-            </h1> */}
+            {/* Distinctive Asymmetrical Title */}
+            <div className="flex flex-col w-full  my-12 sm:mb-20 relative select-none">
+              <div className="flex justify-start">
+                <BlurText
+                  text="GAMING"
+                  className="text-7xl sm:text-8xl md:text-[9rem] lg:text-[11rem] font-display tracking-tighter text-white leading-[0.85] z-10"
+                  delay={100}
+                  animateBy="letters"
+                />
+              </div>
 
-            <BlurText
-              segments={[
-                { text: "Gaming", className: "text-white" },
+              <div className="flex justify-end items-start mt-6 sm:-mt-8 md:mt-6 relative z-20">
+                <motion.span
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 0.75, y: 0 }}
+                  transition={{ delay: 0.8, duration: 1.8 }}
+                  className="font-mono text-xs sm:text-sm md:text-base tracking-[0.3em] mr-4 sm:mr-8 md:mr-12 mt-4 sm:mt-8 md:mt-12"
+                >
+                  [ & ]
+                </motion.span>
+                <BlurText
+                  text="GROWTH"
+                  className="text-7xl z-99 sm:text-8xl md:text-[9rem] lg:text-[11rem] font-display tracking-tighter text-white bg-clip-text bg-gradient-to-b from-white to-zinc-400 leading-[0.85] drop-shadow-[0_20px_30px_rgba(255,255,255,0.05)]"
+                  delay={250}
+                  animateBy="letters"
+                />
+              </div>
+            </div>
 
-                {
-                  text: "&",
-                  className: "opacity-40 font-light font-serif italic mx-4",
-                },
-
-                {
-                  text: "\n",
-                },
-
-                {
-                  text: "Growth",
-                  className:
-                    "text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]",
-                },
-              ]}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-display tracking-tight text-white mb-8 sm:mb-12"
-              delay={250}
-              animateBy="words"
-            />
-
-            <NarrativeText className="max-w-xl">
-              More than just entertainment, games are a sandbox for the mind.
-              They challenge us to solve problems, adapt to chaos, and persist
-              through failure. These are the lessons I've carried from the
-              virtual world into the real one.
-            </NarrativeText>
+            <div className="flex justify-end w-full">
+              <NarrativeText className="max-w-xl mx-0 text-left border-l border-white/10 pl-6 sm:pl-8">
+                More than just entertainment, games are a sandbox for the mind.
+                They challenge us to solve problems, adapt to chaos, and persist
+                through failure. These are the lessons I've carried from the
+                virtual world into the real one.
+              </NarrativeText>
+            </div>
           </motion.div>
         </section>
 

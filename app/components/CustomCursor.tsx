@@ -1,6 +1,7 @@
 // components/CustomCursor.tsx
 "use client";
 import { useEffect, useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import styles from "./CustomCursor.module.css";
 import Image from "next/image";
 
@@ -20,8 +21,6 @@ const CustomCursor = () => {
   useEffect(() => {
     // Don't initialize cursor on touch devices
     if (!showCursor) return;
-
-    let interval: NodeJS.Timeout;
 
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
@@ -48,19 +47,8 @@ const CustomCursor = () => {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (target.closest('a') !== null || target.closest('button') !== null) {
-        clearInterval(interval);
         if (crosshairRef.current) {
-          crosshairRef.current.style.transition = `all 250ms ease-out`;
-          crosshairRef.current.style.transform = `rotate(0deg) scale(1)`;
-
-          // Keep Randomly Jiggle the cursor until the user is hovering over the link element
-          interval = setInterval(() => {
-            // Generate Random Number between -5 and 10
-            const x = Math.floor(Math.random() * 15) - 5;
-            if (crosshairRef.current) {
-              crosshairRef.current.style.transform = `rotate(${x}deg)`;
-            }
-          }, 100);
+          crosshairRef.current.classList.add(styles.cursorImgHover);
         }
       }
     };
@@ -69,9 +57,8 @@ const CustomCursor = () => {
       const target = e.target as HTMLElement;
       if (target.closest('a') !== null || target.closest('button') !== null) {
         if (crosshairRef.current) {
-          crosshairRef.current.style.transform = `rotate(45deg) scale(0.6)`;
+          crosshairRef.current.classList.remove(styles.cursorImgHover);
         }
-        clearInterval(interval);
       }
     };
 
@@ -87,14 +74,13 @@ const CustomCursor = () => {
       document.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
-      clearInterval(interval);
     };
   }, [showCursor]);
 
   // Don't render on SSR or touch devices
   if (!showCursor) return null;
 
-  return (
+  return createPortal(
     <div className={styles.cursorContainer}>
       <div className={styles.cursor} ref={cursorRef}>
         <Image
@@ -108,7 +94,8 @@ const CustomCursor = () => {
         />
       </div>
       <div className={styles.cursor2} ref={cursorInnerRef}></div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

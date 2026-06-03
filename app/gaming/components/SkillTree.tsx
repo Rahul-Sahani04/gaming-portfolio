@@ -250,7 +250,7 @@ const SkillTree = () => {
         </svg>
 
         {/* Skill Nodes */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 pointer-events-none">
           <AnimatePresence mode="sync">
             {visibleSkills.map((skill, idx) => {
               const isSelected = selectedSkill === skill.id;
@@ -287,7 +287,7 @@ const SkillTree = () => {
                     transform: "translate(-50%, -50%)",
                     zIndex: isSelected ? 20 : isCenterNode ? 15 : 10,
                   }}
-                  className="group cursor-pointer focus:outline-none touch-manipulation"
+                  className="group cursor-pointer focus:outline-none touch-manipulation pointer-events-auto"
                   onClick={() => handleNodeClick(skill.id)}
                   tabIndex={0}
                   aria-label={`${skill.name} - Level ${skill.level}/10. ${skill.description}`}

@@ -35,7 +35,6 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
   const [showVideo, setShowVideo] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const videoSrc = game.bgVideoId
     ? getCloudinaryUrl(game.bgVideoId)
@@ -64,36 +63,7 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
     return () => clearTimeout(timer);
   }, [hovered]);
 
-  // Ambient Light Loop
-  useEffect(() => {
-    if (!showVideo) return;
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    if (!video || !canvas) return;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    // Low-res buffer for performance
-    canvas.width = 40;
-    canvas.height = 20;
-
-    let frameId: number;
-
-    const render = () => {
-      if (!video || video.paused || video.ended) return;
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      frameId = requestAnimationFrame(render);
-    };
-
-    video.addEventListener("play", render);
-    if (!video.paused) render();
-
-    return () => {
-      video.removeEventListener("play", render);
-      cancelAnimationFrame(frameId);
-    };
-  }, [showVideo]);
 
   return (
     <motion.div
@@ -125,10 +95,9 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
               transition={{ duration: 0.8 }}
               className="absolute inset-0 w-full h-full"
             >
-              {/* Ambient Glow Canvas - BEHIND VIDEO */}
-              <canvas
-                ref={canvasRef}
-                className="absolute inset-0 w-full h-full object-cover blur-[60px] opacity-70 scale-110 z-0"
+              {/* Ambient Glow - CSS based static glow for performance */}
+              <div
+                className="absolute inset-0 w-full h-full bg-indigo-500/30 blur-[60px] opacity-60 scale-110 z-0"
                 aria-hidden="true"
               />
 
