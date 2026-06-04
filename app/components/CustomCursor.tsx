@@ -25,7 +25,7 @@ const CustomCursor = () => {
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       if (cursorRef.current && cursorInnerRef.current) {
-        cursorRef.current.style.transform = `translate3d(calc(${clientX}px - 50% + 15px), calc(${clientY}px - 50%), 0)`;
+        cursorRef.current.style.transform = `translate3d(calc(${clientX}px - 50%), calc(${clientY}px - 50%), 0)`;
         cursorInnerRef.current.style.transform = `translate3d(calc(${clientX}px - 50%), calc(${clientY}px - 50%), 0)`;
       }
     };

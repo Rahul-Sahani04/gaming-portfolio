@@ -26,7 +26,7 @@ export default function ParticleFooter() {
           maxDuration={12}
           minDelay={0.4}
           maxDelay={2}
-          angle={140}
+          angle={110}
 
         />
       </div>
