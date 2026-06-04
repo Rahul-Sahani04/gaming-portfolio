@@ -22,7 +22,7 @@ export function useTerminalCommands() {
       setHistory((prev) => [...prev, { id: Math.random().toString(), command: "", output: null }]);
       return;
     }
-    
+
     const parts = trimmed.split(" ");
     const cmd = parts[0].toLowerCase();
     const args = parts.slice(1);
@@ -92,7 +92,7 @@ export function useTerminalCommands() {
             <div className="text-zinc-300 mt-2 space-y-2 text-sm max-w-2xl font-mono">
               <h1 className="text-green-500 font-bold text-lg"># Rahul Sahani</h1>
               <p className="italic">Full-Stack Developer & Creative Engineer</p>
-              
+
               <h2 className="text-green-500 font-bold mt-4">## Experience</h2>
               <p><span className="text-green-500">-</span> Building immersive 3D web experiences using React, Three.js, and Next.js</p>
               <p><span className="text-green-500">-</span> Developing scalable full-stack applications with modern web tech</p>
@@ -100,10 +100,10 @@ export function useTerminalCommands() {
 
               <h2 className="text-green-500 font-bold mt-4">## Core Stack</h2>
               <p>TypeScript, React, Next.js, Node.js, Three.js, Tailwind CSS</p>
-              
+
               <h2 className="text-green-500 font-bold mt-4">## Objective</h2>
               <p>To create the most memorable and interactive experiences on the web.</p>
-              
+
               <p className="mt-4 text-zinc-500 italic">Type 'cd contact' to get in touch!</p>
             </div>
           );
@@ -122,7 +122,7 @@ export function useTerminalCommands() {
         output = (
           <div className="flex flex-col sm:flex-row gap-6 mt-2 text-zinc-300">
             <pre className="text-green-500 font-bold text-[10px] sm:text-xs leading-tight">
-{`
+              {`
     .----.
    /  ..  \\
   |   __   |
