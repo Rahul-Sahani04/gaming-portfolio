@@ -109,6 +109,7 @@ const calSans = LocalFont({
 import { cn } from "@/lib/utils";
 import LayoutClientShell from "./components/LayoutClientShell";
 import RouteTransition from "./components/RouteTransition";
+import { TerminalProvider } from "./components/terminal/TerminalProvider";
 
 import { GeistSans } from "geist/font/sans";
 import Spotify from "./components/Spotify";
@@ -190,13 +191,15 @@ export default function RootLayout({
             }),
           }}
         />
-        <Analytics />
-        <LayoutClientShell />
+        <TerminalProvider>
+          <Analytics />
+          <LayoutClientShell />
 
-        <div className="fixed bottom-4 right-4 z-99!">
-          <Spotify />
-        </div>
-        <RouteTransition>{children}</RouteTransition>
+          <div className="fixed bottom-4 right-4 z-99!">
+            <Spotify />
+          </div>
+          <RouteTransition>{children}</RouteTransition>
+        </TerminalProvider>
       </body>
     </html>
   );

@@ -9,6 +9,7 @@ import VideoLoader from "./VideoLoader";
 import ASCIIText from "./react-bits/ASCIIText";
 import Dither from "./react-bits/Dither";
 import GlitchText from "./GlitchText";
+import { useTerminal } from "./terminal/TerminalProvider";
 
 const menuItems = [
     { id: '01', label: 'ABOUT ME', href: '/about' },
@@ -28,6 +29,7 @@ export default function HeroSection() {
     const [hoveredItem, setHoveredItem] = useState<string | null>(null);
     const [themeIndex, setThemeIndex] = useState(0);
     const [enableGlitch, setEnableGlitch] = useState(true);
+    const { openTerminal } = useTerminal();
 
     const activeTheme = THEMES[themeIndex];
 
@@ -136,6 +138,14 @@ export default function HeroSection() {
                     [ GLITCH_FX: {enableGlitch ? 'ON' : 'OFF'} ]
                 </button>
             </div>
+
+            {/* Terminal Hint Button */}
+            <button
+                onClick={openTerminal}
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 text-[10px] md:text-xs font-mono tracking-widest text-zinc-500 hover:text-green-500 border border-zinc-800 hover:border-green-500/50 bg-black/50 backdrop-blur-sm transition-all duration-300 rounded cursor-pointer z-20"
+            >
+                [ OPEN_TERMINAL: Ctrl + ` ]
+            </button>
         </div>
     );
 }

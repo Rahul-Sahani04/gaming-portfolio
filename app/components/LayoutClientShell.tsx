@@ -11,6 +11,9 @@ const CmdKToast = dynamic(
 const Toaster = dynamic(
   () => import("sonner").then((mod) => mod.Toaster)
 );
+const TerminalOverlay = dynamic(
+  () => import("./terminal/TerminalOverlay").then((mod) => mod.TerminalOverlay)
+);
 
 export default function LayoutClientShell() {
   return (
@@ -18,6 +21,7 @@ export default function LayoutClientShell() {
       <CommandMenu />
       <CmdKToast />
       <Toaster theme="dark" />
+      <TerminalOverlay />
     </>
   );
 }
