@@ -339,7 +339,7 @@ class CanvAscii {
     try {
       await document.fonts.load('600 200px "IBM Plex Mono"');
       await document.fonts.load('500 12px "IBM Plex Mono"');
-    } catch (e) {}
+    } catch (e) { }
     await document.fonts.ready;
     this.setMesh();
     this.setRenderer();
@@ -588,8 +588,9 @@ export default function ASCIIText({
       style={{
         position: 'absolute',
         width: '100%',
-        height: '100%'
-      }}
+        height: '100%',
+        '--ascii-text-color': textColor // Pass the theme color to CSS
+      } as React.CSSProperties}
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap');
@@ -618,12 +619,13 @@ export default function ASCIIText({
           position: absolute;
           left: 0;
           top: 0;
-          background-image: radial-gradient(circle, #00ffff 0%, #0088ff 50%, #000088 100%);
-          background-attachment: fixed;
-          -webkit-text-fill-color: transparent;
-          -webkit-background-clip: text;
           z-index: 9;
-          mix-blend-mode: difference;
+          
+          /* NEW: Use the dynamic theme color instead of a gradient */
+          color: var(--ascii-text-color);
+          
+          /* NEW: Add a slight glow to fit the terminal aesthetic */
+          text-shadow: 0 0 5px var(--ascii-text-color);
         }
       `}</style>
     </div>

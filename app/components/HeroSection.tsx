@@ -19,7 +19,7 @@ const menuItems = [
 ];
 
 const THEMES = [
-    { name: 'MONOCHROME', waveColor: [0.15, 0.15, 0.15] as [number, number, number], textColor: '#ffffff', highlightClass: 'text-white', bgClass: 'bg-white' },
+    { name: 'MONOCHROME', waveColor: [0.15, 0.15, 0.15] as [number, number, number], textColor: '#DBDBDB', highlightClass: 'text-white', bgClass: 'bg-white' },
     { name: 'AMBER_RETRO', waveColor: [0.6, 0.3, 0.0] as [number, number, number], textColor: '#ffb000', highlightClass: 'text-amber-500', bgClass: 'bg-amber-500' },
     { name: 'MATRIX_GREEN', waveColor: [0.0, 0.5, 0.1] as [number, number, number], textColor: '#00ff41', highlightClass: 'text-green-500', bgClass: 'bg-green-500' },
 ];
