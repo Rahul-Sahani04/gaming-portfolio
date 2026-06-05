@@ -34,7 +34,7 @@ export default function HeroSection() {
     const activeTheme = THEMES[themeIndex];
 
     const playHoverSound = () => {
-        const audio = new Audio("/plasmablaster-37114.mp3");
+        const audio = new Audio("/TerminalSFXbyOddworld.mp3");
         audio.volume = 0.1;
         audio.playbackRate = 1.5;
         audio.currentTime = 0;

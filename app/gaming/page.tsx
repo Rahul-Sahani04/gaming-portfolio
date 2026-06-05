@@ -109,8 +109,8 @@ export default function GamingPage() {
         "Overcoming Adversity: Challenging bosses and hidden secrets test perseverance and creative problem-solving.",
       ],
       bgVideoUrl: "/game_videos/EldenRing_Edit.mp4",
-      videoCreator: "RotoMatic",
-      bgVideoId: "EldenRing_Edit_endnt0",
+      videoCreator: "N/A",
+      bgVideoId: "Elden-Ring-Updated-Video",
     },
     {
       title: "Sekiro",
@@ -172,7 +172,7 @@ export default function GamingPage() {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-black text-white overflow-x-hidden selection:bg-white/20 selection:text-white"
+      className="relative min-h-screen bg-black text-white selection:bg-white/20 selection:text-white"
     >
       <Navigation />
       <CustomCursor />

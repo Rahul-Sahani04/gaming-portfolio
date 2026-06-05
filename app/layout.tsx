@@ -133,7 +133,7 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body
-        className={`bg-black overflow-x-hidden ${
+        className={`bg-black overflow-x-clip ${
           process.env.NODE_ENV === "development" ? "debug-screens" : ""
         }`}
       >
