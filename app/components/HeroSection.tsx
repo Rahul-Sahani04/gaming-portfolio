@@ -10,6 +10,7 @@ import ASCIIText from "./react-bits/ASCIIText";
 import Dither from "./react-bits/Dither";
 import GlitchText from "./GlitchText";
 import { useTerminal } from "./terminal/TerminalProvider";
+import { PlayerStatsPanel } from "./PlayerStatsPanel";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
@@ -110,46 +111,56 @@ export default function HeroSection() {
             <div className="pointer-events-none absolute inset-0 z-0 bg-cyber-scanline opacity-30 mix-blend-overlay"></div>
 
             {/* Content Container */}
-            <div className={`relative z-10 w-full max-w-6xl flex flex-col items-start ${videoFinished ? "animate-fade-in" : "opacity-0"}`}>
+            <div className={`relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 ${videoFinished ? "animate-fade-in" : "opacity-0"}`}>
 
-                {/* System Output Header */}
-                <div className="hidden sm:flex flex-col mb-4 md:mb-8 text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest space-y-1">
-                    <p>{">"} ESTABLISHING SECURE CONNECTION... <span className={activeTheme.highlightClass}>OK</span></p>
-                    <p>{">"} LOADING FULL_STACK_ENVIRONMENT... <span className={activeTheme.highlightClass}>OK</span></p>
-                    <p>{">"} MOUNTING CREATIVE_ENGINEER PROTOCOLS... <span className={activeTheme.highlightClass}>DONE</span></p>
-                    <p>{">"} IDENTIFYING USER:</p>
+                {/* Left Column (Main Content) */}
+                <div className="flex flex-col items-start w-full lg:w-[55%] xl:w-1/2">
+                    {/* System Output Header */}
+                    <div className="hidden sm:flex flex-col mb-4 md:mb-8 text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest space-y-1">
+                        <p>{">"} ESTABLISHING SECURE CONNECTION... <span className={activeTheme.highlightClass}>OK</span></p>
+                        <p>{">"} LOADING FULL_STACK_ENVIRONMENT... <span className={activeTheme.highlightClass}>OK</span></p>
+                        <p>{">"} MOUNTING CREATIVE_ENGINEER PROTOCOLS... <span className={activeTheme.highlightClass}>DONE</span></p>
+                        <p>{">"} IDENTIFYING USER:</p>
+                    </div>
+
+                    {/* Kinetic Split Title */}
+                    <div className="w-full flex items-center h-32 sm:h-40 md:h-56 lg:h-72 mb-8 md:mb-12 relative -ml-1 md:-ml-2 cursor-none">
+                        {videoFinished && (
+                            <SplitTextReveal text={"RAHUL\nSAHANI"} themeColor={activeTheme.textColor}
+                                subTitle="Gamer | Developer "
+                            />
+                        )}
+                    </div>
+
+                    {/* Navigation (CLI Style) */}
+                    <nav className="flex flex-col space-y-2 md:space-y-4">
+                        {menuItems.map((item) => (
+                            <Link
+                                key={item.id}
+                                href={item.href}
+                                onMouseEnter={() => {
+                                    setHoveredItem(item.id);
+                                    playHoverSound();
+                                }}
+                                onMouseLeave={() => setHoveredItem(null)}
+                                className="group flex items-center cursor-none w-fit"
+                            >
+                                <span className={`text-sm md:text-xl lg:text-2xl font-bold tracking-widest uppercase transition-none flex items-center h-8 ${hoveredItem === item.id ? activeTheme.highlightClass : 'text-zinc-500'}`}>
+                                    <span className="w-6 inline-block">{hoveredItem === item.id ? '> ' : ''}</span>
+                                    [{item.id}] &nbsp; <GlitchText text={item.label} isHovered={hoveredItem === item.id} enableGlitch={enableGlitch} />
+                                    {hoveredItem === item.id && <span className={`animate-pulse ml-3 inline-block w-3 md:w-4 h-5 md:h-6 align-middle ${activeTheme.bgClass}`}></span>}
+                                </span>
+                            </Link>
+                        ))}
+                    </nav>
                 </div>
 
-                {/* Kinetic Split Title */}
-                <div className="w-full flex items-center h-32 sm:h-40 md:h-56 lg:h-72 mb-8 md:mb-12 relative -ml-1 md:-ml-2 cursor-none">
+                {/* Right Column (Stats Panel) */}
+                <div className="hidden lg:flex w-full mt-12 lg:w-[45%] xl:w-1/2 justify-center lg:justify-end opacity-0 animate-[fade-in_1s_ease-out_1s_forwards]">
                     {videoFinished && (
-                        <SplitTextReveal text={"RAHUL\nSAHANI"} themeColor={activeTheme.textColor}
-                            subTitle="Gamer | Developer "
-                        />
+                        <PlayerStatsPanel themeColor={activeTheme.textColor} bgClass={activeTheme.bgClass} />
                     )}
                 </div>
-
-                {/* Navigation (CLI Style) */}
-                <nav className="flex flex-col space-y-2 md:space-y-4">
-                    {menuItems.map((item) => (
-                        <Link
-                            key={item.id}
-                            href={item.href}
-                            onMouseEnter={() => {
-                                setHoveredItem(item.id);
-                                playHoverSound();
-                            }}
-                            onMouseLeave={() => setHoveredItem(null)}
-                            className="group flex items-center cursor-none w-fit"
-                        >
-                            <span className={`text-sm md:text-xl lg:text-2xl font-bold tracking-widest uppercase transition-none flex items-center h-8 ${hoveredItem === item.id ? activeTheme.highlightClass : 'text-zinc-500'}`}>
-                                <span className="w-6 inline-block">{hoveredItem === item.id ? '> ' : ''}</span>
-                                [{item.id}] &nbsp; <GlitchText text={item.label} isHovered={hoveredItem === item.id} enableGlitch={enableGlitch} />
-                                {hoveredItem === item.id && <span className={`animate-pulse ml-3 inline-block w-3 md:w-4 h-5 md:h-6 align-middle ${activeTheme.bgClass}`}></span>}
-                            </span>
-                        </Link>
-                    ))}
-                </nav>
             </div>
 
             {/* Corner UI - Theme & Glitch Toggles */}
