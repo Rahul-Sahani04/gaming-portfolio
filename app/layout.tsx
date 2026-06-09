@@ -106,6 +106,11 @@ const calSans = LocalFont({
   variable: "--font-calsans",
 });
 
+const gamePaused = LocalFont({
+  src: "../public/fonts/game_paused/Game Paused DEMO.otf",
+  variable: "--font-game-paused",
+});
+
 import { cn } from "@/lib/utils";
 import LayoutClientShell from "./components/LayoutClientShell";
 import RouteTransition from "./components/RouteTransition";
@@ -126,7 +131,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn(
-        [inter.variable, calSans.variable].join(" "),
+        [inter.variable, calSans.variable, gamePaused.variable].join(" "),
         "font-sans",
         geist.variable,
       )}

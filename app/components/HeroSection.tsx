@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomCursor from "./CustomCursor";
 import NextTopLoader from 'nextjs-toploader';
 import HomeLoader from "./HomeLoader";
@@ -10,6 +10,7 @@ import ASCIIText from "./react-bits/ASCIIText";
 import Dither from "./react-bits/Dither";
 import GlitchText from "./GlitchText";
 import { useTerminal } from "./terminal/TerminalProvider";
+import { cn } from "@/lib/utils";
 
 const menuItems = [
     { id: '01', label: 'ABOUT ME', href: '/about' },
@@ -23,6 +24,46 @@ const THEMES = [
     { name: 'AMBER_RETRO', waveColor: [0.6, 0.3, 0.0] as [number, number, number], textColor: '#ffb000', highlightClass: 'text-amber-500', bgClass: 'bg-amber-500' },
     { name: 'MATRIX_GREEN', waveColor: [0.0, 0.5, 0.1] as [number, number, number], textColor: '#00ff41', highlightClass: 'text-green-500', bgClass: 'bg-green-500' },
 ];
+
+function SplitTextReveal({ text, themeColor, subTitle = "CREATIVE ENGINEER" }: { text: string, themeColor: string, subTitle?: string }) {
+    const lines = text.split('\n');
+
+    return (
+        <div className="relative font-bold group select-none cursor-crosshair flex flex-col items-center justify-center">
+
+            {/* The Hidden Glowing Sub-Title (Revealed on Hover) */}
+            <div
+                className="absolute inset-0 flex items-center justify-center z-0 opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-75 pointer-events-none"
+            >
+                <span
+                    className="text-xs sm:text-sm md:text-xl lg:text-xl tracking-[0.4em] md:tracking-[0.6em] font-mono font-bold text-white whitespace-nowrap opacity-50"
+                // style={{ textShadow: `0 0 15px ${themeColor}, 0 0 30px ${themeColor}` }}
+                >
+                    {subTitle}
+                </span>
+            </div>
+
+            <div className="relative z-10 flex flex-col items-start text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] uppercase tracking-tighter font-sans leading-[0.85]">
+                {/* Top Word */}
+                <span
+                    className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-6 md:group-hover:-translate-y-10"
+                    style={{ color: themeColor }}
+                >
+                    {lines[0]}
+                </span>
+
+                {/* Bottom Word */}
+                <span
+                    className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-6 md:group-hover:translate-y-10"
+                    style={{ color: themeColor }}
+                >
+                    {lines[1]}
+                </span>
+            </div>
+
+        </div>
+    );
+}
 
 export default function HeroSection() {
     const [videoFinished, setVideoFinished] = useState(false);
@@ -79,15 +120,11 @@ export default function HeroSection() {
                     <p>{">"} IDENTIFYING USER:</p>
                 </div>
 
-                {/* ReactBits ASCII Art Title */}
-                <div className="w-full h-32 sm:h-40 md:h-56 lg:h-72 mb-8 md:mb-12 relative -ml-4 md:-ml-8 cursor-none overflow-hidden">
+                {/* Kinetic Split Title */}
+                <div className="w-full flex items-center h-32 sm:h-40 md:h-56 lg:h-72 mb-8 md:mb-12 relative -ml-1 md:-ml-2 cursor-none">
                     {videoFinished && (
-                        <ASCIIText
-                            text="RAHUL SAHANI"
-                            enableWaves={false}
-                            enableMouseInteraction={false}
-                            asciiFontSize={window.innerWidth < 768 ? 6 : 8}
-                            textColor={activeTheme.textColor}
+                        <SplitTextReveal text={"RAHUL\nSAHANI"} themeColor={activeTheme.textColor}
+                            subTitle="Gamer | Developer "
                         />
                     )}
                 </div>

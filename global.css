@@ -285,3 +285,64 @@ body {
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+/* ─── Game Paused Font Styles ─── */
+@utility font-game-paused {
+  font-family: var(--font-game-paused), monospace;
+}
+
+@utility gp-outline {
+  -webkit-text-stroke: 1px currentColor;
+  color: transparent;
+}
+
+@utility gp-extrude {
+  text-shadow: 1px 1px 0px currentColor, 
+               2px 2px 0px currentColor, 
+               3px 3px 0px currentColor, 
+               4px 4px 0px currentColor, 
+               5px 5px 0px currentColor, 
+               6px 6px 0px currentColor;
+}
+
+@utility gp-italic {
+  font-style: italic;
+  transform: skewX(-10deg);
+}
+
+/* ─── Hero Title Glitch Animations ─── */
+@keyframes glitch-anim-1 {
+  0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+  10% { clip-path: inset(50% 0 30% 0); transform: translate(2px, -1px); }
+  20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 2px); }
+  30% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -2px); }
+  40% { clip-path: inset(40% 0 20% 0); transform: translate(-2px, 1px); }
+  50% { clip-path: inset(90% 0 5% 0); transform: translate(2px, -1px); }
+  60% { clip-path: inset(15% 0 70% 0); transform: translate(-2px, 2px); }
+  70% { clip-path: inset(55% 0 10% 0); transform: translate(2px, -2px); }
+  80% { clip-path: inset(30% 0 40% 0); transform: translate(-2px, 1px); }
+  90% { clip-path: inset(85% 0 10% 0); transform: translate(2px, -1px); }
+  100% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip-path: inset(15% 0 50% 0); transform: translate(2px, -1px); }
+  10% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 1px); }
+  20% { clip-path: inset(40% 0 30% 0); transform: translate(2px, -2px); }
+  30% { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 2px); }
+  40% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+  50% { clip-path: inset(25% 0 45% 0); transform: translate(-2px, 1px); }
+  60% { clip-path: inset(90% 0 5% 0); transform: translate(2px, -2px); }
+  70% { clip-path: inset(35% 0 55% 0); transform: translate(-2px, 2px); }
+  80% { clip-path: inset(5% 0 85% 0); transform: translate(2px, -1px); }
+  90% { clip-path: inset(70% 0 20% 0); transform: translate(-2px, 1px); }
+  100% { clip-path: inset(15% 0 50% 0); transform: translate(2px, -1px); }
+}
+
+@utility animate-glitch-1 {
+  animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+}
+
+@utility animate-glitch-2 {
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
