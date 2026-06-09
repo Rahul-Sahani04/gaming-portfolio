@@ -117,9 +117,8 @@ export default function HeroSection() {
                 <div className="flex flex-col items-start w-full lg:w-[55%] xl:w-1/2">
                     {/* System Output Header */}
                     <div className="hidden sm:flex flex-col mb-4 md:mb-8 text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest space-y-1">
-                        <p>{">"} ESTABLISHING SECURE CONNECTION... <span className={activeTheme.highlightClass}>OK</span></p>
-                        <p>{">"} LOADING FULL_STACK_ENVIRONMENT... <span className={activeTheme.highlightClass}>OK</span></p>
-                        <p>{">"} MOUNTING CREATIVE_ENGINEER PROTOCOLS... <span className={activeTheme.highlightClass}>DONE</span></p>
+                        <p>{">"} Trying to connect... <span className={activeTheme.highlightClass}>Connected</span></p>
+                        <p>{">"} Finding user... <span className={activeTheme.highlightClass}>Found 1</span></p>
                         <p>{">"} IDENTIFYING USER:</p>
                     </div>
 
