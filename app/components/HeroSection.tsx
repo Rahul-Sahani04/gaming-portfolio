@@ -108,7 +108,14 @@ export default function HeroSection() {
             </div>
 
             {/* Scanline overlay */}
-            <div className="pointer-events-none absolute inset-0 z-0 bg-cyber-scanline opacity-30 mix-blend-overlay"></div>
+            <div className="pointer-events-none absolute inset-0 z-0 bg-cyber-scanline opacity-30 mix-blend-overlay animate-scanline"></div>
+
+            {/* Central ASCII Art for Desktop */}
+            <div className="hidden  xl:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] z-0 opacity-20 mix-blend-screen transition-colors duration-1000">
+                {videoFinished && (
+                    <ASCIIText text="POETRY" textColor={activeTheme.textColor} enableWaves={true} asciiFontSize={8} textFontSize={250} />
+                )}
+            </div>
 
             {/* Content Container */}
             <div className={`relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 ${videoFinished ? "animate-fade-in" : "opacity-0"}`}>
@@ -116,10 +123,10 @@ export default function HeroSection() {
                 {/* Left Column (Main Content) */}
                 <div className="flex flex-col items-start w-full lg:w-[55%] xl:w-1/2">
                     {/* System Output Header */}
-                    <div className="hidden sm:flex flex-col mb-4 md:mb-8 text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest space-y-1">
-                        <p>{">"} Trying to connect... <span className={activeTheme.highlightClass}>Connected</span></p>
-                        <p>{">"} Finding user... <span className={activeTheme.highlightClass}>Found 1</span></p>
-                        <p>{">"} IDENTIFYING USER:</p>
+                    <div className="hidden sm:flex flex-col mb-4 md:mb-8 text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest space-y-1 items-start">
+                        <p className="overflow-hidden whitespace-nowrap w-0 animate-[type-in_0.8s_steps(30,end)_forwards]">{">"} Trying to connect... <span className={activeTheme.highlightClass}>Connected</span></p>
+                        <p className="overflow-hidden whitespace-nowrap w-0 animate-[type-in_0.8s_steps(30,end)_0.8s_forwards]">{">"} Finding user... <span className={activeTheme.highlightClass}>Found 1</span></p>
+                        <p className="overflow-hidden whitespace-nowrap w-0 animate-[type-in_0.5s_steps(20,end)_1.6s_forwards]">{">"} IDENTIFYING USER:</p>
                     </div>
 
                     {/* Kinetic Split Title */}

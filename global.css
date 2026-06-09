@@ -286,6 +286,15 @@ body {
   100% { background-position: 0% 50%; }
 }
 
+@keyframes scanline-scroll {
+  from { background-position: 0 0; }
+  to   { background-position: 0 4px; }
+}
+
+@utility animate-scanline {
+  animation: scanline-scroll 0.5s linear infinite;
+}
+
 /* ─── Game Paused Font Styles ─── */
 @utility font-game-paused {
   font-family: var(--font-game-paused), monospace;
