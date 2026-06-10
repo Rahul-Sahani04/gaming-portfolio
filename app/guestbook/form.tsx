@@ -3,7 +3,8 @@
 import { useRef, useState } from "react";
 import { saveGuestbookEntry } from "../actions";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, Send, CheckCircle2 } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
+import { playStampThud } from "./audio";
 
 export default function GuestbookForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -21,8 +22,9 @@ export default function GuestbookForm() {
       setErrors(result.error as any);
     } else {
       formRef.current?.reset();
+      playStampThud();
       setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 4000);
+      setTimeout(() => setSubmitted(false), 3000);
     }
 
     setIsSubmitting(false);
@@ -37,7 +39,7 @@ export default function GuestbookForm() {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className="w-full mb-10 p-6 md:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] backdrop-blur-md"
+      className="relative overflow-hidden w-full mb-10 p-6 md:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] backdrop-blur-md"
     >
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold tracking-tight text-zinc-100 font-display">
@@ -51,13 +53,15 @@ export default function GuestbookForm() {
       <AnimatePresence>
         {submitted && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="mb-5 flex items-center gap-2.5 text-sm text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 rounded-xl px-4 py-3"
+            initial={{ opacity: 0, scale: 2, rotate: -15 }}
+            animate={{ opacity: 1, scale: 1, rotate: -5 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", bounce: 0.6, duration: 0.5 }}
+            className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
           >
-            <CheckCircle2 className="w-4 h-4 shrink-0" />
-            Message transmitted successfully. Thank you!
+            <div className="border-4 border-amber-600 text-amber-600 font-black text-5xl md:text-6xl tracking-[0.2em] px-8 py-4 uppercase bg-amber-950/40 backdrop-blur-sm rounded-sm shadow-[0_0_50px_rgba(217,119,6,0.5)] mix-blend-screen">
+              LOGGED
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

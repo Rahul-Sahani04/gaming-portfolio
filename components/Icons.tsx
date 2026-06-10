@@ -57,4 +57,28 @@ export function MdiLinkedin({ size, width, height, ...props }: IconProps) {
   );
 }
 
-export { MdiGithub as Github, MdiTwitter as Twitter, MdiLinkedin as Linkedin };
+export function MdiYoutube({ size, width, height, ...props }: IconProps) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size ?? width ?? "1em"} height={size ?? height ?? "1em"} viewBox="0 0 24 24" {...props}>
+      <path fill="currentColor" d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83c-.25.9-.83 1.48-1.73 1.73c-.47.13-1.33.22-2.65.28c-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44c-.9-.25-1.48-.83-1.73-1.73c-.13-.47-.22-1.1-.28-1.9c-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83c.25-.9.83-1.48 1.73-1.73c.47-.13 1.33-.22 2.65-.28c1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44c.9.25 1.48.83 1.73 1.73" />
+    </svg>
+  );
+}
+
+export function MdiInstagram({ size, width, height, ...props }: IconProps) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size ?? width ?? "1em"} height={size ?? height ?? "1em"} viewBox="0 0 24 24" {...props}>
+      <path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3" />
+    </svg>
+  );
+}
+
+export function MdiPinterest({ size, width, height, ...props }: IconProps) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size ?? width ?? "1em"} height={size ?? height ?? "1em"} viewBox="0 0 24 24" {...props}>
+      <path fill="currentColor" d="M9.04 21.54c.96.29 1.93.46 2.96.46a10 10 0 0 0 10-10A10 10 0 0 0 12 2A10 10 0 0 0 2 12c0 4.25 2.67 7.9 6.44 9.34c-.09-.78-.18-2.07 0-2.96l1.15-4.92s-.29-.58-.29-1.5c0-1.38.86-2.41 1.84-2.41c.86 0 1.26.63 1.26 1.44c0 .86-.57 2.09-.86 3.27c-.23.98.46 1.78 1.44 1.78c1.73 0 3.11-1.84 3.11-4.6c0-2.41-1.73-4.14-4.37-4.14c-3.05 0-4.83 2.3-4.83 4.6c0 .86.34 1.84.75 2.36c.06.11.06.23.06.34l-.23 1c-.06.23-.23.29-.52.17c-1.44-.69-2.41-2.93-2.41-4.71c0-3.8 2.82-7.3 8.05-7.3c4.25 0 7.47 3.05 7.47 7.07c0 4.25-2.65 7.65-6.38 7.65c-1.26 0-2.41-.63-2.82-1.38l-.75 2.87c-.29 1.09-1.09 2.53-1.61 3.39z" />
+    </svg>
+  );
+}
+
+export { MdiGithub as Github, MdiTwitter as Twitter, MdiLinkedin as Linkedin, MdiYoutube as Youtube, MdiInstagram as Instagram, MdiPinterest as Pinterest };

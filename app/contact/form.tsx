@@ -47,7 +47,7 @@ export default function ContactForm() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.15 }}
-      className="w-full p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.07] backdrop-blur-md shadow-2xl"
+      className="w-full p-6 sm:p-8 rounded-2xl bg-white/[0.05] border border-white/[0.1] backdrop-blur-md shadow-2xl"
     >
       {/* Header */}
       <div className="flex items-center gap-3 mb-8">
@@ -56,7 +56,7 @@ export default function ContactForm() {
         </div>
         <div>
           <h3 className="text-base font-semibold text-zinc-100 font-display tracking-tight">
-            Send a transmission
+            Send a message
           </h3>
           <p className="text-xs text-zinc-600 font-light">All fields marked required are mandatory</p>
         </div>
@@ -125,11 +125,10 @@ export default function ContactForm() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className={`flex items-center gap-2.5 text-sm rounded-xl px-4 py-3 ${
-                status.type === "success"
-                  ? "text-emerald-400 bg-emerald-950/40 border border-emerald-800/40"
-                  : "text-red-400 bg-red-950/30 border border-red-900/40"
-              }`}
+              className={`flex items-center gap-2.5 text-sm rounded-xl px-4 py-3 ${status.type === "success"
+                ? "text-emerald-400 bg-emerald-950/40 border border-emerald-800/40"
+                : "text-red-400 bg-red-950/30 border border-red-900/40"
+                }`}
             >
               {status.type === "success" && <CheckCircle2 className="w-4 h-4 shrink-0" />}
               {status.message}

@@ -33,11 +33,11 @@ export const Navigation: React.FC = () => {
 
       {/* Main Header Container */}
       <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none select-none px-6 md:px-12 pt-8">
-        
-        <motion.div 
-           className="relative flex justify-between items-end border-b border-zinc-800/60 pb-4"
-           animate={{ opacity: isTransitioning ? 0 : 1, y: isTransitioning ? -12 : 0 }}
-           transition={{ duration: timingMs / 1000, ease: [0.25, 0.46, 0.45, 0.94] }}
+
+        <motion.div
+          className="relative flex justify-between items-end border-b border-zinc-800/60 pb-4"
+          animate={{ opacity: isTransitioning ? 0 : 1, y: isTransitioning ? -12 : 0 }}
+          transition={{ duration: timingMs / 1000, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           {/* Logo / Home */}
           <Link
@@ -45,7 +45,7 @@ export const Navigation: React.FC = () => {
             className="pointer-events-auto group relative flex flex-col items-start gap-1"
           >
             <span className="text-zinc-500 font-mono text-[9px] tracking-[0.25em] group-hover:text-zinc-300 transition-colors">
-              // SYSTEM.INDEX
+              // 127.0.0.1
             </span>
             <span className="text-zinc-200 text-xs font-bold tracking-widest uppercase">
               Rahul Sahani
@@ -71,16 +71,14 @@ export const Navigation: React.FC = () => {
                   className="relative group flex flex-col items-end gap-1"
                 >
                   <span
-                    className={`font-mono text-[9px] tracking-[0.25em] transition-colors duration-300 ${
-                      isActive ? "text-zinc-400" : "text-zinc-600 group-hover:text-zinc-400"
-                    }`}
+                    className={`font-mono text-[9px] tracking-[0.25em] transition-colors duration-300 ${isActive ? "text-zinc-400" : "text-zinc-600 group-hover:text-zinc-400"
+                      }`}
                   >
                     0{idx + 1}
                   </span>
                   <span
-                    className={`text-[11px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
-                      isActive ? "text-zinc-100" : "text-zinc-400 group-hover:text-zinc-200"
-                    }`}
+                    className={`text-[11px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${isActive ? "text-zinc-100" : "text-zinc-400 group-hover:text-zinc-200"
+                      }`}
                   >
                     {label}
                   </span>
@@ -149,11 +147,10 @@ export const Navigation: React.FC = () => {
                       onClick={() => setMobileOpen(false)}
                     >
                       <span className="font-mono text-[10px] tracking-[0.2em] text-zinc-600 mb-0.5 group-hover:text-zinc-400 transition-colors">
-                         {String("0" + i).slice(-2)}
+                        {String("0" + i).slice(-2)}
                       </span>
-                      <span className={`text-[2rem] font-medium tracking-wide uppercase transition-all duration-300 ${
-                        isActive ? "text-zinc-100 translate-x-2" : "text-zinc-500 group-hover:text-zinc-300 group-hover:translate-x-2"
-                      }`}>
+                      <span className={`text-[2rem] font-medium tracking-wide uppercase transition-all duration-300 ${isActive ? "text-zinc-100 translate-x-2" : "text-zinc-500 group-hover:text-zinc-300 group-hover:translate-x-2"
+                        }`}>
                         {link.label}
                       </span>
                     </Link>
@@ -162,7 +159,7 @@ export const Navigation: React.FC = () => {
               })}
             </nav>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}

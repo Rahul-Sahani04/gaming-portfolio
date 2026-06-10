@@ -24,7 +24,7 @@ export const OrbitRing = ({
       height={size}
       viewBox={`0 0 ${size} ${size}`}
       className={`absolute pointer-events-none ${className}`}
-      animate={{ rotate: reverse ? -360 : 360 }}
+      animate={{ rotate: [0, reverse ? -360 : 360] }}
       transition={{ duration, repeat: Infinity, ease: "linear" }}
     >
       <circle

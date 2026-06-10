@@ -8,6 +8,7 @@ const LottieAnimation = dynamic(() => import("../components/LottieAnimation"), {
 import animatedGithub from "../components/AnimatedIcons/icons8-github.json";
 import animatedTwitter from "../components/AnimatedIcons/icons8-twitter.json";
 import animatedMail from "../components/AnimatedIcons/icons8-gmail-logo.json";
+import animatedSteam from "../components/AnimatedIcons/steam.json";
 import NextTopLoader from "nextjs-toploader";
 import Particles from "../components/particles";
 import { Meteors } from "../components/magicui/meteors";
@@ -24,6 +25,7 @@ export default function Contact() {
     linkedin: false,
     email: false,
     github: false,
+    steam: false,
   });
 
   const socials = [
@@ -77,6 +79,23 @@ export default function Contact() {
       desc: "See the source",
       orbitDuration: 11,
       orbitReverse: false,
+    },
+    {
+      icon: (
+        <LottieAnimation
+          animationData={animatedSteam}
+          width="100%"
+          height="100%"
+          color="FFFFFF"
+          isHovered={isHovered.steam}
+        />
+      ),
+      href: "https://steamcommunity.com/profiles/76561198883017261",
+      label: "Steam",
+      handle: "Rahul-Sahani04",
+      desc: "Play with me",
+      orbitDuration: 13,
+      orbitReverse: true,
     },
   ];
 
@@ -134,7 +153,7 @@ export default function Contact() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="grid w-full grid-cols-1 sm:grid-cols-3 gap-5 max-w-3xl"
+          className="grid w-full grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl"
         >
           {socials.map((s, i) => (
             <Link

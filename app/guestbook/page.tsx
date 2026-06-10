@@ -13,8 +13,12 @@ import NextTopLoader from "nextjs-toploader";
 import Particles from "../components/particles";
 import { Card } from "../components/card";
 import BlurText from "../components/BlurText";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, Star } from "lucide-react";
 import AnimatedBeams from "@/components/AnimatedBeam";
+import { endorsements } from "./endorsements";
+import EndorsementCard from "./EndorsementCard";
+
+import { Github, Linkedin } from "@/components/Icons";
 
 const redis = Redis.fromEnv();
 
@@ -35,7 +39,7 @@ function nameToHue(name: string): number {
   for (let i = 0; i < name.length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
   }
-  return Math.abs(hash) % 360;
+  return 20 + (Math.abs(hash) % 30);
 }
 
 export default async function GuestbookPage() {
@@ -51,8 +55,8 @@ export default async function GuestbookPage() {
   return (
     <div className="bg-black min-h-screen relative overflow-hidden">
       {/* Cosmic atmosphere layers */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(255,255,255,0.03),transparent)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_10%_80%,rgba(100,80,200,0.04),transparent)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(255,160,0,0.05),transparent)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_10%_80%,rgba(200,100,0,0.06),transparent)]" />
       <Particles className="absolute inset-0 -z-10 animate-fade-in" quantity={180} staticity={40} />
 
       <Navigation />
@@ -65,15 +69,15 @@ export default async function GuestbookPage() {
 
           {/* Header */}
           <div className="text-center mb-3 flex items-center justify-center gap-3 flex-col">
-            <div className="inline-flex items-center gap-2 text-[10px] font-mono text-zinc-400 tracking-[0.25em] uppercase mb-5">
-              <span className="w-1 h-1 rounded-full bg-zinc-500" />
-              Open transmission channel
-              <span className="w-1 h-1 rounded-full bg-zinc-500" />
+            <div className="inline-flex items-center gap-2 text-[10px] font-mono text-amber-500/70 tracking-[0.25em] uppercase mb-5">
+              <span className="w-1 h-1 rounded-sm bg-amber-500/50" />
+              BLACKLIST DATABASE
+              <span className="w-1 h-1 rounded-sm bg-amber-500/50" />
             </div>
-            
+
             <BlurText
               text="Guestbook"
-              className="!text-center text-5xl md:text-6xl font-bold tracking-tight text-zinc-200 !bg-clip-text !bg-gradient-to-b !from-white !via-zinc-200 to-zinc-500 font-display"
+              className="!text-center text-5xl md:text-6xl font-black tracking-tighter text-zinc-200 !bg-clip-text !bg-gradient-to-b !from-yellow-400 !via-amber-500 !to-orange-600 font-display uppercase"
               delay={100}
               animateBy="letters"
               direction="top"
@@ -87,7 +91,7 @@ export default async function GuestbookPage() {
           {/* Entry count badge */}
           {entries.length > 0 && (
             <div className="flex justify-center mt-6 mb-12">
-              <span className="inline-flex items-center gap-2 text-xs font-mono text-zinc-400 border border-white/[0.2] bg-white/[0.1] px-4 py-1.5 rounded-full">
+              <span className="inline-flex items-center gap-2 text-xs font-mono text-amber-400 border border-amber-500/20 bg-amber-500/10 px-4 py-1.5 rounded-sm">
                 <MessageSquare className="w-3 h-3" />
                 {entries.length} message{entries.length !== 1 ? "s" : ""} received
               </span>
@@ -96,22 +100,44 @@ export default async function GuestbookPage() {
 
           <GuestbookForm />
 
+          {/* Priority Transmissions (Endorsements) */}
+          {endorsements.length > 0 && (
+            <div className="mt-12 mb-16">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="flex-1 h-px bg-white/[0.04]" />
+                <span className="text-[10px] font-mono text-zinc-400 tracking-widest uppercase flex items-center gap-2">
+                  <Star className="w-3 h-3 text-amber-500/70" /> Allied Signals
+                </span>
+                <div className="flex-1 h-px bg-white/[0.04]" />
+              </div>
+              <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                {endorsements.map((endorsement, idx) => (
+                  <EndorsementCard key={endorsement.id} endorsement={endorsement} idx={idx} />
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Entries */}
           {entries.length > 0 && (
-            <div className="space-y-4 mt-2">
+            <div className="mt-2">
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex-1 h-px bg-white/[0.04]" />
-                <span className="text-[10px] font-mono text-zinc-700 tracking-widest uppercase">Transmissions</span>
+                <span className="text-[10px] font-mono text-amber-500/50 tracking-widest uppercase">STREET LOGS</span>
                 <div className="flex-1 h-px bg-white/[0.04]" />
               </div>
 
+              <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
               {entries.map((entry: any) => {
                 const hue = nameToHue(entry.name ?? "Anonymous");
                 const initials = getInitials(entry.name ?? "?");
                 return (
                   <div key={entry.id} className="relative w-full">
-                    <Card>
-                      <div className="p-5 md:p-6 flex gap-4 w-full h-full">
+                    <div className="bg-zinc-950 border-l-2 border-l-amber-500 border-y border-r border-white/5 shadow-2xl relative overflow-hidden group">
+                      {/* Hazard stripes top corner */}
+                      <div className="absolute -top-6 -right-6 w-16 h-16 bg-amber-500/5 rotate-45 border-b border-amber-500/20" />
+                      
+                      <div className="p-5 md:p-6 flex gap-4 w-full h-full relative z-10">
                         {/* Avatar */}
                         <div className="relative shrink-0 mt-0.5">
                           <div
@@ -140,10 +166,11 @@ export default async function GuestbookPage() {
                           </p>
                         </div>
                       </div>
-                    </Card>
+                    </div>
                   </div>
                 );
               })}
+              </div>
             </div>
           )}
 

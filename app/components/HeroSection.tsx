@@ -111,9 +111,9 @@ export default function HeroSection() {
             <div className="pointer-events-none absolute inset-0 z-0 bg-cyber-scanline opacity-30 mix-blend-overlay animate-scanline"></div>
 
             {/* Central ASCII Art for Desktop */}
-            <div className="hidden  xl:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] z-0 opacity-20 mix-blend-screen transition-colors duration-1000">
+            <div className="hidden  xl:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[600px] z-0 opacity-20 mix-blend-screen transition-colors duration-1000">
                 {videoFinished && (
-                    <ASCIIText text="POETRY" textColor={activeTheme.textColor} enableWaves={true} asciiFontSize={8} textFontSize={250} />
+                    <ASCIIText text="BMC" textColor={activeTheme.textColor} enableWaves={true} asciiFontSize={8} textFontSize={250} />
                 )}
             </div>
 
