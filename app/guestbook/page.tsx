@@ -17,6 +17,7 @@ import { MessageSquare, Star } from "lucide-react";
 import AnimatedBeams from "@/components/AnimatedBeam";
 import { endorsements } from "./endorsements";
 import EndorsementCard from "./EndorsementCard";
+import HorizontalScroll from "./HorizontalScroll";
 
 import { Github, Linkedin } from "@/components/Icons";
 
@@ -65,114 +66,124 @@ export default async function GuestbookPage() {
       <AnimatedBeams />
 
       <div className="container flex flex-col items-center min-h-screen px-4 mx-auto pt-24 md:pt-32 pb-20">
-        <div className="max-w-2xl w-full mx-auto">
+        <div className="max-w-[80%] w-full mx-auto">
 
           {/* Header */}
-          <div className="text-center mb-3 flex items-center justify-center gap-3 flex-col">
-            <div className="inline-flex items-center gap-2 text-[10px] font-mono text-amber-500/70 tracking-[0.25em] uppercase mb-5">
-              <span className="w-1 h-1 rounded-sm bg-amber-500/50" />
-              BLACKLIST DATABASE
-              <span className="w-1 h-1 rounded-sm bg-amber-500/50" />
+          <div className="max-w-2xl mx-auto">
+            <div className=" text-center mb-3 flex items-center justify-center gap-3 flex-col">
+              <div className="inline-flex items-center gap-2 text-[10px] font-mono text-amber-500/70 tracking-[0.25em] uppercase mb-5">
+                <span className="w-1 h-1 rounded-sm bg-amber-500/50" />
+                BLACKLIST DATABASE
+                <span className="w-1 h-1 rounded-sm bg-amber-500/50" />
+              </div>
+
+              <BlurText
+                text="Guestbook"
+                className="!text-center text-5xl md:text-6xl font-black tracking-tighter text-zinc-200 !bg-clip-text !bg-gradient-to-b !from-yellow-400 !via-amber-500 !to-orange-600 font-display uppercase"
+                delay={100}
+                animateBy="letters"
+                direction="top"
+
+              />
+              <p className="mt-4 text-zinc-300 font-light text-sm leading-relaxed">
+                Leave a message — it'll float here in the void forever.
+              </p>
             </div>
 
-            <BlurText
-              text="Guestbook"
-              className="!text-center text-5xl md:text-6xl font-black tracking-tighter text-zinc-200 !bg-clip-text !bg-gradient-to-b !from-yellow-400 !via-amber-500 !to-orange-600 font-display uppercase"
-              delay={100}
-              animateBy="letters"
-              direction="top"
 
-            />
-            <p className="mt-4 text-zinc-300 font-light text-sm leading-relaxed">
-              Leave a message — it'll float here in the void forever.
-            </p>
+
+
+            {/* Entry count badge */}
+            {entries.length > 0 && (
+              <div className="flex justify-center mt-6 mb-12 max-w-2xl">
+                <span className="inline-flex items-center gap-2 text-xs font-mono text-amber-400 border border-amber-500/20 bg-amber-500/10 px-4 py-1.5 rounded-sm">
+                  <MessageSquare className="w-3 h-3" />
+                  {entries.length} message{entries.length !== 1 ? "s" : ""} received
+                </span>
+              </div>
+            )}
+
+            <GuestbookForm />
+
           </div>
-
-          {/* Entry count badge */}
-          {entries.length > 0 && (
-            <div className="flex justify-center mt-6 mb-12">
-              <span className="inline-flex items-center gap-2 text-xs font-mono text-amber-400 border border-amber-500/20 bg-amber-500/10 px-4 py-1.5 rounded-sm">
-                <MessageSquare className="w-3 h-3" />
-                {entries.length} message{entries.length !== 1 ? "s" : ""} received
-              </span>
-            </div>
-          )}
-
-          <GuestbookForm />
-
           {/* Priority Transmissions (Endorsements) */}
           {endorsements.length > 0 && (
-            <div className="mt-12 mb-16">
+            <div className="mt-12 mb-16 relative">
               <div className="flex items-center gap-4 mb-8">
                 <div className="flex-1 h-px bg-white/[0.04]" />
-                <span className="text-[10px] font-mono text-zinc-400 tracking-widest uppercase flex items-center gap-2">
-                  <Star className="w-3 h-3 text-amber-500/70" /> Allied Signals
+                <span className="text-[10px] font-mono text-zinc-200 tracking-widest uppercase flex items-center gap-2">
+                  Signals From My Peers
                 </span>
                 <div className="flex-1 h-px bg-white/[0.04]" />
               </div>
-              <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+              <HorizontalScroll>
                 {endorsements.map((endorsement, idx) => (
                   <EndorsementCard key={endorsement.id} endorsement={endorsement} idx={idx} />
                 ))}
-              </div>
+              </HorizontalScroll>
             </div>
           )}
 
-          {/* Entries */}
-          {entries.length > 0 && (
-            <div className="mt-2">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="flex-1 h-px bg-white/[0.04]" />
-                <span className="text-[10px] font-mono text-amber-500/50 tracking-widest uppercase">STREET LOGS</span>
-                <div className="flex-1 h-px bg-white/[0.04]" />
-              </div>
+          <div className="max-w-2xl mx-auto">
 
-              <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-              {entries.map((entry: any) => {
-                const hue = nameToHue(entry.name ?? "Anonymous");
-                const initials = getInitials(entry.name ?? "?");
-                return (
-                  <div key={entry.id} className="relative w-full">
-                    <div className="bg-zinc-950 border-l-2 border-l-amber-500 border-y border-r border-white/5 shadow-2xl relative overflow-hidden group">
-                      {/* Hazard stripes top corner */}
-                      <div className="absolute -top-6 -right-6 w-16 h-16 bg-amber-500/5 rotate-45 border-b border-amber-500/20" />
-                      
-                      <div className="p-5 md:p-6 flex gap-4 w-full h-full relative z-10">
-                        {/* Avatar */}
-                        <div className="relative shrink-0 mt-0.5">
-                          <div
-                            className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white font-display"
-                            style={{
-                              background: `radial-gradient(circle, hsl(${hue},40%,8%) 0%, hsl(${hue},30%,4%) 100%)`,
-                              boxShadow: `0 0 0 1px hsl(${hue},40%,15%), 0 0 10px hsl(${hue},50%,8%)`,
-                            }}
-                          >
-                            {initials}
-                          </div>
-                        </div>
 
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-baseline justify-between gap-2 mb-2">
-                            <span className="text-sm font-medium text-zinc-100 tracking-tight">
-                              {entry.name}
-                            </span>
-                            <span className="text-[10px] text-zinc-700 font-mono shrink-0">
-                              {formatDistanceToNow(entry.created_at, { addSuffix: true })}
-                            </span>
+
+            {/* Entries */}
+            {entries.length > 0 && (
+              <div className="mt-2">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex-1 h-px bg-white/[0.04]" />
+                  <span className="text-[10px] font-mono text-amber-500/90 tracking-widest uppercase">LOGS FROM THE INTERNET</span>
+                  <div className="flex-1 h-px bg-white/[0.04]" />
+                </div>
+
+                <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                  {entries.map((entry: any) => {
+                    const hue = nameToHue(entry.name ?? "Anonymous");
+                    const initials = getInitials(entry.name ?? "?");
+                    return (
+                      <div key={entry.id} className="relative w-full">
+                        <div className="bg-zinc-950 border-l-2 border-l-amber-300/60 border-y border-r border-white/5 shadow-2xl relative overflow-hidden group">
+                          {/* Hazard stripes top corner */}
+                          <div className="absolute -top-6 -right-6 w-16 h-16 bg-amber-500/5 rotate-45 border-b border-amber-500/20" />
+
+                          <div className="p-5 md:p-6 flex gap-4 w-full h-full relative z-10">
+                            {/* Avatar */}
+                            <div className="relative shrink-0 mt-0.5">
+                              <div
+                                className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white font-display"
+                                style={{
+                                  background: `radial-gradient(circle, hsl(${hue},40%,8%) 0%, hsl(${hue},30%,4%) 100%)`,
+                                  boxShadow: `0 0 0 1px hsl(${hue},40%,15%), 0 0 10px hsl(${hue},50%,8%)`,
+                                }}
+                              >
+                                {initials}
+                              </div>
+                            </div>
+
+                            {/* Content */}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-baseline justify-between gap-2 mb-2">
+                                <span className="text-sm font-medium text-zinc-100 tracking-tight">
+                                  {entry.name}
+                                </span>
+                                <span className="text-[10px] text-zinc-700 font-mono shrink-0">
+                                  {formatDistanceToNow(entry.created_at, { addSuffix: true })}
+                                </span>
+                              </div>
+                              <p className="text-sm text-zinc-400 leading-relaxed font-light whitespace-pre-wrap">
+                                {entry.message}
+                              </p>
+                            </div>
                           </div>
-                          <p className="text-sm text-zinc-400 leading-relaxed font-light whitespace-pre-wrap">
-                            {entry.message}
-                          </p>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                );
-              })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {entries.length === 0 && (
             <p className="text-center text-zinc-700 text-sm font-light mt-8">
