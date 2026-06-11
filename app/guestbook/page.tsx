@@ -18,6 +18,7 @@ import AnimatedBeams from "@/components/AnimatedBeam";
 import { endorsements } from "./endorsements";
 import EndorsementCard from "./EndorsementCard";
 import HorizontalScroll from "./HorizontalScroll";
+import MemeImage from "./MemeImage";
 
 import { Github, Linkedin } from "@/components/Icons";
 
@@ -52,6 +53,17 @@ export default async function GuestbookPage() {
       return entry;
     })
     .filter(Boolean);
+
+  // Merge static endorsements with dynamic ones submitted via invite links
+  const dynamicRaw = await redis.lrange("endorsements:dynamic", 0, -1);
+  const dynamicEndorsements = dynamicRaw
+    .map((e: any) => {
+      if (typeof e === "string") { try { return JSON.parse(e); } catch { return null; } }
+      return e;
+    })
+    .filter(Boolean);
+
+  const allEndorsements = [...endorsements, ...dynamicEndorsements];
 
   return (
     <div className="bg-black min-h-screen relative overflow-hidden">
@@ -107,7 +119,7 @@ export default async function GuestbookPage() {
 
           </div>
           {/* Priority Transmissions (Endorsements) */}
-          {endorsements.length > 0 && (
+          {allEndorsements.length > 0 && (
             <div className="mt-12 mb-16 relative">
               <div className="flex items-center gap-4 mb-8">
                 <div className="flex-1 h-px bg-white/[0.08]" />
@@ -117,7 +129,7 @@ export default async function GuestbookPage() {
                 <div className="flex-1 h-px bg-white/[0.08]" />
               </div>
               <HorizontalScroll>
-                {endorsements.map((endorsement, idx) => (
+                {allEndorsements.map((endorsement, idx) => (
                   <EndorsementCard key={endorsement.id} endorsement={endorsement} idx={idx} />
                 ))}
               </HorizontalScroll>
@@ -175,6 +187,7 @@ export default async function GuestbookPage() {
                               <p className="text-sm text-zinc-400 leading-relaxed font-light whitespace-pre-wrap">
                                 {entry.message}
                               </p>
+                              {entry.imageUrl && <MemeImage url={entry.imageUrl} />}
                             </div>
                           </div>
                         </div>
