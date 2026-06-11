@@ -31,5 +31,20 @@ export const endorsements: Endorsement[] = [
     message: "Rahul is one of the most talented developers I've ever met. His technical skills, problem-solving ability, and dedication to excellence are truly remarkable. I still remember a coding challenge where he was literally blindfolded and still managed to win, which speaks volumes about his confidence and expertise. He has an exceptional ability to solve complex problems and consistently delivers high-quality work. Beyond being a great developer, Rahul is humble, supportive, and a fantastic person to work with. I can confidently say he is among the best developers I know and someone I would highly recommend.",
     avatar: "/friends-avatar/c-raj.webp",
     linkedin: "https://www.linkedin.com/in/tushar-gupta-5666ba23b",
+  },
+  {
+    id: "3",
+    name: "Mrinal Singh",
+    role: "Dua",
+    message: "Rahul ki aankhon me humesha mene havas dekhi.\nYe ladka mujhe dekhte hi pasand aagya tha prr me tehra pakka lesbian.\n\nBande ne meri bohot help kari college me,  as a bihari mujhe laga dihadi mangega prr nahi.\n\nYe dil ka bohot saaf nikla,  (ps: I love you).\n\nAur haan he used to jack off to a character from valorant. Pspspsps.",
+    avatar: "/friends-avatar/mrinal.jpg",
+  },
+  {
+    id: "4",
+    name: "Satwik",
+    role: "Friend",
+    message: "Rahul nerdy coder boi",
+    avatar: "/friends-avatar/satwik.webp",
+    instagram: "https://www.instagram.com/take.shi_666?igsh=MTJmdWswZHRoOXEybQ==",
   }
 ];
