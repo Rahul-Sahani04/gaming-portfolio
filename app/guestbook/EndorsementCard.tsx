@@ -23,7 +23,7 @@ interface EndorsementProps {
 export default function EndorsementCard({ endorsement, idx }: EndorsementProps) {
   return (
     <div
-      className="flex gap-4 items-start group w-[85vw] sm:w-[320px] md:w-[420px]  max-w-full shrink-0 snap-center cursor-crosshair"
+      className="flex gap-4 items-start group w-[75vw] sm:w-[320px] md:w-[420px] max-w-full shrink-0 snap-center cursor-crosshair"
       onMouseEnter={playHoverSquelch}
     >
       <div className="flex flex-col items-center shrink-0 ">
@@ -46,11 +46,11 @@ export default function EndorsementCard({ endorsement, idx }: EndorsementProps) 
           <div className="mb-3">
             <h4 className="text-sm font-medium text-zinc-100 tracking-tight flex items-center justify-between">
               {endorsement.name}
-              <span className="px-1.5 py-0.5 bg-amber-500 text-black text-[7px] font-black uppercase tracking-widest rounded-sm shrink-0 ml-2">
+              <span className="px-1.5 py-0.5 bg-amber-500 text-black text-[9px] font-black uppercase tracking-widest rounded-sm shrink-0 ml-2">
                 BLACKLIST #0{idx + 1}
               </span>
             </h4>
-            <p className="text-[10px] text-zinc-500 font-mono tracking-wide mt-1">{endorsement.role}</p>
+            <p className="text-xs text-zinc-500 font-mono tracking-wide mt-1">{endorsement.role}</p>
           </div>
           <div className="text-sm text-zinc-400 leading-relaxed font-light max-h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-amber-500/20 hover:scrollbar-thumb-amber-500/40 scrollbar-track-transparent pr-2 whitespace-pre-wrap">
             "{endorsement.message}"
@@ -59,40 +59,39 @@ export default function EndorsementCard({ endorsement, idx }: EndorsementProps) 
           {/* Social Links Bar */}
           <div className="mt-auto pt-3 border-t border-white/5 flex flex-wrap gap-4 items-center">
             {endorsement.youtube && (
-              <a href={endorsement.youtube} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-red-500 transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s YouTube`}>
+              <a href={endorsement.youtube} target="_blank" rel="noopener noreferrer" className="relative text-zinc-500 hover:text-red-500 transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s YouTube`}>
                 <Youtube className="w-6 h-6" />
-                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute mt-12">YouTube</span>
-
+                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">YouTube</span>
               </a>
             )}
             {endorsement.instagram && (
-              <a href={endorsement.instagram} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-pink-500 transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s Instagram`}>
+              <a href={endorsement.instagram} target="_blank" rel="noopener noreferrer" className="relative text-zinc-500 hover:text-pink-500 transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s Instagram`}>
                 <Instagram className="w-6 h-6" />
-                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute mt-12">Instagram</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">Instagram</span>
               </a>
             )}
             {endorsement.pinterest && (
-              <a href={endorsement.pinterest} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-red-600 transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s Pinterest`}>
+              <a href={endorsement.pinterest} target="_blank" rel="noopener noreferrer" className="relative text-zinc-500 hover:text-red-600 transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s Pinterest`}>
                 <Pinterest className="w-6 h-6" />
-                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute mt-12">Pinterest</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">Pinterest</span>
               </a>
             )}
             {endorsement.github && (
-              <a href={endorsement.github} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s GitHub`}>
+              <a href={endorsement.github} target="_blank" rel="noopener noreferrer" className="relative text-zinc-500 hover:text-white transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s GitHub`}>
                 <Github className="w-6 h-6" />
-                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute mt-12">Github</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">Github</span>
               </a>
             )}
             {endorsement.linkedin && (
-              <a href={endorsement.linkedin} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-blue-500 transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s LinkedIn`}>
+              <a href={endorsement.linkedin} target="_blank" rel="noopener noreferrer" className="relative text-zinc-500 hover:text-blue-500 transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s LinkedIn`}>
                 <Linkedin className="w-6 h-6" />
-                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute mt-12">Linkedin</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">Linkedin</span>
               </a>
             )}
             {endorsement.twitter && (
-              <a href={endorsement.twitter} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-blue-400 transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s Twitter`}>
+              <a href={endorsement.twitter} target="_blank" rel="noopener noreferrer" className="relative text-zinc-500 hover:text-blue-400 transition-colors flex items-center gap-1.5 group/link" title={`${endorsement.name}'s Twitter`}>
                 <Twitter className="w-6 h-6" />
-                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute mt-12">Twitter</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover/link:opacity-100 transition-opacity absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">Twitter</span>
               </a>
             )}
           </div>

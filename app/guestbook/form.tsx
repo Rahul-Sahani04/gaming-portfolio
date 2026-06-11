@@ -119,7 +119,7 @@ export default function GuestbookForm() {
             ) : (
               <>
                 <Send className="w-3.5 h-3.5" />
-                Sign
+                Transmit
               </>
             )}
           </button>

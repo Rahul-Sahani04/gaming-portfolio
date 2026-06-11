@@ -110,11 +110,11 @@ export default async function GuestbookPage() {
           {endorsements.length > 0 && (
             <div className="mt-12 mb-16 relative">
               <div className="flex items-center gap-4 mb-8">
-                <div className="flex-1 h-px bg-white/[0.04]" />
+                <div className="flex-1 h-px bg-white/[0.08]" />
                 <span className="text-[10px] font-mono text-zinc-200 tracking-widest uppercase flex items-center gap-2">
                   Signals From My Peers
                 </span>
-                <div className="flex-1 h-px bg-white/[0.04]" />
+                <div className="flex-1 h-px bg-white/[0.08]" />
               </div>
               <HorizontalScroll>
                 {endorsements.map((endorsement, idx) => (
@@ -132,13 +132,14 @@ export default async function GuestbookPage() {
             {entries.length > 0 && (
               <div className="mt-2">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="flex-1 h-px bg-white/[0.04]" />
+                  <div className="flex-1 h-px bg-white/[0.08]" />
                   <span className="text-[10px] font-mono text-amber-500/90 tracking-widest uppercase">LOGS FROM THE INTERNET</span>
-                  <div className="flex-1 h-px bg-white/[0.04]" />
+                  <div className="flex-1 h-px bg-white/[0.08]" />
                 </div>
 
-                <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-                  {entries.map((entry: any) => {
+                <div className="relative">
+                  <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                    {entries.map((entry: any) => {
                     const hue = nameToHue(entry.name ?? "Anonymous");
                     const initials = getInitials(entry.name ?? "?");
                     return (
@@ -181,14 +182,21 @@ export default async function GuestbookPage() {
                     );
                   })}
                 </div>
+                {/* Bottom fade mask — signals the list is scrollable */}
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black to-transparent" />
               </div>
+            </div>
             )}
           </div>
 
           {entries.length === 0 && (
-            <p className="text-center text-zinc-700 text-sm font-light mt-8">
-              No transmissions yet. Yours could be the first.
-            </p>
+            <div className="mt-8 flex justify-center">
+              <div className="border border-dashed border-white/[0.08] rounded-xl px-10 py-8 text-center max-w-sm">
+                <p className="text-zinc-600 text-sm font-light">
+                  No transmissions yet. Yours could be the first.
+                </p>
+              </div>
+            </div>
           )}
         </div>
       </div>
