@@ -26,10 +26,10 @@ export const endorsements: Endorsement[] = [
   },
   {
     id: "2",
-    name: "Tushar Gupta",
+    name: "Tushar Gupta (Danish Bhai)",
     role: "Software Engineer",
     message: "Rahul is one of the most talented developers I've ever met. His technical skills, problem-solving ability, and dedication to excellence are truly remarkable. I still remember a coding challenge where he was literally blindfolded and still managed to win, which speaks volumes about his confidence and expertise. He has an exceptional ability to solve complex problems and consistently delivers high-quality work. Beyond being a great developer, Rahul is humble, supportive, and a fantastic person to work with. I can confidently say he is among the best developers I know and someone I would highly recommend.",
-    avatar: "/friends-avatar/c-raj.webp",
+    avatar: "/friends-avatar/tushar-gupta.jpeg",
     linkedin: "https://www.linkedin.com/in/tushar-gupta-5666ba23b",
   },
   {
