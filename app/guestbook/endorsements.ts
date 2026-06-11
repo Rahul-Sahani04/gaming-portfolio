@@ -38,6 +38,7 @@ export const endorsements: Endorsement[] = [
     role: "Full Stack Engineer",
     message: "Rahul ki aankhon me humesha mene havas dekhi.\nYe ladka mujhe dekhte hi pasand aagya tha prr me tehra pakka lesbian.\n\nBande ne meri bohot help kari college me,  as a bihari mujhe laga dihadi mangega prr nahi.\n\nYe dil ka bohot saaf nikla,  (ps: I love you).\n\nAur haan he used to jack off to a character from valorant. Pspspsps.",
     avatar: "/friends-avatar/mrinal.jpg",
+    linkedin: "https://www.linkedin.com/in/mrinal-singh1967"
   },
   {
     id: "4",
@@ -45,7 +46,7 @@ export const endorsements: Endorsement[] = [
     role: "Friend | Developer",
     message: "Rahul nerdy coder boi",
     avatar: "/friends-avatar/satwik.webp",
-    instagram: "https://www.instagram.com/take.shi_666?igsh=MTJmdWswZHRoOXEybQ==",
+    instagram: "https://www.instagram.com/take.shi_666",
   },
   {
     id: "5",
@@ -53,5 +54,8 @@ export const endorsements: Endorsement[] = [
     role: "Friend",
     message: "Rahul my nigga 🫂🫂 \nThanks for always helping me.\nI hope teri body ban jaye jaldi 🙏\nThat's it \nI wish u get pegged by ur wife every night or by me🙏",
     avatar: "/friends-avatar/Hemant-Singh.jpg",
+    linkedin: "https://www.linkedin.com/in/heyymant-singh",
+    instagram: "https://www.instagram.com/prewinterseason",
+
   }
 ];
