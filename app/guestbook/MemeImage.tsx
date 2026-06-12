@@ -20,7 +20,7 @@ export default function MemeImage({ url }: { url: string }) {
         <img
           src={url}
           alt="Attached meme"
-          className="h-28 w-auto max-w-[240px] object-cover group-hover/meme:opacity-90 transition-opacity"
+          className="h-28 w-full object-cover group-hover/meme:opacity-90 transition-opacity"
         />
       </button>
 
