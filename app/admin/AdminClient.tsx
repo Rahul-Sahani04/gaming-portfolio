@@ -35,6 +35,7 @@ export default function AdminClient({ initialInvites }: { initialInvites: Invite
           {
             token: res.token,
             label: label.trim(),
+            lockedName: lockedName.trim() || null,
             used: false,
             createdAt: Date.now(),
             usedAt: null,
