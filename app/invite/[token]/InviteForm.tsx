@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { submitEndorsement } from "./actions";
 import { useUploadThing } from "../../utils/uploadthing";
 import { motion } from "framer-motion";
@@ -14,6 +15,10 @@ const inputClass =
 type UploadState = { url: string | null; preview: string | null; uploading: boolean; failed: boolean; error: string | null };
 
 function useImageUpload(routeKey: "avatarUploader" | "memeUploader") {
+  const maxBytes = routeKey === "avatarUploader" ? 2 * 1024 * 1024 : 4 * 1024 * 1024;
+  const maxLabel = routeKey === "avatarUploader" ? "2MB" : "4MB";
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"];
+
   const [state, setState] = useState<UploadState>({ url: null, preview: null, uploading: false, failed: false, error: null });
   const { startUpload } = useUploadThing(routeKey);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -21,12 +26,22 @@ function useImageUpload(routeKey: "avatarUploader" | "memeUploader") {
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // Client-side validation before hitting the network
+    if (!allowedTypes.includes(file.type)) {
+      setState({ url: null, preview: null, uploading: false, failed: true, error: `Unsupported format. Use JPG, PNG, WebP, or GIF.` });
+      return;
+    }
+    if (file.size > maxBytes) {
+      setState({ url: null, preview: null, uploading: false, failed: true, error: `File too large — max ${maxLabel}. Try compressing it first.` });
+      return;
+    }
+
     setState({ url: null, preview: URL.createObjectURL(file), uploading: true, failed: false, error: null });
     const res = await startUpload([file]);
     if (res?.[0]?.ufsUrl) {
       setState((s) => ({ ...s, url: res[0].ufsUrl, uploading: false, failed: false }));
     } else {
-      // Keep preview visible so user can see what failed and retry
       setState((s) => ({ ...s, url: null, uploading: false, failed: true, error: "Upload failed — please try again" }));
     }
   };
@@ -105,6 +120,7 @@ function CardPreview({
 
 export default function InviteForm({ token, label }: { token: string; label: string }) {
   const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]> | string | null>(null);
 
@@ -139,10 +155,10 @@ export default function InviteForm({ token, label }: { token: string; label: str
     const res = await submitEndorsement(token, raw);
     if (res?.error) {
       setErrors(res.error as any);
+      setIsSubmitting(false);
     } else {
-      setSubmitted(true);
+      router.push("/guestbook");
     }
-    setIsSubmitting(false);
   };
 
   if (submitted) {
@@ -250,7 +266,7 @@ export default function InviteForm({ token, label }: { token: string; label: str
                   </button>
                 </div>
               )}
-              <input ref={avatar.inputRef} type="file" accept="image/*" className="hidden" onChange={avatar.handleFile} />
+              <input ref={avatar.inputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" className="hidden" onChange={avatar.handleFile} />
             </div>
 
             {/* Name */}
@@ -348,7 +364,7 @@ export default function InviteForm({ token, label }: { token: string; label: str
                   </button>
                 </div>
               )}
-              <input ref={meme.inputRef} type="file" accept="image/*" className="hidden" onChange={meme.handleFile} />
+              <input ref={meme.inputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" className="hidden" onChange={meme.handleFile} />
             </div>
 
             {typeof errors === "string" && <p className="text-xs text-red-400">{errors}</p>}
