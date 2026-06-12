@@ -23,8 +23,8 @@ function useImageUpload(routeKey: "avatarUploader" | "memeUploader") {
     if (!file) return;
     setState({ url: null, preview: URL.createObjectURL(file), uploading: true, failed: false, error: null });
     const res = await startUpload([file]);
-    if (res?.[0]?.url) {
-      setState((s) => ({ ...s, url: res[0].url, uploading: false, failed: false }));
+    if (res?.[0]?.ufsUrl) {
+      setState((s) => ({ ...s, url: res[0].ufsUrl, uploading: false, failed: false }));
     } else {
       // Keep preview visible so user can see what failed and retry
       setState((s) => ({ ...s, url: null, uploading: false, failed: true, error: "Upload failed — please try again" }));
