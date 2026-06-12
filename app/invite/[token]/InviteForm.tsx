@@ -11,27 +11,28 @@ const inputClass =
   "w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-zinc-100 placeholder-zinc-600 text-sm " +
   "focus:outline-none focus:ring-1 focus:ring-amber-500/40 focus:border-amber-500/30 transition-all duration-200";
 
-type UploadState = { url: string | null; preview: string | null; uploading: boolean; error: string | null };
+type UploadState = { url: string | null; preview: string | null; uploading: boolean; failed: boolean; error: string | null };
 
 function useImageUpload(routeKey: "avatarUploader" | "memeUploader") {
-  const [state, setState] = useState<UploadState>({ url: null, preview: null, uploading: false, error: null });
+  const [state, setState] = useState<UploadState>({ url: null, preview: null, uploading: false, failed: false, error: null });
   const { startUpload } = useUploadThing(routeKey);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setState({ url: null, preview: URL.createObjectURL(file), uploading: true, error: null });
+    setState({ url: null, preview: URL.createObjectURL(file), uploading: true, failed: false, error: null });
     const res = await startUpload([file]);
     if (res?.[0]?.url) {
-      setState((s) => ({ ...s, url: res[0].url, uploading: false }));
+      setState((s) => ({ ...s, url: res[0].url, uploading: false, failed: false }));
     } else {
-      setState({ url: null, preview: null, uploading: false, error: "Upload failed — try again" });
+      // Keep preview visible so user can see what failed and retry
+      setState((s) => ({ ...s, url: null, uploading: false, failed: true, error: "Upload failed — please try again" }));
     }
   };
 
   const clear = () => {
-    setState({ url: null, preview: null, uploading: false, error: null });
+    setState({ url: null, preview: null, uploading: false, failed: false, error: null });
     if (inputRef.current) inputRef.current.value = "";
   };
 
@@ -128,6 +129,13 @@ export default function InviteForm({ token, label }: { token: string; label: str
     if (avatar.state.url) raw.avatarUrl = avatar.state.url;
     if (meme.state.url) raw.memeUrl = meme.state.url;
 
+    // Block if either upload failed but user hasn't cleared/retried
+    if (avatar.state.failed || meme.state.failed) {
+      setErrors("One or more uploads failed. Please retry or remove the failed image before submitting.");
+      setIsSubmitting(false);
+      return;
+    }
+
     const res = await submitEndorsement(token, raw);
     if (res?.error) {
       setErrors(res.error as any);
@@ -186,10 +194,10 @@ export default function InviteForm({ token, label }: { token: string; label: str
         </div>
 
         {/* Two-column layout on lg+, stacked on mobile */}
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
+        <div className="flex flex-col  lg:flex-row gap-8 items-start">
 
           {/* Form — left column */}
-          <form onSubmit={handleSubmit} className="w-full lg:flex-1 space-y-4 p-6 md:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] backdrop-blur-md">
+          <form onSubmit={handleSubmit} className="w-full lg:flex-1 space-y-4 p-6 md:p-8 rounded-2xl bg-white/[0.05] border border-white/[0.08] backdrop-blur-md">
 
             {/* Avatar upload */}
             <div>
@@ -207,12 +215,17 @@ export default function InviteForm({ token, label }: { token: string; label: str
                 </button>
               ) : (
                 <div className="flex items-center gap-3">
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden border border-white/[0.08] shrink-0">
+                  <div className={`relative w-14 h-14 rounded-full overflow-hidden border shrink-0 ${avatar.state.failed ? "border-red-500/50" : "border-white/[0.08]"}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={avatar.state.preview} alt="Avatar preview" className="w-full h-full object-cover" />
+                    <img src={avatar.state.preview} alt="Avatar preview" className={`w-full h-full object-cover ${avatar.state.failed ? "opacity-40" : ""}`} />
                     {avatar.state.uploading && (
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                         <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+                      </div>
+                    )}
+                    {avatar.state.failed && (
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                        <X className="w-4 h-4 text-red-400" />
                       </div>
                     )}
                   </div>
@@ -223,13 +236,20 @@ export default function InviteForm({ token, label }: { token: string; label: str
                         <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" /> Photo uploaded
                       </p>
                     )}
+                    {avatar.state.failed && (
+                      <div>
+                        <p className="text-xs text-red-400 mb-1">{avatar.state.error}</p>
+                        <button type="button" onClick={() => avatar.inputRef.current?.click()} className="text-xs text-amber-400 hover:text-amber-300 underline">
+                          Try again
+                        </button>
+                      </div>
+                    )}
                   </div>
-                  <button type="button" onClick={avatar.clear} className="text-zinc-600 hover:text-red-400 transition-colors">
+                  <button type="button" onClick={avatar.clear} className="text-zinc-600 hover:text-red-400 transition-colors shrink-0">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
               )}
-              {avatar.state.error && <p className="mt-1 text-xs text-red-400">{avatar.state.error}</p>}
               <input ref={avatar.inputRef} type="file" accept="image/*" className="hidden" onChange={avatar.handleFile} />
             </div>
 
@@ -300,13 +320,21 @@ export default function InviteForm({ token, label }: { token: string; label: str
               ) : (
                 <div className="relative inline-flex rounded-xl overflow-hidden border border-white/[0.08]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={meme.state.preview} alt="Meme preview" className="h-32 w-auto object-cover" />
+                  <img src={meme.state.preview} alt="Meme preview" className={`h-32 w-auto object-cover ${meme.state.failed ? "opacity-40" : ""}`} />
                   {meme.state.uploading && (
                     <div className="absolute inset-0 bg-black/60 flex items-center justify-center gap-2 text-xs text-amber-400 font-mono">
                       <Loader2 className="w-4 h-4 animate-spin" /> Uploading…
                     </div>
                   )}
-                  {!meme.state.uploading && meme.state.url && (
+                  {meme.state.failed && (
+                    <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-1.5">
+                      <p className="text-xs text-red-400 font-mono">Upload failed</p>
+                      <button type="button" onClick={() => meme.inputRef.current?.click()} className="text-[11px] text-amber-400 hover:text-amber-300 underline">
+                        Try again
+                      </button>
+                    </div>
+                  )}
+                  {!meme.state.uploading && !meme.state.failed && meme.state.url && (
                     <div className="absolute top-2 left-2 bg-black/60 rounded-full p-0.5">
                       <CheckCircle2 className="w-4 h-4 text-amber-400" />
                     </div>
@@ -320,7 +348,6 @@ export default function InviteForm({ token, label }: { token: string; label: str
                   </button>
                 </div>
               )}
-              {meme.state.error && <p className="mt-1 text-xs text-red-400">{meme.state.error}</p>}
               <input ref={meme.inputRef} type="file" accept="image/*" className="hidden" onChange={meme.handleFile} />
             </div>
 
@@ -329,7 +356,7 @@ export default function InviteForm({ token, label }: { token: string; label: str
             <div className="flex justify-end pt-2">
               <button
                 type="submit"
-                disabled={isSubmitting || avatar.state.uploading || meme.state.uploading}
+                disabled={isSubmitting || avatar.state.uploading || meme.state.uploading || avatar.state.failed || meme.state.failed}
                 className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-sm font-bold transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
@@ -345,7 +372,7 @@ export default function InviteForm({ token, label }: { token: string; label: str
               <div className="flex-1 h-px bg-white/[0.04]" />
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500/60 animate-pulse" />
             </div>
-            <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/[0.05]">
+            <div className="p-4 rounded-2xl bg-white/[0.05] border border-white/[0.08]">
               <CardPreview
                 name={previewName}
                 role={previewRole}
