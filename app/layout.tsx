@@ -118,6 +118,7 @@ import { TerminalProvider } from "./components/terminal/TerminalProvider";
 
 import { GeistSans } from "geist/font/sans";
 import Spotify from "./components/Spotify";
+import { Toaster } from "sonner";
 
 const geist = GeistSans;
 
@@ -138,9 +139,8 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body
-        className={`bg-black overflow-x-clip ${
-          process.env.NODE_ENV === "development" ? "debug-screens" : ""
-        }`}
+        className={`bg-black overflow-x-clip ${process.env.NODE_ENV === "development" ? "debug-screens" : ""
+          }`}
       >
         <Script
           async
@@ -199,6 +199,13 @@ export default function RootLayout({
         <TerminalProvider>
           <Analytics />
           <LayoutClientShell />
+          <Toaster
+            position="top-center"
+            theme="dark"
+            toastOptions={{
+              style: { background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.08)", color: "#e4e4e7" },
+            }}
+          />
 
           <div className="fixed bottom-4 right-4 z-99!">
             <Spotify />

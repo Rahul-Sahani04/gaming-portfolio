@@ -7,6 +7,7 @@ import { useUploadThing } from "../../utils/uploadthing";
 import { motion } from "framer-motion";
 import { Loader2, Send, ImagePlus, X, CheckCircle2, User } from "lucide-react";
 import { Github, Linkedin, Youtube, Instagram, Pinterest, Twitter } from "@/components/Icons";
+import { toast } from "sonner";
 
 const inputClass =
   "w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-zinc-100 placeholder-zinc-600 text-sm " +
@@ -25,15 +26,21 @@ function useImageUpload(routeKey: "avatarUploader" | "memeUploader") {
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    // Reset input immediately so selecting the same file again triggers onChange
+    if (inputRef.current) inputRef.current.value = "";
     if (!file) return;
 
     // Client-side validation before hitting the network
     if (!allowedTypes.includes(file.type)) {
-      setState({ url: null, preview: null, uploading: false, failed: true, error: `Unsupported format. Use JPG, PNG, WebP, or GIF.` });
+      const msg = "Unsupported format. Use JPG, PNG, WebP, or GIF.";
+      setState({ url: null, preview: null, uploading: false, failed: true, error: msg });
+      toast.error(msg);
       return;
     }
     if (file.size > maxBytes) {
-      setState({ url: null, preview: null, uploading: false, failed: true, error: `File too large — max ${maxLabel}. Try compressing it first.` });
+      const msg = `File too large — max ${maxLabel}. Try compressing it first.`;
+      setState({ url: null, preview: null, uploading: false, failed: true, error: msg });
+      toast.error(msg);
       return;
     }
 
@@ -41,8 +48,11 @@ function useImageUpload(routeKey: "avatarUploader" | "memeUploader") {
     const res = await startUpload([file]);
     if (res?.[0]?.ufsUrl) {
       setState((s) => ({ ...s, url: res[0].ufsUrl, uploading: false, failed: false }));
+      toast.success("Image uploaded successfully!");
     } else {
-      setState((s) => ({ ...s, url: null, uploading: false, failed: true, error: "Upload failed — please try again" }));
+      const msg = "Upload failed — please try again";
+      setState((s) => ({ ...s, url: null, uploading: false, failed: true, error: msg }));
+      toast.error(msg);
     }
   };
 
@@ -147,7 +157,9 @@ export default function InviteForm({ token, label }: { token: string; label: str
 
     // Block if either upload failed but user hasn't cleared/retried
     if (avatar.state.failed || meme.state.failed) {
-      setErrors("One or more uploads failed. Please retry or remove the failed image before submitting.");
+      const msg = "Fix the failed upload before submitting.";
+      setErrors(msg);
+      toast.error(msg);
       setIsSubmitting(false);
       return;
     }
@@ -155,6 +167,7 @@ export default function InviteForm({ token, label }: { token: string; label: str
     const res = await submitEndorsement(token, raw);
     if (res?.error) {
       setErrors(res.error as any);
+      toast.error(typeof res.error === "string" ? res.error : "Check the form for errors.");
       setIsSubmitting(false);
     } else {
       router.push("/guestbook");

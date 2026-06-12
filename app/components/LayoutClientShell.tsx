@@ -20,7 +20,13 @@ export default function LayoutClientShell() {
     <>
       <CommandMenu />
       <CmdKToast />
-      <Toaster theme="dark" />
+      <Toaster
+        theme="dark"
+        position="top-center"
+        toastOptions={{
+          style: { background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.08)", color: "#e4e4e7" },
+        }}
+      />
       <TerminalOverlay />
     </>
   );
