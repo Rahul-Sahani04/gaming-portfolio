@@ -128,14 +128,14 @@ function CardPreview({
   );
 }
 
-export default function InviteForm({ token, label }: { token: string; label: string }) {
+export default function InviteForm({ token, label, lockedName }: { token: string; label: string; lockedName?: string }) {
   const [submitted, setSubmitted] = useState(false);
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]> | string | null>(null);
 
-  // Live preview state
-  const [previewName, setPreviewName] = useState("");
+  // Live preview state — seed name from lockedName if set
+  const [previewName, setPreviewName] = useState(lockedName ?? "");
   const [previewRole, setPreviewRole] = useState("");
   const [previewMessage, setPreviewMessage] = useState("");
 
@@ -284,11 +284,20 @@ export default function InviteForm({ token, label }: { token: string; label: str
 
             {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-xs font-mono text-zinc-600 mb-1.5 tracking-wider uppercase">Name</label>
+              <label htmlFor="name" className="block text-xs font-mono text-zinc-600 mb-1.5 tracking-wider uppercase">
+                Name
+                {lockedName && (
+                  <span className="ml-2 text-amber-500/60 normal-case tracking-normal font-sans text-[10px]">· set by Rahul</span>
+                )}
+              </label>
               <input
-                type="text" name="name" id="name" placeholder="Your name" required
-                className={inputClass}
-                onChange={(e) => setPreviewName(e.target.value)}
+                type="text" name="name" id="name"
+                defaultValue={lockedName ?? ""}
+                placeholder="Your name"
+                required
+                readOnly={!!lockedName}
+                className={`${inputClass} ${lockedName ? "opacity-50 cursor-not-allowed select-none" : ""}`}
+                onChange={lockedName ? undefined : (e) => setPreviewName(e.target.value)}
               />
               {typeof errors === "object" && errors?.name && <p className="mt-1 text-xs text-red-400">{errors.name[0]}</p>}
             </div>

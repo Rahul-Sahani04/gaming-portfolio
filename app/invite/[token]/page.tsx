@@ -16,7 +16,7 @@ export default async function InvitePage({ params }: { params: Promise<{ token: 
     return <InvalidInvite message="This invite has already been used." showGuestbook={true} />;
   }
 
-  return <InviteForm token={token} label={invite.label as string} />;
+  return <InviteForm token={token} label={invite.label as string} lockedName={invite.lockedName as string | undefined} />;
 }
 
 function InvalidInvite({ message, showGuestbook }: { message: string; showGuestbook: boolean }) {

@@ -62,15 +62,14 @@ export async function isAdminAuthenticated(): Promise<boolean> {
   }
 }
 
-export async function createInvite(label: string) {
+export async function createInvite(label: string, lockedName?: string) {
   const authed = await isAdminAuthenticated();
   if (!authed) return { error: "Unauthorized" };
 
   const token = crypto.randomUUID().replace(/-/g, "");
   const createdAt = Date.now();
 
-  await redis.hset(`invite:${token}`, { label, used: 0, createdAt });
-  // Keep an index so we can list them without scan
+  await redis.hset(`invite:${token}`, { label, used: 0, createdAt, ...(lockedName ? { lockedName } : {}) });
   await redis.lpush("invites:index", token);
 
   return { success: true, token };
@@ -90,6 +89,7 @@ export async function getInvites() {
       return {
         token,
         label: data.label as string,
+        lockedName: (data.lockedName as string) || null,
         used: Number(data.used) === 1,
         createdAt: Number(data.createdAt),
         usedAt: data.usedAt ? Number(data.usedAt) : null,
@@ -98,6 +98,21 @@ export async function getInvites() {
   );
 
   return invites.filter(Boolean);
+}
+
+export async function updateInvite(token: string, label: string, lockedName: string | null) {
+  const authed = await isAdminAuthenticated();
+  if (!authed) return { error: "Unauthorized" };
+
+  const invite = await redis.hgetall(`invite:${token}`);
+  if (!invite || Number(invite.used) === 1) return { error: "Cannot edit a used invite." };
+
+  await redis.hset(`invite:${token}`, {
+    label,
+    ...(lockedName ? { lockedName } : { lockedName: "" }),
+  });
+
+  return { success: true };
 }
 
 export async function deleteInvite(token: string) {
