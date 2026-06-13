@@ -20,8 +20,8 @@ export const endorsements: Endorsement[] = [
   {
     id: "1",
     name: "Nikita",
-    role: "Human being ",
-    message: "Calm,cool,collected and catastrophically attached.\n",
+    role: "Human being",
+    message: "Calm,cool,collected and catastrophically attached.",
     avatar: "https://kmdn9krae4.ufs.sh/f/R1EGMD28jQScR9oBM28jQSc6P1xCBLdO2zVfDkWp0bKysFXE",
     memeUrl: "https://kmdn9krae4.ufs.sh/f/R1EGMD28jQScupRd7NHhAFC7cH2IE3va8qGeJWmYPDpLzgXx",
 
@@ -29,7 +29,7 @@ export const endorsements: Endorsement[] = [
   {
     id: "2",
     name: "Rahul ",
-    role: "Portfolio Tester",
+    role: "Portfolio Owner | Tester",
     message: "Sorry to disturb you all! This is just a test message, so feel free to ignore it. Thanks for stopping by, and please check out my friends messages.",
     avatar: "https://utfs.io/f/R1EGMD28jQSc6churSOaw5TJtqBzc3QIhSDCAerWGPHvp9iM",
     memeUrl: "https://utfs.io/f/R1EGMD28jQScEan9zBRP61JoCwIzZt5yqVTRWja2QvhrmGUf",
@@ -58,17 +58,18 @@ export const endorsements: Endorsement[] = [
   {
     id: "5",
     name: "Mrinal Singh",
-    role: "Full Stack Engineer",
+    role: "Full Stack Developer",
     message: "Rahul ki aankhon me humesha mene havas dekhi.\nYe ladka mujhe dekhte hi pasand aagya tha prr me tehra pakka lesbian.\n\nBande ne meri bohot help kari college me,  as a bihari mujhe laga dihadi mangega prr nahi.\n\nYe dil ka bohot saaf nikla,  (ps: I love you).\n\nAur haan he used to jack off to a character from valorant. Pspspsps.",
     avatar: "/friends-avatar/mrinal.jpg",
     linkedin: "https://www.linkedin.com/in/mrinal-singh1967",
   },
-  {
-    id: "6",
-    name: "Hemant Singh",
-    role: "Friend",
-    message: "Rahul my nigga 🫂🫂 \nThanks for always helping me.\nI hope teri body ban jaye jaldi 🙏\nThat's it \nI wish u get pegged by ur wife every night or by me🙏",
-    avatar: "/friends-avatar/Hemant-Singh.jpg",
-    linkedin: "https://www.linkedin.com/in/heyymant-singh",
-    instagram: "https://www.instagram.com/prewinterseason",
-  },];
+  // {
+  //   id: "6",
+  //   name: "Hemant Singh",
+  //   role: "Friend",
+  //   message: "Rahul my nigga 🫂🫂 \nThanks for always helping me.\nI hope teri body ban jaye jaldi 🙏\nThat's it \nI wish u get pegged by ur wife every night or by me🙏",
+  //   avatar: "/friends-avatar/Hemant-Singh.jpg",
+  //   linkedin: "https://www.linkedin.com/in/heyymant-singh",
+  //   instagram: "https://www.instagram.com/prewinterseason",
+  // }
+];
