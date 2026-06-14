@@ -249,7 +249,7 @@ function SystemPurgeEffect({ pages }: { pages: string[] }) {
   }, [logs]);
 
   return (
-    <div className="flex flex-col gap-0.5 text-red-500 font-mono text-xs sm:text-sm mt-2 w-full break-all">
+    <div className="relative flex flex-col gap-0.5 text-red-500 font-mono text-xs sm:text-sm mt-2 w-full break-all">
       <style>{`
         @keyframes screen-shake {
           0%, 100% { transform: translate(0, 0) }
@@ -286,7 +286,7 @@ function SystemPurgeEffect({ pages }: { pages: string[] }) {
           {log}
         </div>
       ))}
-      <div ref={endRef} />
+      <div className="absolute -bottom-16" ref={endRef} />
     </div>
   );
 }

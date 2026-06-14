@@ -164,10 +164,13 @@ export const Navigation: React.FC = () => {
             scrub: true,
             onUpdate: (self) => {
               const p = self.progress;
-              gsap.set(".nav-index-label", {
-                autoAlpha: 1 - p,
-                y: -5 * p,
-              });
+              const labels = document.querySelectorAll(".nav-index-label");
+              if (labels.length > 0) {
+                gsap.set(labels, {
+                  autoAlpha: 1 - p,
+                  y: -5 * p,
+                });
+              }
               gsap.set(headerRef.current, {
                 paddingTop: `${32 * (1 - p * 0.55)}px`,
               });
