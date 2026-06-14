@@ -24,3 +24,8 @@
         opacity: 0;
     }
 }
+
+.mask-image-linear-edges {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}

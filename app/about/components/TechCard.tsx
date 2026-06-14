@@ -1,8 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
 import Image from "next/image"
-import { useState } from "react"
+import { useRef } from "react"
+import { gsap } from "gsap"
+import { useGSAP } from "@gsap/react"
 
 interface TechCardProps {
   tech: {
@@ -13,14 +14,41 @@ interface TechCardProps {
 }
 
 export default function TechCard({ tech }: TechCardProps) {
-  const [isHovered, setIsHovered] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const xTo = gsap.quickTo(card, "x", { duration: 0.4, ease: "power3" });
+    const yTo = gsap.quickTo(card, "y", { duration: 0.4, ease: "power3" });
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width / 2) * 0.15;
+      const y = (e.clientY - rect.top - rect.height / 2) * 0.15;
+      xTo(x);
+      yTo(y);
+    };
+
+    const handleMouseLeave = () => {
+      xTo(0);
+      yTo(0);
+    };
+
+    card.addEventListener("mousemove", handleMouseMove);
+    card.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      card.removeEventListener("mousemove", handleMouseMove);
+      card.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, { scope: cardRef });
 
   return (
-    <motion.div
-      className="relative py-4 px-2 rounded-lg border border-zinc-800 bg-zinc-900/40 overflow-hidden group hover:bg-zinc-900/60 transition-colors duration-500"
-      whileHover={{ y: -2, transition: { duration: 0.2 } }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <div
+      ref={cardRef}
+      className="relative py-4 px-2 rounded-lg border border-zinc-800 bg-zinc-900/40 overflow-hidden group hover:bg-zinc-900/60 transition-colors duration-500 will-change-transform"
     >
       <div className="absolute inset-0 bg-zinc-800/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -37,14 +65,6 @@ export default function TechCard({ tech }: TechCardProps) {
         <h3 className="text-sm font-medium mb-1 text-zinc-400 group-hover:text-zinc-200 transition-colors">{tech.name}</h3>
         <p className="text-xs text-zinc-400">{tech.description}</p>
       </div>
-
-      {/* <motion.div
-        className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500"
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-        style={{ transformOrigin: "left" }}
-      /> */}
-    </motion.div>
+    </div>
   );
 }
