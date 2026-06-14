@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import React from "react";
 
 export interface CommandOutput {
   id: string;
@@ -175,7 +176,13 @@ export function useTerminalCommands() {
         break;
       case "sudo":
         if (args[0] === "rm" && args[1] === "-rf" && args[2] === "/") {
-          output = <span className="text-red-500 animate-pulse">INITIATING SYSTEM PURGE... just kidding.</span>;
+          const pages = ["/about", "/projects", "/gaming", "/contact", "/guestbook", "/home"];
+          const shuffledPages = [...pages].sort(() => 0.5 - Math.random());
+          const currentPath = window.location.pathname === "/" ? "/home" : window.location.pathname;
+          const filteredPages = shuffledPages.filter(p => p !== currentPath);
+          filteredPages.push(currentPath);
+
+          output = <SystemPurgeEffect pages={filteredPages} />;
         } else {
           output = <span className="text-red-500">guest_user_992 is not in the sudoers file. This incident will be reported.</span>;
         }
@@ -193,4 +200,93 @@ export function useTerminalCommands() {
   };
 
   return { history, executeCommand, clear, isMatrixActive };
+}
+
+function SystemPurgeEffect({ pages }: { pages: string[] }) {
+  const [logs, setLogs] = useState<string[]>([]);
+  const [phase, setPhase] = useState<'warn' | 'init' | 'deleting' | 'panic'>('warn');
+  const [deletedCount, setDeletedCount] = useState(0);
+
+  useEffect(() => {
+    let timeout: any;
+    if (phase === 'warn') {
+      setLogs(["WARNING: YOU ARE ABOUT TO DELETE ALL FILES AND DIRECTORIES.", "BYPASSING SECURITY PROTOCOLS..."]);
+      timeout = setTimeout(() => setPhase('init'), 1000);
+    } else if (phase === 'init') {
+      const interval = setInterval(() => {
+        setLogs(prev => [...prev.slice(-30), `[${(Math.random() * 10000).toFixed(4)}] CPU_ERR: 0x${Math.floor(Math.random() * 16777215).toString(16).toUpperCase()} - SEGMENTATION FAULT`]);
+      }, 30);
+
+      timeout = setTimeout(() => {
+        clearInterval(interval);
+        setPhase('deleting');
+      }, 1500);
+      return () => clearInterval(interval);
+    } else if (phase === 'deleting') {
+      if (deletedCount < pages.length) {
+        timeout = setTimeout(() => {
+          setLogs(prev => [...prev, `[!!!] FATAL: UNLINKING SECTOR ${pages[deletedCount]}... DATA CORRUPTED`]);
+          setDeletedCount(c => c + 1);
+        }, Math.random() * 400 + 100);
+      } else {
+        timeout = setTimeout(() => setPhase('panic'), 1000);
+      }
+    } else if (phase === 'panic') {
+      setLogs(prev => [...prev, "KERNEL PANIC - NOT SYNCING: Attempted to kill init!"]);
+      timeout = setTimeout(() => {
+        window.close();
+        document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:black;color:#ff0000;font-family:monospace;font-size:2rem;font-weight:bold;text-align:center;text-transform:uppercase;margin:0;padding:2rem;line-height:1.5;">*** STOP: 0x000000ED (UNMOUNTABLE_BOOT_VOLUME)<br/><br/>A problem has been detected and the system has been shut down to prevent damage to your computer.</div>';
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [phase, deletedCount, pages]);
+
+  const endRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "instant", block: "end" });
+  }, [logs]);
+
+  return (
+    <div className="flex flex-col gap-0.5 text-red-500 font-mono text-xs sm:text-sm mt-2 w-full break-all">
+      <style>{`
+        @keyframes screen-shake {
+          0%, 100% { transform: translate(0, 0) }
+          10%, 30%, 50%, 70%, 90% { transform: translate(-10px, 10px) }
+          20%, 40%, 60%, 80% { transform: translate(10px, -10px) }
+        }
+        .animate-screen-shake {
+          animation: screen-shake 0.1s infinite;
+        }
+        @keyframes text-glitch {
+          0% { text-shadow: 2px 0 0 red, -2px 0 0 blue; }
+          25% { text-shadow: -2px 0 0 red, 2px 0 0 blue; }
+          50% { text-shadow: 2px 0 0 blue, -2px 0 0 red; }
+          75% { text-shadow: -2px 0 0 blue, 2px 0 0 red; }
+          100% { text-shadow: 2px 0 0 red, -2px 0 0 blue; }
+        }
+        .animate-text-glitch {
+          animation: text-glitch 0.1s infinite;
+        }
+      `}</style>
+
+      {phase === 'panic' && (
+        <div className="fixed inset-0 z-[9999] bg-red-900/50 mix-blend-color-burn pointer-events-none animate-screen-shake backdrop-invert" />
+      )}
+      {(phase === 'deleting' || phase === 'panic') && (
+        <div className="fixed inset-0 z-[9998] pointer-events-none animate-pulse bg-red-900/20 mix-blend-color-burn" />
+      )}
+
+      {logs.map((log, i) => (
+        <div key={i} className={`${log.includes('FATAL') ? 'text-red-400 font-bold text-sm md:text-base bg-red-950/50 p-1 animate-pulse' :
+          log.includes('KERNEL PANIC') ? 'text-white bg-red-600 p-2 mt-4 text-xl md:text-3xl animate-screen-shake' :
+            'text-red-700 opacity-80'
+          } ${phase === 'panic' ? 'animate-text-glitch' : ''}`}>
+          {log}
+        </div>
+      ))}
+      <div ref={endRef} />
+    </div>
+  );
 }

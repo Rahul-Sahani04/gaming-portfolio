@@ -22,6 +22,8 @@ import {
 
 import { Github, Linkedin } from "@/components/Icons";
 
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+
 export function CommandMenu() {
     const [open, setOpen] = useState(false);
     const router = useRouter();
@@ -51,16 +53,19 @@ export function CommandMenu() {
             className="fixed inset-0 z-[999] bg-black/85 backdrop-blur-md flex items-start justify-center pt-[15vh] px-4"
             onClick={() => setOpen(false)}
         >
+            <VisuallyHidden>
+                <DialogTitle>Command Menu</DialogTitle>
+            </VisuallyHidden>
             <div
                 className="w-full max-w-2xl bg-zinc-950 border border-zinc-800/60 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* ─── Terminal Header / HUD ─── */}
                 <div className="flex justify-between items-center bg-zinc-900/30 px-4 py-3 border-b border-zinc-800/60">
-                    <DialogTitle className="text-zinc-500 font-mono text-[9px] tracking-[0.25em] flex items-center gap-2">
+                    <div className="text-zinc-500 font-mono text-[9px] tracking-[0.25em] flex items-center gap-2">
                         <TerminalSquare className="w-3 h-3" />
                         // COMMAND.SYS
-                    </DialogTitle>
+                    </div>
                     <DialogDescription className="sr-only">
                         Global command palette and site navigation.
                     </DialogDescription>
