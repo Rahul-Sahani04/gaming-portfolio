@@ -174,6 +174,10 @@ export function useTerminalCommands() {
       case "repo":
         output = <span className="text-red-500 animate-pulse">ACCESS_DENIED: CLASSIFIED_REPOSITORY</span>;
         break;
+      case "void":
+        output = <span className="text-red-600 font-bold bg-black tracking-widest animate-pulse">ENTERING THE VOID...</span>;
+        setTimeout(() => router.push(`/void`), 1500);
+        break;
       case "sudo":
         if (args[0] === "rm" && args[1] === "-rf" && args[2] === "/") {
           const pages = ["/about", "/projects", "/gaming", "/contact", "/guestbook", "/home"];
