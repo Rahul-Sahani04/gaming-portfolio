@@ -81,13 +81,14 @@ export default function AboutPage() {
       ease: "back.out(1.7)",
       delay: 0.2
     })
-      .from(".hero-word", {
+      .from(".hero-line", {
         y: 20,
         opacity: 0,
-        duration: 0.5,
-        stagger: 0.015,
+        filter: "blur(8px)",
+        duration: 0.7,
+        stagger: 0.12,
         ease: "power2.out"
-      }, "-=0.4")
+      }, "-=0.3")
       .from(".hero-quote", {
         opacity: 0,
         scale: 0.9,
@@ -277,16 +278,23 @@ export default function AboutPage() {
               <span key={i} className="hero-char inline-block">{char === " " ? "\u00A0" : char}</span>
             ))}
           </h1>
-          <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed text-justify md:text-center">
-            {"I'm Rahul Sahani. By day, I write code and build things that work like they should. By Heart, I'm a gamer. I chase what sparks my curiosity, both on the screen and off. When I'm facing off against a tough bug or a tough boss, I work fast and think on my feet. There's always something new to learn, and I'm always pushing for the next level.".split(" ").map((word, i) => (
-              <span key={i} className="hero-word inline-block mr-[0.25em]">{word}</span>
+          <div className="max-w-2xl mx-auto">
+            {[
+              "I'm Rahul Sahani. By day, I write code and build things that work like they should.",
+              "By Heart, I'm a gamer. I chase what sparks my curiosity, both on the screen and off.",
+              "When I'm facing off against a tough bug or a tough boss, I work fast and think on my feet. There's always something new to learn, and I'm always pushing for the next level.",
+            ].map((line, i) => (
+              <p
+                key={i}
+                className="hero-line text-lg md:text-xl text-zinc-400 leading-relaxed text-center text-balance mb-3 last:mb-0"
+              >
+                {line}
+              </p>
             ))}
-            <br />{" "}
-            <span className="hero-quote mt-8 block italic text-zinc-600 text-base md:text-lg">
-              "Falling twice or getting stuck? Nah, I just respawn and keep
-              going."
-            </span>
-          </p>
+            <p className="hero-quote mt-8 italic text-zinc-600 text-base md:text-lg">
+              &ldquo;Falling twice or getting stuck? Nah, I just respawn and keep going.&rdquo;
+            </p>
+          </div>
         </div>
 
         <AnimatedLine />

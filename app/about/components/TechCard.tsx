@@ -59,11 +59,11 @@ export default function TechCard({ tech }: TechCardProps) {
             alt={tech.name}
             width={48}
             height={48}
-            className="object-contain transition-all duration-500 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
+            className="object-contain transition-all duration-500 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
           />
         </div>
-        <h3 className="text-sm font-medium mb-1 text-zinc-400 group-hover:text-zinc-200 transition-colors">{tech.name}</h3>
-        <p className="text-xs text-zinc-400">{tech.description}</p>
+        <h3 className="text-sm font-medium mb-1 text-zinc-300 group-hover:text-white transition-colors">{tech.name}</h3>
+        <p className="text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">{tech.description}</p>
       </div>
     </div>
   );
