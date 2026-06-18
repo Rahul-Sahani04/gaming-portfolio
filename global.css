@@ -4,6 +4,12 @@
 
 /* ─── Map CSS variables → Tailwind utilities via @theme inline ─── */
 @theme inline {
+  /* ─── Cyber design tokens ─── */
+  --color-cyber-dark:  #080810;
+  --color-cyber-cyan:  #00f0ff;
+  --color-cyber-pink:  #ff00c8;
+  --color-cyber-gray:  #10101c;
+
   --color-background:             var(--background);
   --color-foreground:             var(--foreground);
   --color-card:                   var(--card);

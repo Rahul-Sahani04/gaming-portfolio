@@ -101,7 +101,7 @@ export default makeSource({
   contentDirPath: "./content",
   documentTypes: [Page, Project, Blog],
   mdx: {
-    remarkPlugins: [],
+    remarkPlugins: [remarkGfm],
     rehypePlugins: [
       rehypeSlug,
       [

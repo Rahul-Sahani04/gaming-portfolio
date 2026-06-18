@@ -3,6 +3,7 @@ import { allBlogs } from "contentlayer/generated";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import ClientBlogPost from "./ClientPost";
+import type { TocHeading } from "@/app/components/TableOfContents";
 
 export async function generateStaticParams() {
     return allBlogs
@@ -17,15 +18,27 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { slug } = await params;
     const post = allBlogs.find((p) => p.slug === slug);
-
-    if (!post) {
-        return {};
-    }
-
+    if (!post) return {};
     return {
         title: `${post.title} | Blog`,
         description: post.description,
     };
+}
+
+function extractHeadings(raw: string): TocHeading[] {
+    const regex = /^(#{2,3})\s+(.+)$/gm;
+    const results: TocHeading[] = [];
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(raw)) !== null) {
+        const text = match[2].trim();
+        const id = text
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/^-+|-+$/g, '');
+        results.push({ level: match[1].length, text, id });
+    }
+    return results;
 }
 
 export default async function BlogPostPage({
@@ -34,19 +47,33 @@ export default async function BlogPostPage({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
-    const post = allBlogs.find((p) => p.slug === slug);
 
-    if (!post) {
-        notFound();
-    }
+    const posts = allBlogs
+        .filter((p) => p.published)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    const idx = posts.findIndex((p) => p.slug === slug);
+    const post = posts[idx];
+
+    if (!post) notFound();
+
+    const prevPost = idx < posts.length - 1
+        ? { slug: posts[idx + 1].slug, title: posts[idx + 1].title }
+        : null;
+    const nextPost = idx > 0
+        ? { slug: posts[idx - 1].slug, title: posts[idx - 1].title }
+        : null;
+
+    const headings = extractHeadings(post.body.raw);
 
     return (
-        <Suspense
-            fallback={
-                <div className="flex items-center justify-center w-screen h-screen bg-black" />
-            }
-        >
-            <ClientBlogPost post={post} />
+        <Suspense fallback={<div className="flex items-center justify-center w-screen h-screen bg-cyber-dark" />}>
+            <ClientBlogPost
+                post={post}
+                prevPost={prevPost}
+                nextPost={nextPost}
+                headings={headings}
+            />
         </Suspense>
     );
 }

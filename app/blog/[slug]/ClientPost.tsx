@@ -1,62 +1,174 @@
 "use client";
 
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+
 import { BlogHeader } from "./header";
 import { Mdx } from "@/app/components/mdx";
+import ReadingProgressBar from "@/app/components/ReadingProgressBar";
+import TableOfContents, { type TocHeading } from "@/app/components/TableOfContents";
 import type { Blog } from "contentlayer/generated";
-import { motion } from "framer-motion";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type ClientBlogPostProps = {
     post: Blog;
+    prevPost?: { slug: string; title: string } | null;
+    nextPost?: { slug: string; title: string } | null;
+    headings: TocHeading[];
 };
 
-export default function ClientBlogPost({ post }: ClientBlogPostProps) {
+export default function ClientBlogPost({ post, prevPost, nextPost, headings }: ClientBlogPostProps) {
+    const articleRef = useRef<HTMLDivElement>(null);
+
+    const wordCount = (post.body?.raw ?? '').split(/\s+/).length;
+    const readTime = Math.max(1, Math.round(wordCount / 200));
+
+    useGSAP(() => {
+        if (!articleRef.current) return;
+
+        // Reveal h2 section headings with a slide-from-left
+        gsap.utils.toArray<HTMLElement>('.mdx h2').forEach((el) => {
+            gsap.from(el, {
+                opacity: 0,
+                x: -24,
+                duration: 0.65,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 88%',
+                    toggleActions: 'play none none none',
+                },
+            });
+        });
+
+        // Reveal code blocks with a subtle scale + fade
+        gsap.utils.toArray<HTMLElement>('.mdx pre').forEach((el) => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 20,
+                duration: 0.7,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none',
+                },
+            });
+        });
+
+        // Reveal blockquotes with slide-in
+        gsap.utils.toArray<HTMLElement>('.mdx blockquote').forEach((el) => {
+            gsap.from(el, {
+                opacity: 0,
+                x: -16,
+                duration: 0.6,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none',
+                },
+            });
+        });
+
+        // Reveal tables
+        gsap.utils.toArray<HTMLElement>('.mdx table').forEach((el) => {
+            gsap.from(el.closest('div') ?? el, {
+                opacity: 0,
+                y: 16,
+                duration: 0.6,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none',
+                },
+            });
+        });
+    }, { scope: articleRef });
+
     return (
-        <div className="bg-cyber-dark min-h-screen relative">
-            {/* Scanline overlay */}
-            <div className="pointer-events-none fixed inset-0 z-50 h-full w-full bg-cyber-scanline opacity-10 mix-blend-overlay" />
+        <div className="bg-black min-h-screen">
+            <ReadingProgressBar />
 
-            <BlogHeader post={post} />
+            <BlogHeader post={post} readTime={readTime} />
 
-            {/* MDX body — dark-themed prose */}
-            <div className="relative z-10">
-                <motion.article
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="px-6 py-16 mx-auto max-w-3xl prose prose-invert prose-quoteless
-                    prose-headings:font-display prose-headings:uppercase prose-headings:tracking-tight
-                    prose-headings:text-white
-                    prose-h1:drop-shadow-[0_0_8px_rgba(0,240,255,0.4)]
-                    prose-h2:border-b prose-h2:border-cyber-cyan/20 prose-h2:pb-2
-                    prose-h2:text-cyber-cyan
-                    prose-a:text-cyber-cyan prose-a:no-underline hover:prose-a:underline
-                    prose-strong:text-zinc-100
-                    prose-code:text-cyber-cyan prose-code:bg-cyber-gray/50 prose-code:rounded prose-code:border prose-code:border-cyber-cyan/20
-                    prose-pre:bg-cyber-gray prose-pre:border prose-pre:border-cyber-cyan/20
-                    prose-blockquote:border-l-cyber-cyan prose-blockquote:text-zinc-300
-                    prose-th:text-cyber-cyan prose-th:border-cyber-cyan/30
-                    prose-td:border-zinc-700
-                    prose-hr:border-cyber-cyan/20
-                    prose-li:text-zinc-300
-                    prose-p:text-zinc-300
-                ">
-                    <Mdx code={post.body.code} />
-                </motion.article>
+            {/* Body */}
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 relative z-10">
+                <div className="flex gap-16 items-start">
 
-                {/* Bottom divider */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    className="max-w-3xl mx-auto px-6 pb-16"
-                >
-                    <div className="h-px bg-gradient-to-r from-transparent via-cyber-cyan to-transparent opacity-30" />
-                    <p className="mt-6 font-mono text-xs text-zinc-600 uppercase tracking-widest text-center">
-                        // END_OF_TRANSMISSION
-                    </p>
-                </motion.div>
+                    {/* Main article */}
+                    <div ref={articleRef} className="flex-1 min-w-0">
+                        <div className="max-w-[720px]">
+                            <Mdx code={post.body.code} />
+
+                            {/* Footer divider */}
+                            <div className="mt-20 pt-8">
+                                <div className="h-px bg-gradient-to-r from-[#00f0ff]/25 via-[#00f0ff]/10 to-transparent" />
+                                <p className="mt-6 font-mono text-[10px] text-zinc-700 uppercase tracking-[0.35em] text-center">
+                                    // END_OF_TRANSMISSION
+                                </p>
+                            </div>
+
+                            {/* Prev / Next */}
+                            {(prevPost || nextPost) && (
+                                <motion.nav
+                                    initial={{ opacity: 0, y: 16 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: 0.15 }}
+                                    className="mt-8 grid grid-cols-2 gap-4"
+                                    aria-label="Post navigation"
+                                >
+                                    {prevPost ? (
+                                        <Link
+                                            href={`/blog/${prevPost.slug}`}
+                                            className="group flex flex-col gap-1.5 p-4 border border-white/[0.06] rounded-xl bg-white/[0.015] hover:border-[#00f0ff]/30 hover:bg-[#00f0ff]/[0.03] transition-all duration-300"
+                                        >
+                                            <span className="flex items-center gap-1.5 text-[10px] font-mono text-zinc-600 group-hover:text-[#00f0ff] uppercase tracking-widest transition-colors">
+                                                <ArrowLeft className="w-3 h-3" />
+                                                Previous
+                                            </span>
+                                            <span className="text-sm text-zinc-400 group-hover:text-zinc-200 font-medium line-clamp-2 transition-colors leading-snug">
+                                                {prevPost.title}
+                                            </span>
+                                        </Link>
+                                    ) : <div />}
+
+                                    {nextPost ? (
+                                        <Link
+                                            href={`/blog/${nextPost.slug}`}
+                                            className="group flex flex-col gap-1.5 p-4 border border-white/[0.06] rounded-xl bg-white/[0.015] hover:border-[#00f0ff]/30 hover:bg-[#00f0ff]/[0.03] transition-all duration-300 text-right"
+                                        >
+                                            <span className="flex items-center justify-end gap-1.5 text-[10px] font-mono text-zinc-600 group-hover:text-[#00f0ff] uppercase tracking-widest transition-colors">
+                                                Next
+                                                <ArrowRight className="w-3 h-3" />
+                                            </span>
+                                            <span className="text-sm text-zinc-400 group-hover:text-zinc-200 font-medium line-clamp-2 transition-colors leading-snug">
+                                                {nextPost.title}
+                                            </span>
+                                        </Link>
+                                    ) : <div />}
+                                </motion.nav>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* ToC Sidebar — only on xl+ */}
+                    {headings?.length > 1 && (
+                        <aside className="hidden xl:block w-52 shrink-0">
+                            <div className="sticky top-24">
+                                <TableOfContents headings={headings} />
+                            </div>
+                        </aside>
+                    )}
+                </div>
             </div>
         </div>
     );

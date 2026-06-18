@@ -1,10 +1,11 @@
 "use client";
 
-import { Github } from "@/components/Icons";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import Hero3D from "../../components/Hero3D";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { Github } from "@/components/Icons";
+import { BookOpen } from "lucide-react";
 
 type Props = {
     post: {
@@ -13,132 +14,148 @@ type Props = {
         date: string;
         tags?: string[];
         repository?: string;
-        hero3d?: string;
     };
+    readTime: number;
 };
 
-export const BlogHeader: React.FC<Props> = ({ post }) => {
-    const ref = useRef<HTMLElement>(null);
-    const [isIntersecting, setIntersecting] = useState(true);
+export const BlogHeader: React.FC<Props> = ({ post, readTime }) => {
+    const headerRef = useRef<HTMLElement>(null);
+    const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
-        if (!ref.current) return;
-        const observer = new IntersectionObserver(([entry]) =>
-            setIntersecting(entry.isIntersecting),
-        );
-        observer.observe(ref.current);
-        return () => observer.disconnect();
+        const onScroll = () => setScrolled(window.scrollY > 60);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
+    useGSAP(() => {
+        const tl = gsap.timeline({ delay: 0.1 });
+        tl
+            .from(".hero-tag", {
+                y: -14,
+                opacity: 0,
+                stagger: 0.06,
+                duration: 0.4,
+                ease: "power2.out",
+            })
+            .from(".hero-title-word", {
+                y: "110%",
+                opacity: 0,
+                stagger: 0.04,
+                duration: 0.65,
+                ease: "power3.out",
+            }, "-=0.15")
+            .from(".hero-divider", {
+                scaleX: 0,
+                duration: 0.75,
+                ease: "expo.inOut",
+            }, "-=0.5")
+            .from(".hero-desc", {
+                y: 16,
+                opacity: 0,
+                duration: 0.6,
+                ease: "power2.out",
+            }, "-=0.45")
+            .from(".hero-meta", {
+                y: 10,
+                opacity: 0,
+                duration: 0.5,
+                ease: "power2.out",
+            }, "-=0.35");
+    }, { scope: headerRef });
+
+    const titleWords = post.title.split(" ");
+
     return (
-        <header
-            ref={ref}
-            className="relative isolate overflow-hidden bg-cyber-dark"
-        >
-            <motion.div className="absolute inset-0 z-0">
-                {/* Embedded 3D Hero Element with variants */}
-                <Hero3D variant={post.hero3d} className="w-full h-full opacity-60 mix-blend-screen" />
-            </motion.div>
+        <header ref={headerRef} className="relative isolate overflow-hidden bg-black">
 
-            {/* Cyber grid background on the header */}
-            <div className="absolute inset-0 bg-cyber-grid opacity-20 pointer-events-none" />
-            
-            {/* Scanline overlay */}
-            <div className="absolute inset-0 bg-cyber-scanline opacity-10 mix-blend-overlay pointer-events-none" />
-            
-            {/* Neon gradient accent at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyber-cyan to-transparent opacity-60" />
+            {/* Subtle background texture */}
+            <div className="absolute inset-0 bg-cyber-grid opacity-[0.04] pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_70%_0%,rgba(255,255,255,0.04),transparent)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_60%_at_0%_100%,rgba(255,255,255,0.02),transparent)] pointer-events-none" />
 
-            {/* Sticky nav bar */}
-            <div
-                className={`fixed inset-x-0 top-0 z-50 backdrop-blur duration-200 border-b ${
-                    isIntersecting
-                        ? "bg-cyber-dark/0 border-transparent"
-                        : "bg-cyber-dark/80 border-cyber-cyan/30 shadow-[0_4px_30px_rgba(0,240,255,0.1)]"
-                }`}
-            >
-                <div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
-                    <div className="flex justify-between gap-6">
-                        {post.repository && (
-                            <Link
-                                target="_blank"
-                                href={`https://github.com/${post.repository}`}
-                                aria-label="View on GitHub"
-                                className={`duration-200 ${
-                                    isIntersecting
-                                        ? "text-zinc-400 hover:text-cyber-cyan"
-                                        : "text-zinc-500 hover:text-cyber-cyan"
-                                }`}
-                            >
-                                <Github className="w-5 h-5" />
-                            </Link>
-                        )}
-                    </div>
+            {/* Top accent line */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+            {/* Bottom fade */}
+            <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-b from-transparent to-black pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
+            {/* Fixed top bar */}
+            <div className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+                scrolled
+                    ? "bg-black/90 backdrop-blur-md border-b border-white/[0.06]"
+                    : "bg-transparent border-transparent"
+            }`}>
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-14">
                     <Link
                         href="/blog"
-                        className={`duration-200 flex items-center gap-2 font-mono text-xs uppercase tracking-widest ${
-                            isIntersecting
-                                ? "text-white hover:text-cyber-cyan drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
-                                : "text-zinc-400 hover:text-cyber-cyan"
-                        }`}
+                        className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-500 hover:text-zinc-200 transition-colors duration-200"
                     >
-                        <span className="w-4 h-4 inline-flex items-center justify-center">&lt;</span>
-                        <span className="hidden sm:inline">[BACK TO ARCHIVE]</span>
+                        <span className="text-base leading-none">←</span>
+                        <span className="hidden sm:inline">Back to archive</span>
                     </Link>
+                    {post.repository && (
+                        <Link
+                            target="_blank"
+                            href={`https://github.com/${post.repository}`}
+                            className="text-zinc-500 hover:text-zinc-200 transition-colors duration-200"
+                            aria-label="View on GitHub"
+                        >
+                            <Github className="w-5 h-5" />
+                        </Link>
+                    )}
                 </div>
             </div>
 
             {/* Hero content */}
-            <div className="container mx-auto relative z-10 py-32 sm:py-40 px-6 lg:px-8">
-                <motion.div 
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.2 }}
-                    className="mx-auto max-w-3xl text-center flex flex-col items-center backdrop-blur-sm bg-black/20 p-8 rounded border border-white/5"
-                >
-                    {/* Tags */}
-                    {post.tags && post.tags.length > 0 && (
-                        <div className="flex flex-wrap justify-center gap-2 mb-8">
-                            <span className="w-3 h-3 text-cyber-pink self-center shrink-0">#</span>
-                            {post.tags.map((tag) => (
-                                <span
-                                    key={tag}
-                                    className="text-[10px] font-mono text-cyber-pink bg-cyber-pink/10 border border-cyber-pink/30 px-3 py-1 chamfered-sm uppercase tracking-widest"
-                                >
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                    )}
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20 md:pt-36 md:pb-28">
 
-                    <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl font-display uppercase drop-shadow-[0_0_15px_rgba(0,240,255,0.5)] text-edge-outline">
-                        {post.title}
-                    </h1>
-
-                    {/* Divider */}
-                    <div className="mt-8 w-full max-w-xl h-px bg-gradient-to-r from-transparent via-cyber-cyan to-transparent opacity-80" />
-
-                    {/* Description */}
-                    <p className="mt-8 text-base leading-relaxed text-zinc-300 max-w-2xl border-l-2 border-cyber-cyan/50 pl-4 text-left">
-                        {post.description}
-                    </p>
-
-                    {/* Date */}
-                    <div className="mt-6 flex items-center gap-2 text-xs text-zinc-400 font-mono tracking-widest bg-cyber-cyan/10 border border-cyber-cyan/20 px-4 py-2 chamfered-sm shadow-[0_0_10px_rgba(0,240,255,0.1)]">
-                        <span className="text-cyber-cyan">[]</span>
-                        <time dateTime={new Date(post.date).toISOString()} className="text-cyber-cyan drop-shadow-[0_0_8px_rgba(0,240,255,0.8)]">
-                            SYS.DATE ::&nbsp;
-                        </time>
-                        <span className="text-zinc-200">
-                            {new Date(post.date).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            })}
-                        </span>
+                {/* Tags */}
+                {post.tags && post.tags.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-2 mb-8">
+                        {post.tags.map((tag) => (
+                            <span
+                                key={tag}
+                                className="hero-tag text-[11px] font-mono text-zinc-500 bg-white/[0.04] border border-white/[0.08] px-3 py-1 rounded-full uppercase tracking-wider"
+                            >
+                                {tag}
+                            </span>
+                        ))}
                     </div>
-                </motion.div>
+                )}
+
+                {/* Title — per-word reveal */}
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-display font-bold uppercase tracking-tight leading-[1.05] text-white max-w-4xl">
+                    {titleWords.map((word, i) => (
+                        <span key={i} className="overflow-hidden inline-block mr-[0.22em] mb-1">
+                            <span className="hero-title-word inline-block">{word}</span>
+                        </span>
+                    ))}
+                </h1>
+
+                {/* Divider */}
+                <div className="hero-divider mt-10 h-px max-w-2xl bg-gradient-to-r from-white/30 via-white/10 to-transparent origin-left" />
+
+                {/* Description */}
+                <p className="hero-desc mt-8 text-base md:text-lg text-zinc-400 leading-relaxed max-w-2xl font-light">
+                    {post.description}
+                </p>
+
+                {/* Meta */}
+                <div className="hero-meta mt-8 flex flex-wrap items-center gap-5 text-[11px] font-mono text-zinc-500 uppercase tracking-widest">
+                    <time dateTime={new Date(post.date).toISOString()}>
+                        {new Date(post.date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        })}
+                    </time>
+                    <span className="w-1 h-1 rounded-full bg-zinc-700" aria-hidden />
+                    <span className="flex items-center gap-1.5">
+                        <BookOpen className="w-3 h-3 text-zinc-600" />
+                        {readTime} min read
+                    </span>
+                </div>
             </div>
         </header>
     );
