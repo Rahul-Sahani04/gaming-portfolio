@@ -110,7 +110,7 @@ export default function ClientBlogPost({ post, prevPost, nextPost, headings }: C
 
                             {/* Footer divider */}
                             <div className="mt-20 pt-8">
-                                <div className="h-px bg-gradient-to-r from-[#00f0ff]/25 via-[#00f0ff]/10 to-transparent" />
+                                <div className="h-px bg-gradient-to-r from-white/20 via-white/8 to-transparent" />
                                 <p className="mt-6 font-mono text-[10px] text-zinc-700 uppercase tracking-[0.35em] text-center">
                                     // END_OF_TRANSMISSION
                                 </p>
@@ -129,9 +129,9 @@ export default function ClientBlogPost({ post, prevPost, nextPost, headings }: C
                                     {prevPost ? (
                                         <Link
                                             href={`/blog/${prevPost.slug}`}
-                                            className="group flex flex-col gap-1.5 p-4 border border-white/[0.06] rounded-xl bg-white/[0.015] hover:border-[#00f0ff]/30 hover:bg-[#00f0ff]/[0.03] transition-all duration-300"
+                                            className="group flex flex-col gap-1.5 p-4 border border-white/[0.06] rounded-xl bg-white/[0.015] hover:border-white/15 hover:bg-white/[0.03] transition-all duration-300"
                                         >
-                                            <span className="flex items-center gap-1.5 text-[10px] font-mono text-zinc-600 group-hover:text-[#00f0ff] uppercase tracking-widest transition-colors">
+                                            <span className="flex items-center gap-1.5 text-[10px] font-mono text-zinc-600 group-hover:text-zinc-200 uppercase tracking-widest transition-colors">
                                                 <ArrowLeft className="w-3 h-3" />
                                                 Previous
                                             </span>
@@ -144,9 +144,9 @@ export default function ClientBlogPost({ post, prevPost, nextPost, headings }: C
                                     {nextPost ? (
                                         <Link
                                             href={`/blog/${nextPost.slug}`}
-                                            className="group flex flex-col gap-1.5 p-4 border border-white/[0.06] rounded-xl bg-white/[0.015] hover:border-[#00f0ff]/30 hover:bg-[#00f0ff]/[0.03] transition-all duration-300 text-right"
+                                            className="group flex flex-col gap-1.5 p-4 border border-white/[0.06] rounded-xl bg-white/[0.015] hover:border-white/15 hover:bg-white/[0.03] transition-all duration-300 text-right"
                                         >
-                                            <span className="flex items-center justify-end gap-1.5 text-[10px] font-mono text-zinc-600 group-hover:text-[#00f0ff] uppercase tracking-widest transition-colors">
+                                            <span className="flex items-center justify-end gap-1.5 text-[10px] font-mono text-zinc-600 group-hover:text-zinc-200 uppercase tracking-widest transition-colors">
                                                 Next
                                                 <ArrowRight className="w-3 h-3" />
                                             </span>
@@ -162,7 +162,7 @@ export default function ClientBlogPost({ post, prevPost, nextPost, headings }: C
 
                     {/* ToC Sidebar — only on xl+ */}
                     {headings?.length > 1 && (
-                        <aside className="hidden xl:block w-52 shrink-0">
+                        <aside className="hidden xl:block w-52 shrink-0 self-stretch">
                             <div className="sticky top-24">
                                 <TableOfContents headings={headings} />
                             </div>
