@@ -9,6 +9,21 @@ export const metadata: Metadata = {
   title: "Full-Stack Projects Portfolio | Rahul Sahani",
   description:
     "Showcase of full-stack web projects using Next.js, React, TypeScript, Three.js, and modern tooling.",
+  alternates: { canonical: "https://www.rsahani.space/projects" },
+  openGraph: {
+    title: "Full-Stack Projects Portfolio | Rahul Sahani",
+    description:
+      "Showcase of full-stack web projects using Next.js, React, TypeScript, Three.js, and modern tooling.",
+    url: "https://www.rsahani.space/projects",
+    images: [{ url: "/og.png", width: 1920, height: 1080, alt: "Rahul Sahani — Projects" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Full-Stack Projects Portfolio | Rahul Sahani",
+    description: "Showcase of full-stack web projects using Next.js, React, TypeScript, Three.js, and modern tooling.",
+    images: ["/og.png"],
+  },
 };
 
 import { Navigation } from "../components/nav";

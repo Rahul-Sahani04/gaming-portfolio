@@ -22,6 +22,21 @@ export async function generateMetadata({
     return {
         title: `${post.title} | Blog`,
         description: post.description,
+        alternates: { canonical: `https://www.rsahani.space/blog/${slug}` },
+        openGraph: {
+            title: `${post.title} | Blog`,
+            description: post.description,
+            url: `https://www.rsahani.space/blog/${slug}`,
+            images: [{ url: "/og.png", width: 1920, height: 1080, alt: post.title }],
+            type: "article",
+            publishedTime: post.date,
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: `${post.title} | Blog`,
+            description: post.description,
+            images: ["/og.png"],
+        },
     };
 }
 

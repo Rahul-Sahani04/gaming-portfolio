@@ -5,6 +5,20 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Guestbook | Rahul Sahani",
   description: "Leave a message for me and future visitors.",
+  alternates: { canonical: "https://www.rsahani.space/guestbook" },
+  openGraph: {
+    title: "Guestbook | Rahul Sahani",
+    description: "Leave a message for me and future visitors.",
+    url: "https://www.rsahani.space/guestbook",
+    images: [{ url: "/og.png", width: 1920, height: 1080, alt: "Rahul Sahani — Guestbook" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Guestbook | Rahul Sahani",
+    description: "Leave a message for me and future visitors.",
+    images: ["/og.png"],
+  },
 };
 import { Navigation } from "../components/nav";
 import { formatDistanceToNow } from "date-fns";

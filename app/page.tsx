@@ -6,6 +6,21 @@ export const metadata: Metadata = {
   description:
     "Full-stack developer crafting interactive web experiences with Next.js, React, Three.js, and TypeScript. Explore projects & experiments.",
   alternates: { canonical: "https://www.rsahani.space" },
+  openGraph: {
+    title: "Rahul Sahani — Full-Stack Developer & Creative Engineer",
+    description:
+      "Full-stack developer crafting interactive web experiences with Next.js, React, Three.js, and TypeScript. Explore projects & experiments.",
+    url: "https://www.rsahani.space",
+    images: [{ url: "/og.png", width: 1920, height: 1080, alt: "Rahul Sahani — Portfolio" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rahul Sahani — Full-Stack Developer & Creative Engineer",
+    description:
+      "Full-stack developer crafting interactive web experiences with Next.js, React, Three.js, and TypeScript.",
+    images: ["/og.png"],
+  },
 };
 
 export default function Home() {
