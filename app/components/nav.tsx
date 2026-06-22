@@ -447,7 +447,7 @@ export const Navigation: React.FC = () => {
                 GitHub
               </a>
               <a
-                href="mailto:contact@rsahani.space"
+                href="mailto:me.rsahani@gmail.com"
                 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-600 hover:text-zinc-300 transition-colors"
               >
                 Email
