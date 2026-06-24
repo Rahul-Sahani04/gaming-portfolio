@@ -363,11 +363,11 @@ export const Navigation: React.FC = () => {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            animate={{ opacity: 1, backdropFilter: "blur(24px)" }}
-            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[100] bg-black/85 flex flex-col p-6 overflow-hidden"
+            className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-2xl flex flex-col p-6 overflow-hidden"
           >
             {/* Header row */}
             <div className="flex justify-between items-center mb-16">

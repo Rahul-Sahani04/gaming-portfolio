@@ -85,17 +85,17 @@ export default function RouteTransition({ children }: { children: React.ReactNod
           initial={
             shouldReduceMotion
               ? { opacity: 1 }
-              : { opacity: 0.8, y: 8, filter: "blur(6px)" }
+              : { opacity: 0.8, y: 8 }
           }
           animate={
             shouldReduceMotion
               ? { opacity: 1 }
-              : { opacity: 1, y: 0, filter: "blur(0px)" }
+              : { opacity: 1, y: 0 }
           }
           exit={
             shouldReduceMotion
               ? { opacity: 1 }
-              : { opacity: 0.8, y: -12, filter: "blur(5px)" }
+              : { opacity: 0.8, y: -12 }
           }
           transition={{
             duration: TRANSITION_DURATION,

@@ -47,10 +47,9 @@ export default function HomeLoader() {
         <motion.div
           key="home-loader"
           initial={{ opacity: 1 }}
-          exit={{ 
-            opacity: 0, 
-            y: -20, 
-            filter: "blur(10px)" 
+          exit={{
+            opacity: 0,
+            y: -20,
           }}
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="fixed inset-0 z-[150] flex flex-col items-center justify-center bg-black"

@@ -103,13 +103,12 @@ export default function ClientBlogArchive({ posts }: { posts: any[] }) {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set(".blog-card", { filter: "blur(4px)" });
+      gsap.set(".blog-card", { opacity: 0, y: 20 });
       ScrollTrigger.batch(".blog-card", {
         onEnter: (batch) =>
           gsap.to(batch, {
             opacity: 1,
             y: 0,
-            filter: "blur(0px)",
             stagger: 0.07,
             duration: 0.6,
             ease: "power3.out",
