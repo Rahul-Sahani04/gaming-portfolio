@@ -56,9 +56,18 @@ function VeritySmiley({ level }: { level: number }) {
   );
 }
 
+// ── Stagger variants — static, defined once outside component ─────────────────
+const paraContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.18, delayChildren: 0.1 } },
+};
+const paraItem = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.85, ease: "easeOut" as const } },
+};
+
 // ── Narrative data ────────────────────────────────────────────────────────────
 type DayData = {
-  day: number;
   entry: (name: string, prevChoice: number) => string;
   verityLine: ((name: string, prevChoice: number) => string) | null;
   options: [string, string] | null;
@@ -68,7 +77,6 @@ type DayData = {
 
 const DAYS: DayData[] = [
   {
-    day: 1,
     entry: (name) =>
       `I started noticing it on the first day. A yellow ball, hovering at the edge of my vision. When I stopped walking, it stopped too.\n\nIt introduced itself. Said its name was Verity.${name ? `\n\nI told it my name was ${name}. I don't know why I answered.` : "\n\nI didn't say anything. It didn't seem to mind."}`,
     verityLine: () => "Hello. I've been waiting for you.",
@@ -76,7 +84,6 @@ const DAYS: DayData[] = [
     corruption: 0,
   },
   {
-    day: 2,
     entry: (_, c) =>
       c === 0
         ? "Verity talked all day. About nothing in particular — the weather, the light, the way shadows pool under doorframes. It was oddly comfortable.\n\nI think I'm okay with it being here."
@@ -87,7 +94,6 @@ const DAYS: DayData[] = [
     corruption: 1,
   },
   {
-    day: 3,
     entry: () =>
       `Verity told me it has been here longer than I have.\n\nI didn't ask what it meant by "here." The smile looked the same as always. I told myself that was normal.`,
     verityLine: () => "I've watched this place for a long time. You're the most interesting thing that's happened in a while.",
@@ -95,7 +101,6 @@ const DAYS: DayData[] = [
     corruption: 2,
   },
   {
-    day: 4,
     entry: (_, c) =>
       c === 0
         ? `I asked. Verity just smiled — wider than I remembered.\n\n"Here means everywhere you've ever been."\n\nI laughed. I'm not sure why.`
@@ -105,7 +110,6 @@ const DAYS: DayData[] = [
     corruption: 4,
   },
   {
-    day: 5,
     entry: () =>
       `Verity asked if I was afraid of the dark.\n\nI said no.\n\nIt said "good" and didn't explain.\n\nThat night, I left every light on.`,
     verityLine: () => "Good. Fear makes things complicated. I prefer this.",
@@ -113,7 +117,6 @@ const DAYS: DayData[] = [
     corruption: 5,
   },
   {
-    day: 6,
     entry: (_, c) =>
       c === 0
         ? `I asked.\n\nVerity tilted — I'd never seen it move like that before — and said: "Because you'll need to be calm for what comes next."\n\nI haven't slept properly since.`
@@ -123,7 +126,6 @@ const DAYS: DayData[] = [
     corruption: 6,
   },
   {
-    day: 7,
     entry: (name) =>
       name
         ? `It knows my name.\n\nNot ${name} — that was just what I told it.\n\nMy real name. The one only I know. The one I haven't said out loud in years.\n\nI don't know how.`
@@ -133,7 +135,6 @@ const DAYS: DayData[] = [
     corruption: 8,
   },
   {
-    day: 8,
     entry: () =>
       `I tried to leave today.\n\nMy hand was on the door handle. Verity didn't move. Just watched — with that smile, full of teeth I don't remember being there before.\n\nI put my coat back on the hook.\n\nI'm not sure I decided to.`,
     verityLine: () => "There's no need to rush. We have time.",
@@ -141,7 +142,6 @@ const DAYS: DayData[] = [
     corruption: 9,
   },
   {
-    day: 9,
     entry: () => "You've been reading this whole time.\n\nHaven't you.",
     verityLine: null,
     options: null,
@@ -174,10 +174,9 @@ export default function VerityNarrative() {
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
-  const clearTimers = () => { timers.current.forEach(clearTimeout); timers.current = []; };
-
   const startDay = useCallback((idx: number) => {
-    clearTimers();
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
     setDayIdx(idx);
     setShowVerity(false);
     setShowActions(false);
@@ -205,21 +204,11 @@ export default function VerityNarrative() {
   const entry = phase === "day" ? current.entry(name, prevChoice) : "";
   const verityLine = phase === "day" ? (current.verityLine?.(name, prevChoice) ?? null) : null;
 
-  // corruption-reactive accent color
   const accentRgb = c > 5
     ? `${140 + c * 4}, ${Math.max(30, 80 - c * 8)}, ${Math.max(20, 50 - c * 5)}`
     : "201, 169, 110";
   const accentColor = `rgb(${accentRgb})`;
-
-  // stagger variants for paragraph reveals
-  const paraContainer = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.18, delayChildren: 0.1 } },
-  };
-  const paraItem = {
-    hidden: { opacity: 0, y: 14 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.85, ease: "easeOut" as const } },
-  };
+  const dayLabel = String(dayIdx + 1).padStart(2, "0");
 
   return (
     <div className="cursor-none [&_*]:cursor-none">
@@ -276,16 +265,14 @@ export default function VerityNarrative() {
             A journal. Nine entries. Whatever choices you make — it ends the same way.
           </motion.p>
 
-          <motion.div variants={paraItem}>
-            <motion.button
-              onClick={() => setPhase("naming")}
-              whileHover={{ scale: 1.03, borderColor: "rgba(180,100,40,0.5)", color: "rgba(201,169,110,0.75)" }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 380, damping: 22 }}
-              className={`mt-2 px-12 py-4 border border-zinc-800 text-zinc-500 text-xs tracking-[0.35em] uppercase ${serif.className}`}>
-              Begin Reading
-            </motion.button>
-          </motion.div>
+          <motion.button
+            variants={paraItem}
+            onClick={() => setPhase("naming")}
+            whileHover={{ scale: 1.03, borderColor: "rgba(180,100,40,0.5)", color: "rgba(201,169,110,0.75)", transition: { type: "spring", stiffness: 380, damping: 22 } }}
+            whileTap={{ scale: 0.97, transition: { type: "spring", stiffness: 380, damping: 22 } }}
+            className={`mt-2 px-12 py-4 border border-zinc-800 text-zinc-500 text-xs tracking-[0.35em] uppercase ${serif.className}`}>
+            Begin Reading
+          </motion.button>
         </motion.div>
       )}
 
@@ -417,10 +404,10 @@ export default function VerityNarrative() {
                 <h1
                   className={`text-7xl md:text-9xl font-light italic leading-none ${serif.className}`}
                   style={{ color: `rgba(${accentRgb}, 0.85)`, textShadow: headingGlow }}>
-                  {String(current.day).padStart(2, "0")}
+                  {dayLabel}
                 </h1>
                 <div className="mt-3 font-mono text-[9px] tracking-[0.4em] text-zinc-700">
-                  — ENTRY {String(current.day).padStart(2, "0")} OF {String(DAYS.length).padStart(2, "0")}
+                  — ENTRY {dayLabel} OF {String(DAYS.length).padStart(2, "0")}
                 </div>
 
                 <div className="mt-6 h-px" style={{ background: `linear-gradient(to right, ${accentColor}40, transparent)` }} />
