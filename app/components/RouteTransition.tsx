@@ -178,7 +178,7 @@ export default function RouteTransition({ children }: { children: React.ReactNod
               }}
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none"
             >
-              <motion.p className="font-mono text-[36px] uppercase tracking-[0.35em] text-zinc-400 sm:text-[18px]">
+              <motion.p className="font-mono md:text-[36px] uppercase tracking-[0.35em] text-zinc-400 text-[18px]">
                 // ROUTING: {destinationLabel.toUpperCase()}
               </motion.p>
             </motion.div>

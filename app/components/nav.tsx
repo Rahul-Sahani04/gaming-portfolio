@@ -340,7 +340,7 @@ export const Navigation: React.FC = () => {
           {/* ─── Mobile Menu Toggle ───────────────────────────────────── */}
           <button
             onClick={() => setMobileOpen(true)}
-            className="nav-mobile-toggle pointer-events-auto md:hidden flex flex-col items-end gap-1 relative text-zinc-400 hover:text-zinc-200 transition-colors"
+            className="nav-mobile-toggle pointer-events-auto md:hidden flex flex-col items-end gap-1 relative text-zinc-400 hover:text-zinc-200 transition-colors "
           >
             <span className="nav-index-label font-mono text-[9px] tracking-[0.25em]">
               0{navLinks.length + 1}
@@ -367,7 +367,7 @@ export const Navigation: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-2xl flex flex-col p-6 overflow-hidden"
+            className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-2xl flex flex-col p-6 overflow-hidden "
           >
             {/* Header row */}
             <div className="flex justify-between items-center mb-16">
@@ -383,7 +383,7 @@ export const Navigation: React.FC = () => {
             </div>
 
             {/* ─── Idea 6: Signal-Lock mobile link reveal ─── */}
-            <nav className="flex flex-col gap-6 overflow-y-auto pb-24">
+            <nav className="flex flex-col gap-6 overflow-y-auto overflow-x-clip pb-24">
               {[{ href: "/", label: "Home" }, ...navLinks].map((link, i) => {
                 const isActive =
                   pathname === link.href ||
@@ -391,26 +391,11 @@ export const Navigation: React.FC = () => {
                 return (
                   <motion.div
                     key={link.href}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
-                    transition={{ delay: i * 0.04, duration: 0.3 }}
-                    className="relative overflow-hidden"
+                    transition={{ delay: i * 0.05, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    {/* Signal-lock wipe cover — slides right to reveal text */}
-                    <motion.div
-                      className="absolute inset-0 bg-zinc-100 pointer-events-none origin-left z-10"
-                      initial={{ scaleX: 1 }}
-                      animate={{ scaleX: 0 }}
-                      exit={{ scaleX: 1 }}
-                      transition={{
-                        delay: i * 0.05,
-                        duration: 0.4,
-                        ease: [0.76, 0, 0.24, 1],
-                      }}
-                      style={{ transformOrigin: "left center" }}
-                    />
-
                     <Link
                       href={link.href}
                       className="flex flex-col gap-1 group"
@@ -438,7 +423,7 @@ export const Navigation: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45 }}
-              className="absolute bottom-8 left-6 right-6 border-t border-zinc-800/80 pt-6 flex gap-6"
+              className="absolute bottom-0 left-6 right-6 border-t border-zinc-800/80 py-6 flex gap-6 backdrop-blur-lg"
             >
               <a
                 href="https://github.com/Rahul-Sahani04"
