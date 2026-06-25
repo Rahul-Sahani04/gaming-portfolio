@@ -205,8 +205,24 @@ export default function VerityNarrative() {
   const entry = phase === "day" ? current.entry(name, prevChoice) : "";
   const verityLine = phase === "day" ? (current.verityLine?.(name, prevChoice) ?? null) : null;
 
+  // corruption-reactive accent color
+  const accentRgb = c > 5
+    ? `${140 + c * 4}, ${Math.max(30, 80 - c * 8)}, ${Math.max(20, 50 - c * 5)}`
+    : "201, 169, 110";
+  const accentColor = `rgb(${accentRgb})`;
+
+  // stagger variants for paragraph reveals
+  const paraContainer = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.18, delayChildren: 0.1 } },
+  };
+  const paraItem = {
+    hidden: { opacity: 0, y: 14 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.85, ease: "easeOut" as const } },
+  };
+
   return (
-    <div className="cursor-none">
+    <div className="cursor-none [&_*]:cursor-none">
       {/* Custom cursor */}
       <img
         ref={cursorRef}
@@ -219,75 +235,121 @@ export default function VerityNarrative() {
 
       {/* ── Enter screen ─────────────────────────────────────────────────────── */}
       {phase === "enter" && (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-black gap-8 px-6">
-          <div className="absolute inset-6 border border-zinc-900/60 pointer-events-none" />
-          <p className={`text-zinc-700 text-[10px] tracking-[1.2em] uppercase ${serif.className}`}>
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.15 } } }}
+          className="relative min-h-screen flex flex-col items-center justify-center bg-black gap-6 px-6 overflow-hidden">
+
+          {/* Animated corner brackets */}
+          {([
+            "top-6 left-6 border-t border-l",
+            "top-6 right-6 border-t border-r",
+            "bottom-6 left-6 border-b border-l",
+            "bottom-6 right-6 border-b border-r",
+          ] as const).map((cls, i) => (
+            <motion.div
+              key={i}
+              className={`absolute w-10 h-10 border-zinc-800 pointer-events-none ${cls}`}
+              initial={{ opacity: 0, scale: 0.4 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            />
+          ))}
+
+          <motion.p
+            variants={paraItem}
+            className={`text-zinc-700 text-[10px] tracking-[1.4em] uppercase ${serif.className}`}>
             ◈ &nbsp; you were not meant to find this &nbsp; ◈
-          </p>
-          <h1 className={`text-amber-100/80 text-5xl md:text-7xl font-light italic tracking-wide ${serif.className}`}
-            style={{ textShadow: "0 0 40px rgba(201,169,110,0.25)" }}>
+          </motion.p>
+
+          <motion.h1
+            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 1.1, ease: "easeOut" as const } } }}
+            className={`text-amber-100/85 text-6xl md:text-8xl font-light italic tracking-wide ${serif.className}`}
+            style={{ textShadow: "0 0 60px rgba(201,169,110,0.2), 0 0 120px rgba(201,169,110,0.08)" }}>
             Verity
-          </h1>
-          <p className={`text-zinc-600 text-sm italic max-w-xs text-center leading-relaxed ${serif.className}`}>
+          </motion.h1>
+
+          <motion.p
+            variants={paraItem}
+            className={`text-zinc-600 text-sm italic max-w-xs text-center leading-relaxed ${serif.className}`}>
             A journal. Nine entries. Whatever choices you make — it ends the same way.
-          </p>
-          <button
-            onClick={() => setPhase("naming")}
-            className={`mt-4 px-10 py-4 border border-zinc-800 text-zinc-500 text-xs tracking-[0.3em] uppercase hover:border-amber-900/60 hover:text-amber-200/70 transition-all duration-500 ${serif.className}`}>
-            Begin Reading
-          </button>
-        </div>
+          </motion.p>
+
+          <motion.div variants={paraItem}>
+            <motion.button
+              onClick={() => setPhase("naming")}
+              whileHover={{ scale: 1.03, borderColor: "rgba(180,100,40,0.5)", color: "rgba(201,169,110,0.75)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 380, damping: 22 }}
+              className={`mt-2 px-12 py-4 border border-zinc-800 text-zinc-500 text-xs tracking-[0.35em] uppercase ${serif.className}`}>
+              Begin Reading
+            </motion.button>
+          </motion.div>
+        </motion.div>
       )}
 
       {/* ── Name screen ──────────────────────────────────────────────────────── */}
       {phase === "naming" && (
         <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2 }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.1 }}
           className="min-h-screen flex flex-col items-center justify-center bg-black gap-8 px-6">
-          <p className={`text-zinc-500 text-sm italic ${serif.className}`}>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }}
+            className={`text-zinc-500 text-base italic ${serif.className}`}>
             Before you begin — what should I call you?
-          </p>
-          <input
+          </motion.p>
+
+          <motion.input
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.8 }}
             type="text"
             value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") { setName(nameInput.trim()); startDay(0); } }}
             placeholder="your name"
             maxLength={32}
-            className={`bg-transparent border-b border-zinc-800 text-amber-100/80 text-xl text-center outline-none w-48 pb-2 placeholder:text-zinc-700 focus:border-zinc-600 transition-colors ${serif.className}`}
+            className={`bg-transparent border-b border-zinc-800 text-amber-100/80 text-xl text-center outline-none w-56 pb-2 placeholder:text-zinc-800 focus:border-zinc-600 transition-colors duration-300 ${serif.className}`}
           />
-          <div className="flex gap-6">
-            <button
+
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
+            className="flex gap-8">
+            <motion.button
               onClick={() => { setName(nameInput.trim()); startDay(0); }}
-              className={`text-zinc-500 text-xs tracking-[0.3em] uppercase hover:text-amber-200/70 transition-colors ${serif.className}`}>
+              whileHover={{ color: "rgba(201,169,110,0.8)" }} whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              className={`text-zinc-500 text-xs tracking-[0.3em] uppercase ${serif.className}`}>
               Continue →
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={() => { setName(""); startDay(0); }}
-              className={`text-zinc-700 text-xs tracking-[0.3em] uppercase hover:text-zinc-500 transition-colors ${serif.className}`}>
+              whileHover={{ color: "rgba(150,150,150,0.7)" }} whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              className={`text-zinc-800 text-xs tracking-[0.3em] uppercase ${serif.className}`}>
               Skip
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </motion.div>
       )}
 
       {/* ── Done screen ──────────────────────────────────────────────────────── */}
       {phase === "done" && (
         <div className="min-h-screen flex flex-col items-center justify-center bg-black gap-10 px-6">
-          <motion.div initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}>
             <VeritySmiley level={10} />
           </motion.div>
           <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2, duration: 2 }}
-            className={`text-amber-100/60 text-2xl italic tracking-wide ${serif.className}`}
-            style={{ textShadow: "0 0 30px rgba(201,169,110,0.3)" }}>
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 2.5 }}
+            className={`text-amber-100/55 text-2xl md:text-3xl italic tracking-wide ${serif.className}`}
+            style={{ textShadow: "0 0 40px rgba(201,169,110,0.25)" }}>
             I&apos;m already here.
           </motion.p>
           <motion.span
             initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 0] }}
-            transition={{ delay: 4, duration: 1.2, repeat: Infinity }}
-            className="text-zinc-600 text-sm font-mono">
+            transition={{ delay: 5, duration: 1.2, repeat: Infinity }}
+            className="text-zinc-700 text-sm font-mono">
             ∎
           </motion.span>
         </div>
@@ -298,14 +360,14 @@ export default function VerityNarrative() {
         <AnimatePresence mode="wait">
           <motion.div
             key={dayIdx}
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-            className="min-h-screen px-6 py-32 flex justify-center transition-colors duration-1000"
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="min-h-screen flex justify-center transition-colors duration-1000"
             style={{ backgroundColor: bgColor, transform: containerSkew }}>
 
-            {/* Film grain overlay */}
+            {/* Film grain */}
             <div className="fixed inset-0 pointer-events-none z-50"
               style={{
                 opacity: noiseOpacity,
@@ -313,66 +375,128 @@ export default function VerityNarrative() {
                 mixBlendMode: "overlay",
               }} />
 
-            <article className="w-full max-w-2xl">
-              <header className="mb-12 border-b border-zinc-800/50 pb-8">
-                <div className="font-mono text-[10px] tracking-[0.3em] text-zinc-700 mb-4">
-                  // VERITY.JOURNAL — ENTRY {String(current.day).padStart(2, "0")}
+            {/* Progress bar — 9 segments */}
+            <div className="fixed top-0 left-0 right-0 z-40 flex gap-px h-[2px]">
+              {DAYS.map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="flex-1 transition-colors duration-700"
+                  style={{ backgroundColor: i < dayIdx ? accentColor : i === dayIdx ? accentColor : "rgba(255,255,255,0.06)" }}
+                  animate={i === dayIdx ? { opacity: [0.6, 1, 0.6] } : {}}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                />
+              ))}
+            </div>
+
+            <article className="relative w-full max-w-2xl px-6 md:px-0 py-28">
+              {/* Left accent border */}
+              <motion.div
+                className="absolute left-0 top-28 bottom-12 w-[2px] hidden md:block"
+                style={{ backgroundColor: accentColor, opacity: 0.25 }}
+                animate={{ opacity: [0.15, 0.3, 0.15] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              />
+
+              {/* Header */}
+              <header className="mb-14 md:pl-6">
+                <div className="flex items-center gap-4 mb-5">
+                  <span className="font-mono text-[9px] tracking-[0.35em] text-zinc-700">
+                    VERITY.JOURNAL
+                  </span>
+                  <div className="flex gap-1.5">
+                    {DAYS.map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-1 h-1 rounded-full transition-colors duration-500"
+                        style={{ backgroundColor: i <= dayIdx ? accentColor : "rgba(255,255,255,0.1)" }}
+                      />
+                    ))}
+                  </div>
                 </div>
+
                 <h1
-                  className={`text-6xl md:text-8xl font-light italic text-amber-100/90 ${serif.className}`}
-                  style={{ textShadow: headingGlow }}>
-                  Day {String(current.day).padStart(2, "0")}
+                  className={`text-7xl md:text-9xl font-light italic leading-none ${serif.className}`}
+                  style={{ color: `rgba(${accentRgb}, 0.85)`, textShadow: headingGlow }}>
+                  {String(current.day).padStart(2, "0")}
                 </h1>
+                <div className="mt-3 font-mono text-[9px] tracking-[0.4em] text-zinc-700">
+                  — ENTRY {String(current.day).padStart(2, "0")} OF {String(DAYS.length).padStart(2, "0")}
+                </div>
+
+                <div className="mt-6 h-px" style={{ background: `linear-gradient(to right, ${accentColor}40, transparent)` }} />
               </header>
 
-              <div className={`space-y-5 text-zinc-300/85 text-lg md:text-xl leading-relaxed font-light italic ${serif.className}`}>
+              {/* Entry paragraphs — staggered reveal */}
+              <motion.div
+                key={`entry-${dayIdx}`}
+                variants={paraContainer}
+                initial="hidden"
+                animate="show"
+                className={`md:pl-6 space-y-6 text-zinc-300/80 text-lg md:text-xl leading-[1.85] font-light italic ${serif.className}`}>
                 {entry.split("\n\n").map((para, i) => (
-                  <p key={i}>{para}</p>
+                  <motion.p key={i} variants={paraItem}>{para}</motion.p>
                 ))}
+              </motion.div>
+
+              {/* Ornamental divider */}
+              <div className="md:pl-6 my-14 flex items-center gap-4">
+                <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, transparent, ${accentColor}30)` }} />
+                <span className="text-zinc-700 text-xs" style={{ color: `rgba(${accentRgb}, 0.3)` }}>◈</span>
+                <div className="flex-1 h-px" style={{ background: `linear-gradient(to left, transparent, ${accentColor}30)` }} />
               </div>
 
-              <div className="my-16 flex flex-col items-center gap-6">
+              {/* Verity */}
+              <div className="md:pl-6 flex flex-col items-center gap-8">
                 <VeritySmiley level={c} />
                 <AnimatePresence>
                   {showVerity && verityLine && (
                     <motion.blockquote
-                      initial={{ opacity: 0, y: 8 }}
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.9 }}
-                      className={`text-center italic text-amber-200/65 text-xl max-w-sm leading-relaxed ${serif.className}`}
-                      style={{ textShadow: "0 0 20px rgba(201,169,110,0.25)" }}>
+                      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                      className={`text-center italic text-lg md:text-xl max-w-sm leading-relaxed ${serif.className}`}
+                      style={{ color: `rgba(${accentRgb}, 0.6)`, textShadow: `0 0 30px rgba(${accentRgb}, 0.15)` }}>
                       &ldquo;{verityLine}&rdquo;
                     </motion.blockquote>
                   )}
                 </AnimatePresence>
               </div>
 
+              {/* Actions */}
               <AnimatePresence>
                 {showActions && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="mt-10 flex flex-col sm:flex-row gap-4">
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="md:pl-6 mt-14 flex flex-col sm:flex-row gap-3">
                     {current.options ? (
                       current.options.map((label, i) => (
-                        <button
+                        <motion.button
                           key={i}
                           onClick={() => advance(i)}
-                          className={`flex-1 py-4 px-6 border text-sm tracking-[0.2em] uppercase transition-all duration-300 border-zinc-800 text-zinc-500 hover:border-amber-900/70 hover:text-amber-200/80 ${serif.className}`}>
+                          whileHover={{ scale: 1.02, borderColor: `rgba(${accentRgb}, 0.5)`, color: `rgba(${accentRgb}, 0.85)` }}
+                          whileTap={{ scale: 0.97 }}
+                          transition={{ type: "spring", stiffness: 360, damping: 22 }}
+                          className={`flex-1 py-4 px-6 border border-zinc-800/80 text-zinc-600 text-sm tracking-[0.25em] uppercase ${serif.className}`}>
                           {label}
-                        </button>
+                        </motion.button>
                       ))
                     ) : (
-                      <button
+                      <motion.button
                         onClick={() => advance()}
-                        className={`py-4 px-8 border border-zinc-800 text-zinc-500 text-sm tracking-[0.2em] uppercase hover:border-zinc-700 hover:text-zinc-300 transition-all duration-300 ${serif.className}`}>
+                        whileHover={{ scale: 1.02, borderColor: `rgba(${accentRgb}, 0.4)`, color: `rgba(${accentRgb}, 0.7)` }}
+                        whileTap={{ scale: 0.97 }}
+                        transition={{ type: "spring", stiffness: 360, damping: 22 }}
+                        className={`py-4 px-10 border border-zinc-800/80 text-zinc-600 text-sm tracking-[0.25em] uppercase ${serif.className}`}>
                         {current.final ? "I see you too" : "Continue →"}
-                      </button>
+                      </motion.button>
                     )}
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              <div className="h-16" />
             </article>
           </motion.div>
         </AnimatePresence>
