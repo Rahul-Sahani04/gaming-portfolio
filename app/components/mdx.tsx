@@ -138,14 +138,28 @@ const components = {
 			{...props}
 		/>
 	),
-	pre: ({ className, ...props }: React.ComponentProps<"pre">) => (
-		<pre
-			className={clsx(
-				"mt-6 mb-4 overflow-x-auto rounded-xl bg-zinc-950 border border-white/[0.07] py-4 px-1",
-				className,
-			)}
-			{...props}
-		/>
+	pre: ({ className, children, ...props }: React.ComponentProps<"pre">) => (
+		<div className="group relative mt-6 mb-4 rounded-xl border border-white/[0.08] overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_4px_24px_rgba(0,0,0,0.5)]">
+			{/* Terminal header */}
+			<div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06] bg-[#0a0a0a]">
+				<div className="flex items-center gap-1.5">
+					<span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+					<span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+					<span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+				</div>
+				<span className="text-[10px] font-mono text-zinc-600 tracking-widest uppercase select-none">code</span>
+			</div>
+			<pre
+				className={clsx(
+					"overflow-x-auto px-5 py-4 text-sm leading-6",
+					"[&_code]:bg-transparent [&_code]:border-0 [&_code]:p-0 [&_code]:rounded-none [&_code]:text-[inherit] [&_code]:leading-[inherit]",
+					className,
+				)}
+				{...props}
+			>
+				{children}
+			</pre>
+		</div>
 	),
 	code: ({ className, ...props }: React.ComponentProps<"code">) => (
 		<code

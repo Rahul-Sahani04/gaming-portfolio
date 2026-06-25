@@ -1,6 +1,5 @@
 import { memo, useState, useEffect, useRef } from "react";
-import { motion, Variants, AnimatePresence } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { motion, Variants, AnimatePresence, useInView } from "framer-motion";
 import GameIcon from "../utils/GameIcons";
 import "../page.css"; // Import global styles
 
@@ -27,10 +26,8 @@ const getCloudinaryUrl = (publicId: string) =>
   `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/q_auto,f_auto/${publicId}.mp4`;
 
 const GameCard = memo(({ game, index }: GameCardProps) => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    rootMargin: "-100px",
-  });
+  const cardRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(cardRef, { once: true, margin: "-100px" });
   const [hovered, setHovered] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
 
@@ -67,7 +64,7 @@ const GameCard = memo(({ game, index }: GameCardProps) => {
 
   return (
     <motion.div
-      ref={ref}
+      ref={cardRef}
       variants={cardVariants}
       initial="off"
       animate={inView ? "on" : "off"}

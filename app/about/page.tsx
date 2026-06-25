@@ -10,8 +10,6 @@ import Link from "next/link";
 import TechCard from "./components/TechCard";
 import ProjectCard from "./components/ProjectCard";
 import { Navigation } from "../components/nav";
-import CustomCursor from "../components/CustomCursor";
-import NextTopLoader from "nextjs-toploader";
 import ParticleFooter from "./components/ParticleFooter";
 import "./page.css";
 // import PhotographyGrid from "./components/PhotographyGrid";
@@ -262,8 +260,6 @@ export default function AboutPage() {
   return (
     <div ref={containerRef} className="min-h-screen max-w-screen overflow-x-clip bg-black text-white">
       <Navigation />
-      <CustomCursor />
-      <NextTopLoader />
 
       {/* Hero Section */}
       <section className="hero-section relative py-32 overflow-hidden min-h-[50vh]">

@@ -361,3 +361,21 @@ body {
 @utility animate-glitch-2 {
   animation: glitch-anim-2 3s infinite linear alternate-reverse;
 }
+/* ─── Code block scrollbar ─── */
+.mdx pre {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+.mdx pre::-webkit-scrollbar {
+  height: 4px;
+}
+.mdx pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+.mdx pre::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+}
+.mdx pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}

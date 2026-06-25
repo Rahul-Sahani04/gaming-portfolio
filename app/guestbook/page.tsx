@@ -22,8 +22,6 @@ export const metadata: Metadata = {
 };
 import { Navigation } from "../components/nav";
 import { formatDistanceToNow } from "date-fns";
-import CustomCursor from "../components/CustomCursor";
-import NextTopLoader from "nextjs-toploader";
 import Particles from "../components/particles";
 import { Card } from "../components/card";
 import BlurText from "../components/BlurText";
@@ -87,8 +85,6 @@ export default async function GuestbookPage() {
       <Particles className="absolute inset-0 -z-10 animate-fade-in" quantity={180} staticity={40} />
 
       <Navigation />
-      <CustomCursor />
-      <NextTopLoader />
       <AnimatedBeams />
 
       <div className="container flex flex-col items-center min-h-screen px-4 mx-auto pt-24 md:pt-32 pb-20">

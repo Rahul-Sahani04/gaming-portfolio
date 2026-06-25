@@ -1,19 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { FileText, ArrowUpRight, BookOpen, ExternalLink } from "lucide-react";
 import { Card } from "../components/card";
 import { Navigation } from "../components/nav";
-import CustomCursor from "../components/CustomCursor";
-import NextTopLoader from "nextjs-toploader";
 import ThreeCanvas from "../components/ThreeCanvas";
 import BlurText from "../components/BlurText";
-
-gsap.registerPlugin(ScrollTrigger);
 
 function BlogCard({ post, index }: { post: any; index: number }) {
   const isSubstack = post.source === "substack";
@@ -26,7 +19,13 @@ function BlogCard({ post, index }: { post: any; index: number }) {
     : {};
 
   return (
-    <div className="blog-card relative group" style={{ opacity: 0, transform: "translateY(28px)" }}>
+    <motion.div
+      className="relative group"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-8%" }}
+      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+    >
       <Card>
         <Link href={href} {...linkProps}>
           <article className="p-6 md:p-8 relative w-full h-full flex flex-col justify-between text-left min-h-[260px]">
@@ -94,32 +93,11 @@ function BlogCard({ post, index }: { post: any; index: number }) {
           </article>
         </Link>
       </Card>
-    </div>
+    </motion.div>
   );
 }
 
 export default function ClientBlogArchive({ posts }: { posts: any[] }) {
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.set(".blog-card", { opacity: 0, y: 20 });
-      ScrollTrigger.batch(".blog-card", {
-        onEnter: (batch) =>
-          gsap.to(batch, {
-            opacity: 1,
-            y: 0,
-            stagger: 0.07,
-            duration: 0.6,
-            ease: "power3.out",
-            overwrite: true,
-          }),
-        start: "top 92%",
-      });
-    }, gridRef);
-
-    return () => ctx.revert();
-  }, [posts]);
 
   const substackCount = posts.filter((p) => p.source === "substack").length;
   const localCount = posts.length - substackCount;
@@ -132,8 +110,6 @@ export default function ClientBlogArchive({ posts }: { posts: any[] }) {
 
       <ThreeCanvas />
       <Navigation />
-      <CustomCursor />
-      <NextTopLoader color="#e4e4e7" />
 
       <div className="px-6 mx-auto max-w-7xl lg:px-8 pt-24 md:pt-32 pb-16 relative z-10 flex flex-col gap-20">
 
@@ -195,7 +171,7 @@ export default function ClientBlogArchive({ posts }: { posts: any[] }) {
             <span>No entries yet — check back soon.</span>
           </div>
         ) : (
-          <div ref={gridRef} className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
             {posts.map((post, index) => (
               <BlogCard key={post.slug ?? post.url} post={post} index={index} />
             ))}

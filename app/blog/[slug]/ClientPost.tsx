@@ -1,9 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -13,8 +10,6 @@ import { Mdx } from "@/app/components/mdx";
 import ReadingProgressBar from "@/app/components/ReadingProgressBar";
 import TableOfContents, { type TocHeading } from "@/app/components/TableOfContents";
 import type { Blog } from "contentlayer/generated";
-
-gsap.registerPlugin(ScrollTrigger);
 
 type ClientBlogPostProps = {
     post: Blog;
@@ -29,69 +24,37 @@ export default function ClientBlogPost({ post, prevPost, nextPost, headings }: C
     const wordCount = (post.body?.raw ?? '').split(/\s+/).length;
     const readTime = Math.max(1, Math.round(wordCount / 200));
 
-    useGSAP(() => {
-        if (!articleRef.current) return;
+    useEffect(() => {
+        const article = articleRef.current;
+        if (!article) return;
 
-        // Reveal h2 section headings with a slide-from-left
-        gsap.utils.toArray<HTMLElement>('.mdx h2').forEach((el) => {
-            gsap.from(el, {
-                opacity: 0,
-                x: -24,
-                duration: 0.65,
-                ease: 'power2.out',
-                scrollTrigger: {
-                    trigger: el,
-                    start: 'top 88%',
-                    toggleActions: 'play none none none',
-                },
-            });
+        const els = Array.from(
+            article.querySelectorAll<HTMLElement>('.mdx h2, .mdx pre, .mdx blockquote, .mdx table')
+        );
+
+        els.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(16px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         });
 
-        // Reveal code blocks with a subtle scale + fade
-        gsap.utils.toArray<HTMLElement>('.mdx pre').forEach((el) => {
-            gsap.from(el, {
-                opacity: 0,
-                y: 20,
-                duration: 0.7,
-                ease: 'power2.out',
-                scrollTrigger: {
-                    trigger: el,
-                    start: 'top 90%',
-                    toggleActions: 'play none none none',
-                },
-            });
-        });
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target as HTMLElement;
+                        el.style.opacity = '1';
+                        el.style.transform = 'none';
+                        observer.unobserve(el);
+                    }
+                });
+            },
+            { rootMargin: '-8% 0px', threshold: 0.1 }
+        );
 
-        // Reveal blockquotes with slide-in
-        gsap.utils.toArray<HTMLElement>('.mdx blockquote').forEach((el) => {
-            gsap.from(el, {
-                opacity: 0,
-                x: -16,
-                duration: 0.6,
-                ease: 'power2.out',
-                scrollTrigger: {
-                    trigger: el,
-                    start: 'top 90%',
-                    toggleActions: 'play none none none',
-                },
-            });
-        });
-
-        // Reveal tables
-        gsap.utils.toArray<HTMLElement>('.mdx table').forEach((el) => {
-            gsap.from(el.closest('div') ?? el, {
-                opacity: 0,
-                y: 16,
-                duration: 0.6,
-                ease: 'power2.out',
-                scrollTrigger: {
-                    trigger: el,
-                    start: 'top 90%',
-                    toggleActions: 'play none none none',
-                },
-            });
-        });
-    }, { scope: articleRef });
+        els.forEach(el => observer.observe(el));
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <div className="bg-black min-h-screen">

@@ -9,7 +9,6 @@ import animatedGithub from "../components/AnimatedIcons/icons8-github.json";
 import animatedTwitter from "../components/AnimatedIcons/icons8-twitter.json";
 import animatedMail from "../components/AnimatedIcons/icons8-gmail-logo.json";
 import animatedSteam from "../components/AnimatedIcons/steam.json";
-import NextTopLoader from "nextjs-toploader";
 import Particles from "../components/particles";
 import { Meteors } from "../components/magicui/meteors";
 import BlurText from "../components/BlurText";
@@ -109,7 +108,6 @@ export default function Contact() {
 
       <AnimatedBeams />
       <Navigation />
-      <NextTopLoader />
 
       <div className="container flex flex-col items-center min-h-screen px-4 mx-auto pt-28 md:pt-36 pb-24">
 

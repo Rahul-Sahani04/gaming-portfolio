@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import NextTopLoader from "nextjs-toploader";
 
 const CommandMenu = dynamic(
   () => import("./CommandMenu").then((mod) => mod.CommandMenu)
@@ -14,10 +15,13 @@ const Toaster = dynamic(
 const TerminalOverlay = dynamic(
   () => import("./terminal/TerminalOverlay").then((mod) => mod.TerminalOverlay)
 );
+const CustomCursor = dynamic(() => import("./CustomCursor"));
 
 export default function LayoutClientShell() {
   return (
     <>
+      <NextTopLoader />
+      <CustomCursor />
       <CommandMenu />
       <CmdKToast />
       <Toaster

@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import CustomCursor from "./CustomCursor";
-import NextTopLoader from 'nextjs-toploader';
 import HomeLoader from "./HomeLoader";
 import VideoLoader from "./VideoLoader";
 import ASCIIText from "./react-bits/ASCIIText";
@@ -91,9 +89,6 @@ export default function HeroSection() {
         <div className="relative flex h-screen w-full flex-col justify-center md:justify-end p-4 sm:p-8 md:p-16 lg:p-24 overflow-hidden bg-black text-white font-mono selection:bg-white selection:text-black">
             <VideoLoader onComplete={() => setVideoFinished(true)} />
             <HomeLoader />
-            <CustomCursor />
-            <NextTopLoader />
-
             {/* Background Dither Effect */}
             <div className="absolute inset-0 z-0">
                 {videoFinished && (

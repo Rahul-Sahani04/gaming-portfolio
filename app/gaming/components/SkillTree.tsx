@@ -2,8 +2,7 @@
 
 import type React from "react"
 import { useRef, useState, useEffect, useCallback } from "react"
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
-import { useInView } from "react-intersection-observer"
+import { motion, AnimatePresence, useReducedMotion, useInView } from "framer-motion"
 import { ChevronDown, ChevronRight } from "lucide-react"
 import { skills } from "../utils/Skills"
 import SkillDetailPanel from "./SkillDetailPanel"
@@ -13,18 +12,8 @@ const SkillTree = () => {
   const nodeRefs = useRef<Record<string, HTMLDivElement | null>>({})
   const [lines, setLines] = useState<{ from: string; to: string; x1: number; y1: number; x2: number; y2: number }[]>([])
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null)
-  const [inViewRef, inView] = useInView({
-    triggerOnce: true,
-    rootMargin: "-50px",
-    threshold: 0.1,
-  })
-
-  // Separate observer for visibility-based closing
-  const [visibilityRef, isVisible] = useInView({
-    triggerOnce: false,
-    rootMargin: "-20px",
-    threshold: 0.3,
-  })
+  const inView = useInView(treeRef, { once: true, margin: "-50px", amount: 0.1 })
+  const isVisible = useInView(treeRef, { once: false, margin: "-20px", amount: 0.3 })
 
   const [isMobile, setIsMobile] = useState(false)
   const shouldReduceMotion = useReducedMotion()
@@ -216,10 +205,7 @@ const SkillTree = () => {
       {/* Main Skill Tree Container */}
       <div
         ref={(el) => {
-          (treeRef as React.MutableRefObject<HTMLDivElement | null>).current =
-            el;
-          inViewRef(el);
-          visibilityRef(el);
+          (treeRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
         }}
         className={`relative left-[2.4vh] md:-left-[4.2vh] ${isMobile
           ? "min-h-[800px] sm:min-h-[900px]"

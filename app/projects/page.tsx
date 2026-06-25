@@ -33,8 +33,6 @@ import Particles from "../components/particles";
 import { Article } from "./article";
 import { Redis } from "@upstash/redis";
 import { Eye, Layers, ArrowUpRight } from "lucide-react";
-import CustomCursor from "../components/CustomCursor";
-import NextTopLoader from "nextjs-toploader";
 import { CountUp } from "../components/CountUp";
 
 const redis = Redis.fromEnv();
@@ -76,8 +74,6 @@ export default async function ProjectsPage() {
         <Particles className="absolute inset-0 -z-10 animate-fade-in" quantity={200} staticity={30} />
 
         <Navigation />
-        <CustomCursor />
-        <NextTopLoader />
 
         <div className="px-6 mx-auto max-w-7xl lg:px-8 pt-24 md:pt-32 pb-16 relative z-10 flex flex-col gap-20">
 

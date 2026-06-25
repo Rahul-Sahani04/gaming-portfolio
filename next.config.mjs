@@ -46,7 +46,6 @@ const nextConfig = {
     '@react-three/fiber',
     '@react-three/drei',
     '@react-spring/three',
-    'framer-motion-3d'
   ]
 };
 

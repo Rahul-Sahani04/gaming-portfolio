@@ -4,8 +4,6 @@ import { Navigation } from "../components/nav"
 import { useEffect, useRef } from "react"
 import { Particles } from "../components/magicui/star_particles"
 import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion"
-import CustomCursor from "../components/CustomCursor"
-import NextTopLoader from "nextjs-toploader"
 import SkillTree from "./components/SkillTree"
 import GameCard from "./components/GameCard"
 import SkillsGallery from "./components/SkillsGallery"
@@ -175,8 +173,6 @@ export default function GamingPage() {
       className="relative min-h-screen bg-black text-white selection:bg-white/20 selection:text-white"
     >
       <Navigation />
-      <CustomCursor />
-      <NextTopLoader />
 
       <div className="relative w-full">
         {/* Thread/Timeline Line */}
