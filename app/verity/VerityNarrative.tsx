@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Cormorant_Garamond } from "next/font/google";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 
 const serif = Cormorant_Garamond({
@@ -14,12 +14,12 @@ const serif = Cormorant_Garamond({
 
 // ── Verity smiley — real images, 6-stage corruption sequence ─────────────────
 const VERITY_IMAGES = [
-  "/verity/row-1-column-1.webp", // 0-1  clean smile
-  "/verity/row-1-column-2.webp", // 2-4  teeth emerge
-  "/verity/row-1-column-3.webp", // 5-6  textured wide grin
-  "/verity/row-2-column-1.webp", // 7-8  dripping
-  "/verity/row-2-column-2.webp", // 9    darker decay
-  "/verity/row-2-column-3.webp", // 10   skull
+  "/verity/row-1-column-1.png", // 0-1  clean smile
+  "/verity/row-1-column-2.png", // 2-4  teeth emerge
+  "/verity/row-1-column-3.png", // 5-6  textured wide grin
+  "/verity/row-2-column-1.png", // 7-8  dripping
+  "/verity/row-2-column-2.png", // 9    darker decay
+  "/verity/row-2-column-3.png", // 10   skull
 ];
 
 function getVerityImage(level: number): string {
@@ -40,19 +40,117 @@ function VeritySmiley({ level }: { level: number }) {
     <div className="relative select-none" style={{ width: size, height: size }}>
       {glitch && (
         <>
-          <div className="absolute inset-0 pointer-events-none"
-            style={{ transform: "translate(-6px, 2px)", mixBlendMode: "screen", opacity: 0.45, filter: "saturate(4) hue-rotate(300deg)" }}>
-            <Image src={src} alt="" fill className="object-contain" unoptimized />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              transform: "translate(-6px, 2px)",
+
+              opacity: 0.45,
+              filter: "saturate(4) hue-rotate(300deg)",
+            }}
+          >
+            <Image
+              src={src}
+              alt=""
+              fill
+              className="object-contain"
+              unoptimized
+            />
           </div>
-          <div className="absolute inset-0 pointer-events-none"
-            style={{ transform: "translate(6px, -2px)", mixBlendMode: "screen", opacity: 0.35, filter: "saturate(4) hue-rotate(140deg)" }}>
-            <Image src={src} alt="" fill className="object-contain" unoptimized />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              transform: "translate(6px, -2px)",
+              opacity: 0.35,
+              filter: "saturate(4) hue-rotate(140deg)",
+            }}
+          >
+            <Image
+              src={src}
+              alt=""
+              fill
+              className="object-contain"
+              unoptimized
+            />
           </div>
         </>
       )}
       <div className="relative w-full h-full pointer-events-none">
-        <Image src={src} alt="Verity" fill className="object-contain mix-blend-screen" unoptimized />
+        <Image
+          src={src}
+          alt="Verity"
+          fill
+          className="object-contain"
+          unoptimized
+        />
       </div>
+    </div>
+  );
+}
+
+// ── Text corruption — char glitch (#5) + semantic word swap (#9) ──────────────
+const GLITCH_CHARS = "▓▒░╳※‡¿×¤◊§∎";
+const CORRUPT_WORDS: Record<string, string> = {
+  smile: "teeth", smiling: "grinning", watched: "hunted", watching: "hunting",
+  waiting: "hungry", here: "inside", name: "prey", light: "dark",
+  sleep: "never", door: "wall", smiled: "lunged", comfortable: "trapped",
+};
+
+// Returns text with one transient corruption applied. Pure given rng.
+function corruptText(text: string, rng: () => number = Math.random): string {
+  if (rng() < 0.5) {
+    const words = Object.keys(CORRUPT_WORDS).filter((w) => new RegExp(`\\b${w}\\b`, "i").test(text));
+    if (words.length) {
+      const w = words[Math.floor(rng() * words.length)];
+      return text.replace(new RegExp(`\\b${w}\\b`, "i"), CORRUPT_WORDS[w]);
+    }
+  }
+  const arr = text.split("");
+  const n = 1 + Math.floor(rng() * 2);
+  for (let k = 0; k < n; k++) {
+    const idx = Math.floor(rng() * arr.length);
+    if (arr[idx]?.trim()) arr[idx] = GLITCH_CHARS[Math.floor(rng() * GLITCH_CHARS.length)];
+  }
+  return arr.join("");
+}
+
+function GlitchText({ text, level, reduced }: { text: string; level: number; reduced: boolean }) {
+  const [display, setDisplay] = useState(text);
+  useEffect(() => {
+    setDisplay(text);
+    if (reduced || level < 6) return;
+    const id = setInterval(() => {
+      setDisplay(corruptText(text));
+      setTimeout(() => setDisplay(text), 180);
+    }, Math.max(700, 1500 - level * 80));
+    return () => clearInterval(id);
+  }, [text, level, reduced]);
+  return <>{display}</>;
+}
+
+// ── Final entry (#11) — slow word-by-word reveal, no stagger container ─────────
+function FinalEntry({ text, reduced }: { text: string; reduced: boolean }) {
+  let wordIdx = 0;
+  return (
+    <div className="space-y-8">
+      {text.split("\n\n").map((para, pi) => (
+        <p key={pi}>
+          {para.split(" ").map((w, wi) => {
+            const delay = reduced ? 0 : wordIdx * 0.5 + 0.4;
+            wordIdx++;
+            return (
+              <motion.span
+                key={wi}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.4, delay }}
+                className="inline-block mr-[0.3em]">
+                {w}
+              </motion.span>
+            );
+          })}
+        </p>
+      ))}
     </div>
   );
 }
@@ -179,14 +277,81 @@ function VerityNarrativeInner() {
   const [nameInput, setNameInput] = useState("");
   const [showVerity, setShowVerity] = useState(false);
   const [showActions, setShowActions] = useState(false);
+  const [whisper, setWhisper] = useState(false);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const cursorRef = useRef<HTMLImageElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const droneRef = useRef<{ ctx: AudioContext; gain: GainNode; hiGain: GainNode } | null>(null);
+  const reduced = !!useReducedMotion();
 
   useEffect(() => {
     if (phase === "done") audioRef.current?.play().catch(() => {});
     else audioRef.current?.pause();
   }, [phase]);
+
+  // #3 — ambient Web Audio drone (no asset). Created on first day (user gesture).
+  const startDrone = useCallback(() => {
+    if (droneRef.current || reduced) return;
+    try {
+      const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const ctx = new Ctx();
+      const gain = ctx.createGain(); gain.gain.value = 0; gain.connect(ctx.destination);
+      const o1 = ctx.createOscillator(); o1.type = "sine"; o1.frequency.value = 42; o1.connect(gain); o1.start();
+      const o2 = ctx.createOscillator(); o2.type = "sine"; o2.frequency.value = 43.6; o2.connect(gain); o2.start(); // slow beating
+      const hiGain = ctx.createGain(); hiGain.gain.value = 0; hiGain.connect(ctx.destination);
+      const hi = ctx.createOscillator(); hi.type = "sine"; hi.frequency.value = 6200; hi.connect(hiGain); hi.start();
+      droneRef.current = { ctx, gain, hiGain };
+    } catch {
+      // ponytail: WebAudio unsupported → silent, no fallback needed
+    }
+  }, [reduced]);
+
+  // Drone volume tracks corruption
+  useEffect(() => {
+    const d = droneRef.current;
+    if (!d) return;
+    const t = d.ctx.currentTime;
+    d.gain.gain.linearRampToValueAtTime(phase === "day" ? Math.min(0.12, 0.025 + c * 0.011) : 0, t + 1.5);
+    d.hiGain.gain.linearRampToValueAtTime(phase === "day" && c >= 7 ? Math.min(0.006, (c - 6) * 0.0015) : 0, t + 1.5);
+  });
+  useEffect(() => () => { droneRef.current?.ctx.close().catch(() => {}); }, []);
+
+  // #2 — tab title corrupts with the story
+  useEffect(() => {
+    document.title =
+      phase === "done" ? "I'm already here"
+      : phase !== "day" ? "Verity"
+      : c >= 10 ? "I'm already here"
+      : c >= 8 ? "she knows"
+      : c >= 6 ? "V̶e̶r̶i̶t̶y̶"
+      : "Verity";
+  });
+
+  // #10 — naming screen whispers "I know." 2s after a name is entered
+  useEffect(() => {
+    if (phase !== "naming" || !nameInput.trim()) { setWhisper(false); return; }
+    const t = setTimeout(() => setWhisper(true), 2000);
+    return () => clearTimeout(t);
+  }, [phase, nameInput]);
+  useEffect(() => {
+    if (!whisper) return;
+    const t = setTimeout(() => setWhisper(false), 1800);
+    return () => clearTimeout(t);
+  }, [whisper]);
+
+  // #12 — article tilts toward cursor, stronger with corruption
+  useEffect(() => {
+    if (phase !== "day" || reduced) return;
+    let raf = 0;
+    const onMove = (e: MouseEvent) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() =>
+        setTilt({ x: e.clientX / window.innerWidth - 0.5, y: e.clientY / window.innerHeight - 0.5 }));
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
+  }, [phase, reduced]);
 
   useEffect(() => {
     const el = cursorRef.current;
@@ -199,6 +364,7 @@ function VerityNarrativeInner() {
   }, []);
 
   const startDay = useCallback((idx: number) => {
+    startDrone();
     timers.current.forEach(clearTimeout);
     timers.current = [];
     setDayIdx(idx);
@@ -208,7 +374,7 @@ function VerityNarrativeInner() {
     const t1 = setTimeout(() => setShowVerity(true), 2600);
     const t2 = setTimeout(() => setShowActions(true), 4400);
     timers.current = [t1, t2];
-  }, []);
+  }, [startDrone]);
 
   const advance = useCallback((choiceIdx?: number) => {
     if (choiceIdx !== undefined) setUserChoices((prev) => [...prev, choiceIdx]);
@@ -233,6 +399,8 @@ function VerityNarrativeInner() {
     : "201, 169, 110";
   const accentColor = `rgb(${accentRgb})`;
   const dayLabel = String(dayIdx + 1).padStart(2, "0");
+  const tiltDeg = 0.4 + c * 0.25;
+  const finalSmileyDelay = current.final ? entry.split(/\s+/).filter(Boolean).length * 0.5 + 2 : 0;
 
   return (
     <div className="cursor-none [&_*]:cursor-none">
@@ -323,6 +491,20 @@ function VerityNarrativeInner() {
             className={`bg-transparent border-b border-zinc-800 text-amber-100/80 text-xl text-center outline-none w-56 pb-2 placeholder:text-zinc-800 focus:border-zinc-600 transition-colors duration-300 ${serif.className}`}
           />
 
+          <div className="h-5 flex items-center">
+            <AnimatePresence>
+              {whisper && (
+                <motion.p
+                  key="iknow"
+                  initial={{ opacity: 0 }} animate={{ opacity: 0.5 }} exit={{ opacity: 0 }}
+                  transition={{ duration: 1.2 }}
+                  className={`text-amber-100/50 text-sm italic ${serif.className}`}>
+                  I know.
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
+
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
             className="flex gap-8">
@@ -362,17 +544,16 @@ function VerityNarrativeInner() {
                 width: p.size,
                 height: p.size,
                 objectFit: "contain",
-                mixBlendMode: "screen",
               }}
               initial={{ y: 0 }}
               animate={{ y: `${120 - p.startY}vh`, rotate: p.rotate }}
               transition={{ duration: p.duration, repeat: Infinity, ease: "linear", repeatDelay: 0 }}
             />
           ))}
-          <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}>
+          {/* <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}> */}
             <VeritySmiley level={10} />
-          </motion.div>
+          {/* </motion.div> */}
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 2.5 }}
             className={`text-amber-100/55 text-2xl md:text-3xl italic tracking-wide ${serif.className}`}
@@ -398,7 +579,7 @@ function VerityNarrativeInner() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             className="min-h-screen flex justify-center transition-colors duration-1000"
-            style={{ backgroundColor: bgColor, transform: containerSkew }}>
+            style={{ backgroundColor: bgColor, transform: containerSkew, perspective: 1200 }}>
 
             {/* Film grain */}
             <div className="fixed inset-0 pointer-events-none z-50"
@@ -407,6 +588,16 @@ function VerityNarrativeInner() {
                 backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
                 mixBlendMode: "overlay",
               }} />
+
+            {/* Breathing vignette — tightens with corruption */}
+            <motion.div
+              className="fixed inset-0 pointer-events-none z-30"
+              style={{
+                background: `radial-gradient(ellipse at center, transparent ${Math.max(20, 55 - c * 3)}%, rgba(0,0,0,${Math.min(0.85, 0.5 + c * 0.04)}) 100%)`,
+              }}
+              animate={reduced ? {} : { opacity: [0.7, 1, 0.7] }}
+              transition={{ duration: Math.max(3, 8 - c * 0.4), repeat: Infinity, ease: "easeInOut" }}
+            />
 
             {/* Progress bar — 9 segments */}
             <div className="fixed top-0 left-0 right-0 z-40 flex gap-px h-[2px]">
@@ -421,7 +612,13 @@ function VerityNarrativeInner() {
               ))}
             </div>
 
-            <article className="relative w-full max-w-2xl px-6 md:px-0 py-28">
+            <article
+              className="relative w-full max-w-2xl px-6 md:px-0 py-28"
+              style={{
+                transform: `rotateX(${-tilt.y * tiltDeg}deg) rotateY(${tilt.x * tiltDeg}deg)`,
+                transformStyle: "preserve-3d",
+                transition: "transform 0.2s ease-out",
+              }}>
               {/* Left accent border */}
               <motion.div
                 className="absolute left-0 top-28 bottom-12 w-[2px] hidden md:block"
@@ -466,9 +663,13 @@ function VerityNarrativeInner() {
                 initial="hidden"
                 animate="show"
                 className={`md:pl-6 space-y-6 text-zinc-300/80 text-lg md:text-xl leading-[1.85] font-light italic ${serif.className}`}>
-                {entry.split("\n\n").map((para, i) => (
-                  <motion.p key={i} variants={paraItem}>{para}</motion.p>
-                ))}
+                {current.final
+                  ? <FinalEntry text={entry} reduced={reduced} />
+                  : entry.split("\n\n").map((para, i) => (
+                      <motion.p key={i} variants={paraItem}>
+                        <GlitchText text={para} level={c} reduced={reduced} />
+                      </motion.p>
+                    ))}
               </motion.div>
 
               {/* Ornamental divider */}
@@ -480,7 +681,22 @@ function VerityNarrativeInner() {
 
               {/* Verity */}
               <div className="md:pl-6 flex flex-col items-center gap-8">
-                <VeritySmiley level={c} />
+                <motion.div
+                  initial={current.final ? { opacity: 0, scale: 0.6 } : false}
+                  animate={
+                    current.final
+                      ? { opacity: 1, scale: 1, y: -16 }
+                      : reduced
+                        ? {}
+                        : { scale: c >= 8 ? [1, 1.04, 1, 1.01, 1] : [1, 1.03, 1] }
+                  }
+                  transition={
+                    current.final
+                      ? { delay: reduced ? 0 : finalSmileyDelay, duration: 3, ease: [0.16, 1, 0.3, 1] }
+                      : { duration: c >= 8 ? 2.4 : 3.6, repeat: Infinity, ease: "easeInOut", times: c >= 8 ? [0, 0.2, 0.4, 0.55, 1] : undefined }
+                  }>
+                  <VeritySmiley level={c} />
+                </motion.div>
                 <AnimatePresence>
                   {showVerity && verityLine && (
                     <motion.blockquote
