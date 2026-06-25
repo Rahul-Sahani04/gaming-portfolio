@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Cormorant_Garamond } from "next/font/google";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -55,6 +56,17 @@ function VeritySmiley({ level }: { level: number }) {
     </div>
   );
 }
+
+// ── Falling particle data — static, generated once at module load ─────────────
+const FALLING_PARTICLES = Array.from({ length: 48 }, (_, i) => ({
+  id: i,
+  x: Math.random() * 100,
+  startY: Math.random() * 110 - 10, // -10vh to 100vh for immediate spread
+  size: 18 + Math.random() * 64,
+  duration: 5 + Math.random() * 9,
+  img: VERITY_IMAGES[i % VERITY_IMAGES.length],
+  rotate: (Math.random() - 0.5) * 720,
+}));
 
 // ── Stagger variants — static, defined once outside component ─────────────────
 const paraContainer = {
@@ -153,8 +165,14 @@ const DAYS: DayData[] = [
 // ── Component ─────────────────────────────────────────────────────────────────
 type Phase = "enter" | "naming" | "day" | "done";
 
-export default function VerityNarrative() {
+function VerityNarrativeInner() {
   const [phase, setPhase] = useState<Phase>("enter");
+  const params = useSearchParams();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production" && params?.get("phase") === "done")
+      setPhase("done");
+  }, [params]);
   const [dayIdx, setDayIdx] = useState(0);
   const [userChoices, setUserChoices] = useState<number[]>([]);
   const [name, setName] = useState("");
@@ -163,6 +181,12 @@ export default function VerityNarrative() {
   const [showActions, setShowActions] = useState(false);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const cursorRef = useRef<HTMLImageElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (phase === "done") audioRef.current?.play().catch(() => {});
+    else audioRef.current?.pause();
+  }, [phase]);
 
   useEffect(() => {
     const el = cursorRef.current;
@@ -322,7 +346,29 @@ export default function VerityNarrative() {
 
       {/* ── Done screen ──────────────────────────────────────────────────────── */}
       {phase === "done" && (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-black gap-10 px-6">
+        <div className="relative h-screen flex flex-col items-center justify-center bg-black gap-10 px-6 overflow-hidden">
+          <audio ref={audioRef} src="/verity/ChrmbChrmb - Matrix (Slowed + Reverb)-Verity Edit.m4a" loop />
+
+          {/* Falling Verities */}
+          {FALLING_PARTICLES.map((p) => (
+            <motion.img
+              key={p.id}
+              src={p.img}
+              alt=""
+              className="absolute pointer-events-none"
+              style={{
+                left: `${p.x}%`,
+                top: `${p.startY}vh`,
+                width: p.size,
+                height: p.size,
+                objectFit: "contain",
+                mixBlendMode: "screen",
+              }}
+              initial={{ y: 0 }}
+              animate={{ y: `${120 - p.startY}vh`, rotate: p.rotate }}
+              transition={{ duration: p.duration, repeat: Infinity, ease: "linear", repeatDelay: 0 }}
+            />
+          ))}
           <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}>
             <VeritySmiley level={10} />
@@ -489,5 +535,13 @@ export default function VerityNarrative() {
         </AnimatePresence>
       )}
     </div>
+  );
+}
+
+export default function VerityNarrative() {
+  return (
+    <Suspense>
+      <VerityNarrativeInner />
+    </Suspense>
   );
 }
