@@ -109,7 +109,26 @@ export function useTerminalCommands() {
             </div>
           );
         } else if (file === "secrets.txt") {
-          output = <span className="text-red-500 animate-pulse">ERROR: PERMISSION DENIED. ENCRYPTED FILE.</span>;
+          output = (
+            <div className="font-mono text-xs space-y-1 mt-1">
+              <p className="text-yellow-600 animate-pulse">DECRYPTING secrets.txt...</p>
+              <p className="text-zinc-600">{"[██████████] 100% — ACCESS GRANTED"}</p>
+              <div className="mt-3 border border-zinc-800 p-3 space-y-2">
+                <p className="text-zinc-500">{"# hidden routes"}</p>
+                <p>
+                  <span className="text-red-500/80">void</span>
+                  <span className="text-zinc-600">{"    /void    — "}</span>
+                  <span className="text-zinc-500 italic">there is nothing here</span>
+                </p>
+                <p>
+                  <span className="text-amber-500/80">verity</span>
+                  <span className="text-zinc-600">{"  /verity  — "}</span>
+                  <span className="text-zinc-500 italic">something found me</span>
+                </p>
+              </div>
+              <p className="text-zinc-700 text-[10px] mt-2">type the name to enter</p>
+            </div>
+          );
         } else if (["about", "projects", "gaming", "contact"].includes(file.replace("/", ""))) {
           output = <span className="text-red-500">cat: {file}: Is a directory</span>;
         } else {
@@ -175,8 +194,12 @@ export function useTerminalCommands() {
         output = <span className="text-red-500 animate-pulse">ACCESS_DENIED: CLASSIFIED_REPOSITORY</span>;
         break;
       case "void":
-        output = <span className="text-red-600 font-bold bg-black tracking-widest animate-pulse">ENTERING THE VOID...</span>;
+        output = <span className="text-red-600 font-bold tracking-widest animate-pulse">ENTERING THE VOID...</span>;
         setTimeout(() => router.push(`/void`), 1500);
+        break;
+      case "verity":
+        output = <span className="text-amber-500/80 font-bold tracking-widest animate-pulse">Hello. I&apos;ve been waiting for you.</span>;
+        setTimeout(() => router.push(`/verity`), 1800);
         break;
       case "sudo":
         if (args[0] === "rm" && args[1] === "-rf" && args[2] === "/") {
