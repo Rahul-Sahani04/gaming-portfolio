@@ -2,10 +2,14 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
+import { usePathname } from "next/navigation";
 import styles from "./CustomCursor.module.css";
 import Image from "next/image";
 
+const HIDDEN_ON = ["/void", "/verity"];
+
 const CustomCursor = () => {
+  const pathname = usePathname();
   // SSR-safe: start hidden, detect pointer capability after mount
   const [showCursor, setShowCursor] = useState(false);
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -77,8 +81,8 @@ const CustomCursor = () => {
     };
   }, [showCursor]);
 
-  // Don't render on SSR or touch devices
-  if (!showCursor) return null;
+  // Don't render on SSR, touch devices, or pages with their own cursor
+  if (!showCursor || HIDDEN_ON.some((p) => pathname?.startsWith(p))) return null;
 
   return createPortal(
     <div className={styles.cursorContainer}>
