@@ -50,6 +50,7 @@ export type Project = {
   date?: IsoDateTimeString | undefined
   url?: string | undefined
   repository?: string | undefined
+  heroImage?: string | undefined
   /** MDX file body */
   body: MDX
   path: string
