@@ -29,6 +29,7 @@ export const BlogHeader: React.FC<Props> = ({ post, readTime }) => {
     }, []);
 
     useGSAP(() => {
+        gsap.set(headerRef.current, { visibility: "visible" });
         const tl = gsap.timeline({ delay: 0.1 });
         tl
             .from(".hero-tag", {
@@ -67,7 +68,7 @@ export const BlogHeader: React.FC<Props> = ({ post, readTime }) => {
     const titleWords = post.title.split(" ");
 
     return (
-        <header ref={headerRef} className="relative overflow-hidden bg-black">
+        <header ref={headerRef} style={{ visibility: "hidden" }} className="relative overflow-hidden bg-black">
 
             {/* Subtle background texture */}
             <div className="absolute inset-0 bg-cyber-grid opacity-[0.04] pointer-events-none" />
