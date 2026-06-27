@@ -67,7 +67,7 @@ export const BlogHeader: React.FC<Props> = ({ post, readTime }) => {
     const titleWords = post.title.split(" ");
 
     return (
-        <header ref={headerRef} className="relative isolate overflow-hidden bg-black">
+        <header ref={headerRef} className="relative overflow-hidden bg-black">
 
             {/* Subtle background texture */}
             <div className="absolute inset-0 bg-cyber-grid opacity-[0.04] pointer-events-none" />
@@ -81,7 +81,7 @@ export const BlogHeader: React.FC<Props> = ({ post, readTime }) => {
             <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
             {/* Fixed top bar */}
-            <div className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+            <div className={`fixed inset-x-0 top-0 transition-all duration-300 backdrop-blur-2xl z-[999] ${
                 scrolled
                     ? "bg-black/90 backdrop-blur-md border-b border-white/[0.06]"
                     : "bg-transparent border-transparent"
@@ -92,7 +92,7 @@ export const BlogHeader: React.FC<Props> = ({ post, readTime }) => {
                         className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-500 hover:text-zinc-200 transition-colors duration-200"
                     >
                         <span className="text-base leading-none">←</span>
-                        <span className="hidden sm:inline">Back to archive</span>
+                        <span className="hidden sm:inline">Back to Blogs</span>
                     </Link>
                     {post.repository && (
                         <Link
@@ -108,7 +108,7 @@ export const BlogHeader: React.FC<Props> = ({ post, readTime }) => {
             </div>
 
             {/* Hero content */}
-            <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20 md:pt-36 md:pb-28">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20 md:pt-36 md:pb-28 z-0">
 
                 {/* Tags */}
                 {post.tags && post.tags.length > 0 && (
