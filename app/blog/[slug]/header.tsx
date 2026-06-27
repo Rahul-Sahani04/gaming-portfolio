@@ -29,39 +29,33 @@ export const BlogHeader: React.FC<Props> = ({ post, readTime }) => {
     }, []);
 
     useGSAP(() => {
+        // Set from-states while header is still visibility:hidden — no flash
+        gsap.set(".hero-tag", { y: -14, opacity: 0 });
+        gsap.set(".hero-title-word", { y: "110%", opacity: 0 });
+        gsap.set(".hero-divider", { scaleX: 0, transformOrigin: "left" });
+        gsap.set(".hero-desc", { y: 16, opacity: 0 });
+        gsap.set(".hero-meta", { y: 10, opacity: 0 });
+
+        // Reveal container only after children are already in their from-state
         gsap.set(headerRef.current, { visibility: "visible" });
-        const tl = gsap.timeline({ delay: 0.1 });
-        tl
-            .from(".hero-tag", {
-                y: -14,
-                opacity: 0,
-                stagger: 0.06,
-                duration: 0.4,
-                ease: "power2.out",
+
+        gsap.timeline({ delay: 0.1 })
+            .to(".hero-tag", {
+                y: 0, opacity: 1,
+                stagger: 0.06, duration: 0.4, ease: "power2.out",
             })
-            .from(".hero-title-word", {
-                y: "110%",
-                opacity: 0,
-                stagger: 0.04,
-                duration: 0.65,
-                ease: "power3.out",
+            .to(".hero-title-word", {
+                y: "0%", opacity: 1,
+                stagger: 0.04, duration: 0.65, ease: "power3.out",
             }, "-=0.15")
-            .from(".hero-divider", {
-                scaleX: 0,
-                duration: 0.75,
-                ease: "expo.inOut",
+            .to(".hero-divider", {
+                scaleX: 1, duration: 0.75, ease: "expo.inOut",
             }, "-=0.5")
-            .from(".hero-desc", {
-                y: 16,
-                opacity: 0,
-                duration: 0.6,
-                ease: "power2.out",
+            .to(".hero-desc", {
+                y: 0, opacity: 1, duration: 0.6, ease: "power2.out",
             }, "-=0.45")
-            .from(".hero-meta", {
-                y: 10,
-                opacity: 0,
-                duration: 0.5,
-                ease: "power2.out",
+            .to(".hero-meta", {
+                y: 0, opacity: 1, duration: 0.5, ease: "power2.out",
             }, "-=0.35");
     }, { scope: headerRef });
 
