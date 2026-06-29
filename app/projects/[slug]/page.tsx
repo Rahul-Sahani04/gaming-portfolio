@@ -27,14 +27,14 @@ export async function generateMetadata({
       title: project.title,
       description: project.description || "Showcase of full-stack web projects using Next.js, React, TypeScript, Three.js, and modern tooling.",
       url: `https://www.rsahani.space/projects/${slug}`,
-      images: [{ url: "/og.png", width: 1920, height: 1080, alt: project.title }],
+      images: [{ url: `/projects/${slug}/opengraph-image`, width: 1200, height: 630, alt: project.title }],
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
       title: project.title,
       description: project.description || "Showcase of full-stack web projects using Next.js, React, TypeScript, Three.js, and modern tooling.",
-      images: ["/og.png"],
+      images: [`/projects/${slug}/opengraph-image`],
     },
   };
 }

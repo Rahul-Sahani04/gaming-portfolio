@@ -27,7 +27,7 @@ export async function generateMetadata({
             title: `${post.title} | Blog`,
             description: post.description,
             url: `https://www.rsahani.space/blog/${slug}`,
-            images: [{ url: "/og.png", width: 1920, height: 1080, alt: post.title }],
+            images: [{ url: `/blog/${slug}/opengraph-image`, width: 1200, height: 630, alt: post.title }],
             type: "article",
             publishedTime: post.date,
         },
@@ -35,7 +35,7 @@ export async function generateMetadata({
             card: "summary_large_image",
             title: `${post.title} | Blog`,
             description: post.description,
-            images: ["/og.png"],
+            images: [`/blog/${slug}/opengraph-image`],
         },
     };
 }

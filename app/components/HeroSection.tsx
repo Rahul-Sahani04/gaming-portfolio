@@ -15,7 +15,8 @@ const menuItems = [
     { id: '01', label: 'ABOUT ME', href: '/about' },
     { id: '02', label: 'PROJECTS', href: '/projects' },
     { id: '03', label: 'GAMING', href: '/gaming' },
-    { id: '04', label: 'CONTACT ME', href: '/contact' }
+    { id: '04', label: 'WRITING', href: '/blog' },
+    { id: '05', label: 'CONTACT ME', href: '/contact' },
 ];
 
 const THEMES = [
@@ -67,22 +68,32 @@ function SplitTextReveal({ text, themeColor, subTitle = "CREATIVE ENGINEER" }: {
 export default function HeroSection() {
     const [videoFinished, setVideoFinished] = useState(false);
     const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-    const [themeIndex, setThemeIndex] = useState(0);
+    const [themeIndex, setThemeIndex] = useState(() => {
+        if (typeof window === 'undefined') return 0;
+        return parseInt(localStorage.getItem('hero-theme') ?? '0', 10) % THEMES.length;
+    });
     const [enableGlitch, setEnableGlitch] = useState(true);
     const { openTerminal } = useTerminal();
+    const audioRef = React.useRef<HTMLAudioElement | null>(null);
 
     const activeTheme = THEMES[themeIndex];
 
     const playHoverSound = () => {
-        const audio = new Audio("/TerminalSFXbyOddworld.mp3");
-        audio.volume = 0.1;
-        audio.playbackRate = 1.5;
-        audio.currentTime = 0;
-        void audio.play().catch(() => { });
+        if (!audioRef.current) {
+            audioRef.current = new Audio("/TerminalSFXbyOddworld.mp3");
+            audioRef.current.volume = 0.1;
+            audioRef.current.playbackRate = 1.5;
+        }
+        audioRef.current.currentTime = 0;
+        void audioRef.current.play().catch(() => { });
     };
 
     const cycleTheme = () => {
-        setThemeIndex((prev) => (prev + 1) % THEMES.length);
+        setThemeIndex((prev) => {
+            const next = (prev + 1) % THEMES.length;
+            localStorage.setItem('hero-theme', String(next));
+            return next;
+        });
     };
 
     return (

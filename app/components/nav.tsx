@@ -424,7 +424,7 @@ export const Navigation: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45 }}
-              className="absolute bottom-0 left-6 right-6 border-t border-zinc-800/80 py-6 flex gap-6 backdrop-blur-lg"
+              className="absolute bottom-0 left-6 right-6 border-t border-zinc-800/80 py-6 flex gap-6 backdrop-blur-lg items-center"
             >
               <a
                 href="https://github.com/Rahul-Sahani04"
@@ -438,6 +438,12 @@ export const Navigation: React.FC = () => {
               >
                 Email
               </a>
+              <button
+                onClick={() => { setMobileOpen(false); triggerCmdK(); }}
+                className="ml-auto text-xs font-mono font-bold uppercase tracking-[0.2em] text-zinc-600 hover:text-zinc-300 transition-colors border border-zinc-800 hover:border-zinc-600 px-2 py-1"
+              >
+                ⌘K
+              </button>
             </motion.div>
           </motion.div>
         )}
