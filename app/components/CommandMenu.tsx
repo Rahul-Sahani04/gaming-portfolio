@@ -159,7 +159,7 @@ export function CommandMenu() {
 
                     <Command.Group heading="[ SYSTEM ]" className="text-[10px] font-mono tracking-[0.2em] text-zinc-600 mb-2 px-2 pt-2">
                         <Command.Item
-                            onSelect={() => runCommand(() => window.open("https://raw.githubusercontent.com/Rahul-Sahani04/Rahul-Sahani04/main/Rahul_Resume.pdf", "_blank"))}
+                            onSelect={() => runCommand(() => document.dispatchEvent(new CustomEvent("open-resume")))}
                             className="flex items-center gap-4 px-3 py-3 text-zinc-400 cursor-pointer transition-all aria-selected:text-zinc-100 aria-selected:bg-zinc-900/50 aria-selected:translate-x-1 group"
                         >
                             <FileText className="w-4 h-4 opacity-50 group-aria-selected:opacity-100 transition-opacity" />

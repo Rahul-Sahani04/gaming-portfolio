@@ -19,6 +19,7 @@ const navLinks = [
   { href: "/guestbook", label: "Guestbk" },
   { href: "/blog", label: "Writing" },
   { href: "/contact", label: "Contact" },
+  { href: "/resume", label: "Resume" },
 ];
 
 export const Navigation: React.FC = () => {
@@ -383,7 +384,7 @@ export const Navigation: React.FC = () => {
             </div>
 
             {/* ─── Idea 6: Signal-Lock mobile link reveal ─── */}
-            <nav className="flex flex-col gap-6 overflow-y-auto overflow-x-clip pb-24">
+            <nav className="flex flex-col gap-6 overflow-y-auto overflow-x-clip pb-24 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-zinc-700 [&::-webkit-scrollbar-thumb]:rounded-full">
               {[{ href: "/", label: "Home" }, ...navLinks].map((link, i) => {
                 const isActive =
                   pathname === link.href ||

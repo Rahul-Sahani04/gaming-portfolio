@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import styles from "./CustomCursor.module.css";
 import Image from "next/image";
 
-const HIDDEN_ON = ["/void", "/verity"];
+const HIDDEN_ON = ["/void", "/verity", "/resume"];
 
 const CustomCursor = () => {
   const pathname = usePathname();

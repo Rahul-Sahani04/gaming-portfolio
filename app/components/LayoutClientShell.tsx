@@ -16,6 +16,9 @@ const TerminalOverlay = dynamic(
   () => import("./terminal/TerminalOverlay").then((mod) => mod.TerminalOverlay)
 );
 const CustomCursor = dynamic(() => import("./CustomCursor"));
+const ResumeModal = dynamic(
+  () => import("./ResumeModal").then((mod) => mod.ResumeModal)
+);
 
 export default function LayoutClientShell() {
   return (
@@ -32,6 +35,7 @@ export default function LayoutClientShell() {
         }}
       />
       <TerminalOverlay />
+      <ResumeModal />
     </>
   );
 }
