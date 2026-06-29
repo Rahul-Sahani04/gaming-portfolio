@@ -1,8 +1,15 @@
 import { MetadataRoute } from "next";
-import { allProjects } from "contentlayer/generated";
+import { allProjects, allBlogs } from "contentlayer/generated";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.rsahani.space";
+
+  const posts = allBlogs.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.date || new Date()),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
 
   const projects = allProjects.map((project) => ({
     url: `${baseUrl}/projects/${project.slug}`,
@@ -62,5 +69,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  return [...routes, ...projects];
+  return [...routes, ...projects, ...posts];
 }
