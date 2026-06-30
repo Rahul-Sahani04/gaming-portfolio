@@ -1,0 +1,49 @@
+---
+title: Beacon — Self-Hosted Web Analytics
+description: Privacy-first, cookie-free analytics on Convex. Built to replace Beam Analytics (shutting down Sept 2026), with 7 months of migrated history and a real-time multi-site dashboard.
+date: "2026-06-30"
+repository: Rahul-Sahani04/beacon
+published: true
+---
+
+A self-hosted, cookie-free analytics platform built to replace [Beam Analytics](https://beamanalytics.io/) before it shuts down. Migrated 4,186 historical events (Dec 2025 → Jun 2026) and runs live on [rsahani.space](https://www.rsahani.space).
+
+## How it works
+
+### Ingestion
+
+A ~1 KB vanilla JS tracker snippet fires on page load — reads `path`, `referrer`, `device`, UTM params, and language, then POSTs to a Convex HTTP action via `sendBeacon`.
+
+Convex computes `sha256(ip + ua + siteId + date)` as `visitorHash`. The raw IP is never stored. `sessionId` comes from `sessionStorage` (tab-scoped, clears on close).
+
+### Nightly Rollup
+
+A cron runs at 2am UTC and rolls yesterday's raw events into a `dailyStats` row per site. The dashboard queries only `dailyStats` — `O(days)`, not `O(events)`.
+
+### Dashboard
+
+Protected by a single `DASHBOARD_TOKEN` env var checked in Next.js middleware. Uses Convex's reactive `useQuery` — live updates without polling.
+
+## Stack
+
+| Layer | Tech |
+|-------|------|
+| Backend / DB / cron | Convex |
+| Ingestion endpoint | Convex `httpAction` (`POST /track`) |
+| Dashboard | Next.js + Tailwind + Recharts |
+| Tracker snippet | Vanilla JS IIFE, ~1 KB, zero deps |
+| Migration | Python (pyarrow) → `internalMutation` batch import |
+
+## Features
+
+- **Cookie-free** — daily-rotating visitor hash, IP discarded after hashing. No consent banner needed.
+- **Multi-site** — one Convex instance, one dashboard, N sites.
+- **Migrated history** — 4,186 Beam events imported alongside live data in the same table.
+- **Pre-aggregated reads** — `O(days)` dashboard queries, not `O(events)` scans.
+- **Custom events** — `window.beacon("event_name", data)` from any page.
+
+## Privacy
+
+- No cookies. No `localStorage`. No persistent client-side identifier.
+- `visitorHash` rotates daily — cross-day tracking is impossible by design.
+- GDPR/CCPA-friendly: nothing requires consent.

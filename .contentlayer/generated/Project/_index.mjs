@@ -4,6 +4,7 @@ import projects__api_quickTestPanelMdx from './projects__API_QuickTestPanel.mdx.
 import projects__flexAppMdx from './projects__FlexApp.mdx.json' with { type: 'json' }
 import projects__userApiMongoMdx from './projects__UserApiMongo.mdx.json' with { type: 'json' }
 import projects__vAnimeMdx from './projects__V-Anime.mdx.json' with { type: 'json' }
+import projects__beaconMdx from './projects__beacon.mdx.json' with { type: 'json' }
 import projects__mikochanMdx from './projects__mikochan.mdx.json' with { type: 'json' }
 import projects__notesyncMdx from './projects__notesync.mdx.json' with { type: 'json' }
 import projects__rsahaniMdx from './projects__rsahani.mdx.json' with { type: 'json' }
@@ -12,4 +13,4 @@ import projects__sihVstarsMdx from './projects__sih-vstars.mdx.json' with { type
 import projects__stellarConflictMdx from './projects__stellar-conflict.mdx.json' with { type: 'json' }
 import projects__studyBridgeMdx from './projects__study-bridge.mdx.json' with { type: 'json' }
 
-export const allProjects = [projects__api_quickTestPanelMdx, projects__flexAppMdx, projects__userApiMongoMdx, projects__vAnimeMdx, projects__mikochanMdx, projects__notesyncMdx, projects__rsahaniMdx, projects__sageAlmanacMdx, projects__sihVstarsMdx, projects__stellarConflictMdx, projects__studyBridgeMdx]
+export const allProjects = [projects__api_quickTestPanelMdx, projects__flexAppMdx, projects__userApiMongoMdx, projects__vAnimeMdx, projects__beaconMdx, projects__mikochanMdx, projects__notesyncMdx, projects__rsahaniMdx, projects__sageAlmanacMdx, projects__sihVstarsMdx, projects__stellarConflictMdx, projects__studyBridgeMdx]
