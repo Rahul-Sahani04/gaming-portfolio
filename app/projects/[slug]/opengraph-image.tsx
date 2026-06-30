@@ -20,8 +20,8 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
-          padding: '64px',
+          justifyContent: 'space-between',
+          padding: '52px 64px',
           fontFamily: 'monospace',
           position: 'relative',
         }}
@@ -33,53 +33,58 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           backgroundSize: '60px 60px',
         }} />
 
-        {/* Top label */}
-        <div style={{ position: 'absolute', top: 48, left: 64, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff', opacity: 0.8 }} />
-          <span style={{ color: '#555', fontSize: 13, letterSpacing: '0.25em', textTransform: 'uppercase' }}>
-            rsahani.space / projects
+        {/* Top bar */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff', opacity: 0.8 }} />
+            <span style={{ color: '#555', fontSize: 13, letterSpacing: '0.25em', textTransform: 'uppercase' }}>
+              rsahani.space / projects
+            </span>
+          </div>
+          <span style={{ color: '#333', fontSize: 13, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+            Rahul Sahani
           </span>
         </div>
 
-        {/* Author top-right */}
-        <div style={{ position: 'absolute', top: 48, right: 64, color: '#444', fontSize: 13, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-          Rahul Sahani
-        </div>
-
-        {/* Date */}
-        {date && (
-          <span style={{ color: '#555', fontSize: 13, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 20 }}>
-            {date}
-          </span>
-        )}
-
-        {/* Title */}
-        <h1 style={{
-          color: '#fff',
-          fontSize: title.length > 50 ? 48 : 60,
-          fontWeight: 700,
-          lineHeight: 1.1,
-          margin: '0 0 20px',
-          letterSpacing: '-0.02em',
-        }}>
-          {title}
-        </h1>
-
-        {/* Description */}
-        {description && (
-          <p style={{
-            color: '#777',
-            fontSize: 20,
-            lineHeight: 1.5,
-            margin: 0,
-            maxWidth: 900,
+        {/* Center content */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0, position: 'relative' }}>
+          {date && (
+            <span style={{ color: '#444', fontSize: 12, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 24 }}>
+              {date}
+            </span>
+          )}
+          <h1 style={{
+            color: '#fff',
+            fontSize: title.length > 50 ? 46 : 58,
+            fontWeight: 700,
+            lineHeight: 1.1,
+            margin: '0 0 24px',
+            letterSpacing: '-0.02em',
+            maxWidth: 1000,
           }}>
-            {description.length > 120 ? description.slice(0, 120) + '…' : description}
-          </p>
-        )}
+            {title}
+          </h1>
+          {description && (
+            <p style={{
+              color: '#666',
+              fontSize: 19,
+              lineHeight: 1.6,
+              margin: 0,
+              maxWidth: 860,
+            }}>
+              {description.length > 130 ? description.slice(0, 130) + '…' : description}
+            </p>
+          )}
+        </div>
 
-        {/* Bottom rule */}
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: '#fff', opacity: 0.08 }} />
+        {/* Bottom bar */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, position: 'relative' }}>
+          <div style={{ flex: 1, height: 1, background: '#1a1a1a' }} />
+          <span style={{ color: '#333', fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+            project
+          </span>
+          <div style={{ flex: 1, height: 1, background: '#1a1a1a' }} />
+        </div>
       </div>
     ),
     { ...size }
