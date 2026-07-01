@@ -1,18 +1,20 @@
 "use client"
 
 import { Navigation } from "../components/nav"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Particles } from "../components/magicui/star_particles"
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion"
+import { motion, AnimatePresence, useReducedMotion, useScroll, useSpring, useTransform, useMotionValueEvent } from "framer-motion"
 import SkillTree from "./components/SkillTree"
 import GameCard from "./components/GameCard"
 import SkillsGallery from "./components/SkillsGallery"
 import WhyItMatters from "./components/WhyItMatters"
 import { useKonamiCode } from "../hooks/useKonamiCode"
 import { toast } from "sonner"
-import { Gamepad2 } from "lucide-react"
+import { Gamepad2, Sparkles } from "lucide-react"
 import { recordEasterEggDiscovery } from "../actions"
 import BlurText from "../components/BlurText"
+
+const MAX_LEVEL = 20
 
 
 
@@ -75,6 +77,37 @@ export default function GamingPage() {
     restDelta: 0.001
   })
 
+  // Level/XP HUD driven by scroll progress, using a quadratic XP curve so
+  // levels come quickly at first and need progressively more scroll later
+  const [level, setLevel] = useState(1)
+  const rawLevelAt = (progress: number) => MAX_LEVEL * Math.sqrt(Math.max(0, progress))
+  const thresholdFor = (lvl: number) => (lvl / MAX_LEVEL) ** 2
+  const xpBarWidth = useTransform(scrollYProgress, (v) => {
+    const lvl = Math.min(MAX_LEVEL, Math.max(1, Math.floor(rawLevelAt(v)) + 1))
+    const lower = thresholdFor(lvl - 1)
+    const upper = thresholdFor(lvl)
+    const fraction = upper > lower ? (v - lower) / (upper - lower) : 1
+    return `${Math.min(1, Math.max(0, fraction)) * 100}%`
+  })
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    setLevel(Math.min(MAX_LEVEL, Math.max(1, Math.floor(rawLevelAt(latest)) + 1)))
+  })
+
+  // Hidden secret: triple-click the "[ & ]" glyph in the hero
+  const secretClicksRef = useRef({ count: 0, timer: null as ReturnType<typeof setTimeout> | null })
+  const [secretFound, setSecretFound] = useState(false)
+  const handleSecretClick = () => {
+    if (secretFound) return
+    const ref = secretClicksRef.current
+    ref.count += 1
+    if (ref.timer) clearTimeout(ref.timer)
+    ref.timer = setTimeout(() => { ref.count = 0 }, 600)
+    if (ref.count >= 3) {
+      ref.count = 0
+      setSecretFound(true)
+    }
+  }
+
   useEffect(() => {
     if (konamiSuccess) {
       // Record discovery
@@ -97,6 +130,28 @@ export default function GamingPage() {
       })
     }
   }, [konamiSuccess])
+
+  useEffect(() => {
+    if (secretFound) {
+      recordEasterEggDiscovery("secret-founder").then((res) => {
+        if (res.success && typeof res.count === 'number') {
+          console.log(`Secret found! Total discoverers: ${res.count}`);
+        }
+      });
+
+      toast("Achievement Unlocked: True Completionist ✨", {
+        description: "You found the hidden glyph! +250 XP",
+        icon: <Sparkles className="w-5 h-5 text-emerald-400" />,
+        duration: 5000,
+        style: {
+          background: "rgba(0,0,0,0.8)",
+          backdropFilter: "blur(10px)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          color: "white"
+        }
+      })
+    }
+  }, [secretFound])
 
   const games = [
     {
@@ -182,6 +237,39 @@ export default function GamingPage() {
           className="absolute left-1/2 top-[10vh] bottom-0 z-0 hidden w-px -translate-x-1/2 bg-linear-to-b from-white/0 via-white/20 to-white/0 pointer-events-none md:block"
         />
 
+        {/* Level/XP HUD */}
+        <div className="fixed bottom-6 left-6 z-50 hidden md:flex flex-col gap-2 font-mono text-[10px] tracking-widest text-white/70 select-none pointer-events-none">
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={level}
+              initial={{ scale: 1.5, color: "#34d399", opacity: 0 }}
+              animate={{ scale: 1, color: "rgba(255,255,255,0.7)", opacity: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="text-xs font-bold w-fit"
+            >
+              LVL {level}
+            </motion.span>
+          </AnimatePresence>
+
+          <div className="relative w-36 h-2">
+            <span className="absolute -top-1 -left-1 w-2 h-2 border-t border-l border-emerald-400/60" />
+            <span className="absolute -bottom-1 -right-1 w-2 h-2 border-b border-r border-emerald-400/60" />
+
+            <div className="relative w-full h-full bg-white/5 border border-white/10 [clip-path:polygon(6px_0,100%_0,calc(100%-6px)_100%,0_100%)] overflow-hidden">
+              <motion.div
+                className="h-full bg-gradient-to-r from-emerald-600 to-emerald-300 shadow-[0_0_10px_rgba(52,211,153,0.7)]"
+                style={{ width: xpBarWidth }}
+              />
+              {/* Segment ticks */}
+              <div className="absolute inset-0 flex justify-between">
+                {Array.from({ length: 9 }).map((_, i) => (
+                  <div key={i} className="w-px h-full bg-black/50" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Enhanced Background */}
         <Particles
           className="fixed inset-0 z-0 animate-fade-in"
@@ -214,6 +302,7 @@ export default function GamingPage() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 0.75, y: 0 }}
                   transition={{ delay: 0.8, duration: 1.8 }}
+                  onClick={handleSecretClick}
                   className="font-mono text-xs sm:text-sm md:text-base tracking-[0.3em] mr-4 sm:mr-8 md:mr-12 mt-4 sm:mt-8 md:mt-12"
                 >
                   [ & ]

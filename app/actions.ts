@@ -95,17 +95,18 @@ export async function getProjectViews(slug: string): Promise<number> {
 
 import { headers } from "next/headers";
 
-export async function recordEasterEggDiscovery() {
+export async function recordEasterEggDiscovery(eggId?: string) {
   try {
     const headersList = await headers();
     const ip = headersList.get("x-forwarded-for") || "unknown";
-    
+    const key = eggId ? `easter_egg:${eggId}:discoverers` : "easter_egg:discoverers";
+
     // Add to set of discoverers (prevents duplicates from same IP)
-    await redis.sadd("easter_egg:discoverers", ip);
-    
+    await redis.sadd(key, ip);
+
     // Increment total count
-    const count = await redis.scard("easter_egg:discoverers");
-    
+    const count = await redis.scard(key);
+
     return { success: true, count };
   } catch (error) {
     console.error("Failed to record easter egg discovery:", error);
