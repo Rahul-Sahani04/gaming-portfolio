@@ -208,7 +208,7 @@ export const Navigation: React.FC = () => {
     const target = e.currentTarget;
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.killTweensOf(target);
+      gsap.killTweensOf(target, "skewX,x");
       gsap.to(target, {
         keyframes: [
           { skewX: -2, x: 2, duration: 0.05 },
@@ -216,13 +216,12 @@ export const Navigation: React.FC = () => {
           { skewX: 0, x: 0, duration: 0.07 },
         ],
         ease: "none",
-        overwrite: true,
       });
     });
   };
 
   const handleNavHoverLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    gsap.killTweensOf(e.currentTarget);
+    gsap.killTweensOf(e.currentTarget, "skewX,x");
     gsap.to(e.currentTarget, {
       skewX: 0,
       x: 0,
