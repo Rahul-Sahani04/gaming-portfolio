@@ -111,13 +111,72 @@ export default function AboutPage() {
       }
     );
 
-    // Infinite Marquee for Toolkit
-    gsap.to(".marquee-content", {
-      xPercent: -50,
-      ease: "none",
-      duration: 20,
-      repeat: -1,
+    // Dual-direction Toolkit marquee: scroll-velocity reactive speed, hover-to-scrub with cursor
+    const marqueeRows = Array.from(
+      containerRef.current?.querySelectorAll<HTMLElement>(".marquee-row") ?? []
+    ).map((row, i) => ({
+      content: row.querySelector<HTMLElement>(".marquee-content")!,
+      dir: i === 0 ? -1 : 1,
+      x: 0,
+      hovering: false,
+      dragging: false,
+      lastClientX: 0,
+    }));
+
+    const marqueeCleanups: Array<() => void> = [];
+    marqueeRows.forEach((row, i) => {
+      const el = containerRef.current!.querySelectorAll<HTMLElement>(".marquee-row")[i];
+      const onEnter = () => { row.hovering = true; };
+      const onLeave = () => { row.hovering = false; row.dragging = false; };
+      const onDown = (e: PointerEvent) => {
+        e.preventDefault();
+        row.dragging = true;
+        row.lastClientX = e.clientX;
+        el.setPointerCapture(e.pointerId);
+      };
+      const onUp = () => { row.dragging = false; };
+      const onMove = (e: PointerEvent) => {
+        if (!row.dragging) return;
+        row.x += (e.clientX - row.lastClientX) * 1.5;
+        row.lastClientX = e.clientX;
+      };
+      el.addEventListener("pointerenter", onEnter);
+      el.addEventListener("pointerleave", onLeave);
+      el.addEventListener("pointerdown", onDown);
+      el.addEventListener("pointerup", onUp);
+      el.addEventListener("pointercancel", onUp);
+      el.addEventListener("pointermove", onMove);
+      marqueeCleanups.push(() => {
+        el.removeEventListener("pointerenter", onEnter);
+        el.removeEventListener("pointerleave", onLeave);
+        el.removeEventListener("pointerdown", onDown);
+        el.removeEventListener("pointerup", onUp);
+        el.removeEventListener("pointercancel", onUp);
+        el.removeEventListener("pointermove", onMove);
+      });
     });
+
+    const MARQUEE_BASE_SPEED = 40; // px/sec
+    let lastScrollY = window.scrollY;
+    const marqueeTick = (_time: number, deltaMs: number) => {
+      const dt = deltaMs > 0 ? deltaMs / 1000 : 1 / 60;
+      const scrollVelocity = (window.scrollY - lastScrollY) / dt;
+      lastScrollY = window.scrollY;
+      const speedMultiplier = gsap.utils.clamp(-3, 4, 1 + scrollVelocity / 800);
+
+      marqueeRows.forEach((row) => {
+        if (!row.hovering) {
+          row.x += row.dir * MARQUEE_BASE_SPEED * speedMultiplier * dt;
+        }
+        const width = row.content.scrollWidth / 2;
+        if (!width) return;
+        // Content is duplicated, so any multiple of `width` looks identical - wrap into [-width, 0)
+        const wrapped = ((row.x % width) + width) % width - width;
+        gsap.set(row.content, { x: wrapped });
+      });
+    };
+    gsap.ticker.add(marqueeTick);
+    marqueeCleanups.push(() => gsap.ticker.remove(marqueeTick));
 
     // Project Cards Reveal
     gsap.fromTo(".project-card-wrapper",
@@ -204,6 +263,7 @@ export default function AboutPage() {
       clearTimeout(t3);
       clearTimeout(t4);
       ro.disconnect();
+      marqueeCleanups.forEach((fn) => fn());
     };
   }, { scope: containerRef });
 
@@ -219,6 +279,10 @@ export default function AboutPage() {
   const toolkit = [
     "PostgreSQL", "MongoDB", "Prisma", "GraphQL", "Express.js",
     "Figma", "Git", "AWS", "Vercel", "Python", "OpenAI/Gemini"
+  ];
+
+  const favoriteGames = [
+    "Elden Ring", "Sekiro", "Call of Duty", "Minecraft", "Marvel's Spider-Man", "Dying Light", "Devil May Cry", "Need for Speed", 
   ];
 
   const projects = [
@@ -325,13 +389,25 @@ export default function AboutPage() {
           {/* Extended Toolkit */}
           <div className="text-center max-w-full overflow-hidden mx-auto py-8">
             <h3 className="text-xs font-mono text-zinc-600 uppercase tracking-widest mb-12">
-                /// Extended Toolkit & Libraries
+                {"|"} Extended Toolkit & Libraries {"|"} 
             </h3>
-            <div className="relative flex whitespace-nowrap mask-image-linear-edges">
+            <div className="marquee-row relative flex whitespace-nowrap mask-image-linear-edges cursor-grab active:cursor-grabbing select-none">
               <div className="marquee-content flex gap-12 text-2xl font-serif text-zinc-500 uppercase tracking-widest min-w-max">
                 {/* Duplicate the array to create seamless loop */}
                 {[...toolkit, ...toolkit].map((item, index) => (
-                  <span key={`${item}-${index}`} className="hover:text-zinc-200 transition-colors duration-300">
+                  <span key={`row1-${item}-${index}`} className="hover:text-zinc-200 transition-colors duration-300">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <p className="text-[10px] font-mono text-zinc-700 uppercase tracking-widest mt-8 mb-3">
+                Games I love to play, in no particular order
+            </p>
+            <div className="marquee-row relative flex whitespace-nowrap mask-image-linear-edges cursor-grab active:cursor-grabbing select-none">
+              <div className="marquee-content flex gap-8 text-xs font-mono text-zinc-700 uppercase tracking-[0.3em] min-w-max">
+                {[...favoriteGames, ...favoriteGames].map((item, index) => (
+                  <span key={`row2-${item}-${index}`} className="hover:text-rose-500/70 transition-colors duration-300">
                     {item}
                   </span>
                 ))}
